@@ -1,7 +1,6 @@
 #ifndef CONVERTER_WORKER_HPP
 #define CONVERTER_WORKER_HPP
 
-#include <QThread>
 #include <QProcess>
 #include <QFileInfo>
 #include <QDir>
@@ -29,7 +28,6 @@ private slots:
     void calculateProgress();
 
 protected:
-
 
 public:
     ConverterWorker(const QFileInfo & inFile,

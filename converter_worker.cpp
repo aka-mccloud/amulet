@@ -8,15 +8,16 @@
 ConverterWorker::ConverterWorker(const QFileInfo & inFile,
                                  const QDir & outDir,
                                  const CodecProperties &props,
-                                 QObject *parent) :
+                                 QObject * parent) :
     QObject(parent),
     properties(props),
     inFile(inFile),
     outDir(outDir),
     completed(0) {
-
-    decoder = new QProcess(parent);
-    coder = new QProcess(parent);
+    coder = new QProcess();
+    decoder = new QProcess();
+    connect(coder, SIGNAL(finished(int)), this, SLOT(endConvert(int)));
+    connect(decoder, SIGNAL(readyReadStandardError()), this, SLOT(calculateProgress()));
 }
 
 ConverterWorker::~ConverterWorker() {
@@ -25,7 +26,6 @@ ConverterWorker::~ConverterWorker() {
 }
 
 void ConverterWorker::run() {
-
     QString outFile = outDir.absolutePath() + "/" +
             inFile.completeBaseName() + "." + extension;
     QStringList decoderArguments;
@@ -38,8 +38,6 @@ void ConverterWorker::run() {
     coderArguments += QString("-");
     coderArguments += outFile;
 
-    connect(coder, SIGNAL(finished(int)), this, SLOT(endConvert(int)));
-    connect(decoder, SIGNAL(readyReadStandardError()), this, SLOT(calculateProgress()));
     decoder->setStandardOutputProcess(coder);
     decoder->start(decoderName, decoderArguments);
     coder->start(coderName, coderArguments);
