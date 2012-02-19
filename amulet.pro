@@ -4,9 +4,8 @@
 #
 #-------------------------------------------------
 
-#QT       += core
-
-#QT       -= gui
+QT       += core
+QT       -= gui
 
 TARGET = amulet
 CONFIG   += console
@@ -14,14 +13,15 @@ CONFIG   -= app_bundle
 
 TEMPLATE = app
 
-
 SOURCES += main.cpp \
     codec_properties.cpp \
     converter_worker.cpp \
     converter_factory.cpp \
     converter_service.cpp \
     coder.cpp \
-    decoder.cpp
+    decoder.cpp \
+    codec_flac.cpp \
+    codec_lame.cpp
 
 HEADERS += \
     codec_properties.hpp \
@@ -29,4 +29,6 @@ HEADERS += \
     converter_factory.hpp \
     converter_service.hpp \
     coder.hpp \
-    decoder.hpp
+    decoder.hpp \
+    codec_lame.hpp \
+    codec_flac.hpp

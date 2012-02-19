@@ -8,8 +8,8 @@
 #include "codec_properties.hpp"
 #include "converter_worker.hpp"
 
-class ConverterFactory : public QObject
-{
+class ConverterFactory : public QObject {
+
     Q_OBJECT
 
 private:

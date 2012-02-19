@@ -12,8 +12,8 @@
 
 typedef QList<QFileInfo> Queue;
 
-class ConverterService : public QObject
-{
+class ConverterService : public QObject {
+
     Q_OBJECT
 
 private:
@@ -32,6 +32,7 @@ public:
     explicit ConverterService(Queue & queue,
                               const QDir & outDir,
                               const CodecProperties & props,
+                              int threads,
                               QObject * parent = 0);
     virtual ~ConverterService();
     

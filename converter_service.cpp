@@ -5,13 +5,14 @@
 ConverterService::ConverterService(Queue & queue,
                                    const QDir & outDir,
                                    const CodecProperties & props,
-                                   QObject * parent) :
+                                   int threads,
+                                   QObject *parent) :
     QObject(parent),
     properties(props),
     queue(queue),
     outDir(outDir),
     work(true),
-    threads(3),
+    threads(threads),
     factory(outDir, props, parent) {
 }
 
@@ -27,7 +28,8 @@ void ConverterService::start() {
             (*it)->start();
         }
     }
-    for (int i = 0; i < threads - pool.size(); ++i) {
+    int t = threads - pool.size();
+    for (int i = 0; i < t; i++) {
         if (!queue.isEmpty()) {
             ConverterWorker * worker = factory.create(queue.first());
             connect(worker, SIGNAL(finished()), this, SLOT(pushNext()));

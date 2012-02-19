@@ -10,22 +10,25 @@
 #define coderName "lame"
 #define extension "mp3"
 
-class Coder : public QObject
-{
+class Coder : public QObject {
+
     Q_OBJECT
 
 private:
     QProcess * process;
     QStringList args;
+    QString inputFile;
+    QString outputFile;
 
 private slots:
     void finished(int);
 
 public:
-    explicit Coder(CodecProperties & props,
-                   const QString & fileName,
-                   QObject * parent = 0);
+    explicit Coder(QObject * parent = 0);
     virtual ~Coder();
+
+    void setOutputFile(const QString & fileName);
+    void setProperties(CodecProperties & props);
     QProcess * getProcessInstance();
 
 signals:

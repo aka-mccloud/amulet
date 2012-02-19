@@ -14,6 +14,8 @@ class Decoder : public QObject
 private:
     QProcess * process;
     QStringList args;
+    QString inputFile;
+    QString outputFile;
     int completed;
 
 private slots:
@@ -21,9 +23,11 @@ private slots:
     void finished(int);
 
 public:
-    explicit Decoder(const QString & fileName,
-                     QObject * parent = 0);
+    explicit Decoder(QObject * parent = 0);
     virtual ~Decoder();
+
+    void setInputFile(const QString & fileName);
+    void setOutputFile(const QString & fileName);
     QProcess * getProcessInstance();
 
 signals:

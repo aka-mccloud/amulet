@@ -1,11 +1,8 @@
 #include "decoder.hpp"
 
-Decoder::Decoder(const QString & fileName,
-                 QObject *parent) :
+Decoder::Decoder(QObject * parent) :
     QObject(parent) {
     args += QString("-d");
-    args += QString("-c");
-    args += fileName;
 
     process = new QProcess(parent);
     connect(process, SIGNAL(readyReadStandardError()), this, SLOT(calculateProgress()));
@@ -16,12 +13,27 @@ Decoder::~Decoder() {
     delete process;
 }
 
+void Decoder::setInputFile(const QString & fileName) {
+    inputFile = fileName;
+}
+
+void Decoder::setOutputFile(const QString & fileName) {
+    outputFile = fileName;
+}
+
 QProcess * Decoder::getProcessInstance() {
 
     return process;
 }
 
 void Decoder::start() {
+    args += inputFile;
+    if (outputFile.isEmpty()) {
+        args += QString("-c");
+    } else {
+        args += outputFile;
+    }
+
     process->start(decoderName, args);
 }
 

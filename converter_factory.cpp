@@ -1,5 +1,6 @@
 #include "coder.hpp"
-#include "decoder.hpp"
+#include "codec_flac.hpp"
+#include "codec_lame.hpp"
 #include "converter_factory.hpp"
 
 ConverterFactory::ConverterFactory(const QDir &outDir,
@@ -13,8 +14,11 @@ ConverterFactory::ConverterFactory(const QDir &outDir,
 ConverterWorker * ConverterFactory::create(const QFileInfo inFile) {
     QString outFile = outDir.absolutePath() + "/" +
                 inFile.completeBaseName() + "." + extension;
+    Decoder * decoder = CodecFlac::getDecoder();
+    decoder->setInputFile(inFile.absoluteFilePath());
+    Coder * coder = CodecLame::getCodec();
+    coder->setProperties(properties);
+    coder->setOutputFile(outFile);
 
-    return new ConverterWorker(new Decoder(inFile.absoluteFilePath()),
-                               new Coder(properties, outFile),
-                               this);
+    return new ConverterWorker(decoder, coder, this);
 }
