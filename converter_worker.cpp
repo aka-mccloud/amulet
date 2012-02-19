@@ -1,4 +1,3 @@
-#include <QCoreApplication>
 #include <QStringList>
 #include <QString>
 #include <QDebug>
@@ -25,7 +24,7 @@ ConverterWorker::~ConverterWorker() {
     delete coder;
 }
 
-void ConverterWorker::run() {
+void ConverterWorker::start() {
     QString outFile = outDir.absolutePath() + "/" +
             inFile.completeBaseName() + "." + extension;
     QStringList decoderArguments;
@@ -43,8 +42,13 @@ void ConverterWorker::run() {
     coder->start(coderName, coderArguments);
 }
 
+void ConverterWorker::stop() {
+    decoder->terminate();
+    coder->terminate();
+}
+
 void ConverterWorker::endConvert(int) {
-    QCoreApplication::exit(0);
+    emit finished();
 }
 
 void ConverterWorker::calculateProgress() {

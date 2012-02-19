@@ -17,8 +17,12 @@ TEMPLATE = app
 
 SOURCES += main.cpp \
     codec_properties.cpp \
-    converter_worker.cpp
+    converter_worker.cpp \
+    converter_factory.cpp \
+    converter_service.cpp
 
 HEADERS += \
     codec_properties.hpp \
-    converter_worker.hpp
+    converter_worker.hpp \
+    converter_factory.hpp \
+    converter_service.hpp

@@ -4,6 +4,7 @@
 #include <QProcess>
 #include <QFileInfo>
 #include <QDir>
+#include <QLinkedList>
 
 #include "codec_properties.hpp"
 
@@ -36,11 +37,15 @@ public:
                     QObject * parent = 0);
     virtual ~ConverterWorker();
 
-    void run();
-
 signals:
     void progress(int);
+    void finished();
 
+public slots:
+    void start();
+    void stop();
 };
+
+typedef QLinkedList<ConverterWorker *> WorkerPool;
 
 #endif // CONVERTER_WORKER_HPP
