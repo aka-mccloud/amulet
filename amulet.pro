@@ -19,10 +19,14 @@ SOURCES += main.cpp \
     codec_properties.cpp \
     converter_worker.cpp \
     converter_factory.cpp \
-    converter_service.cpp
+    converter_service.cpp \
+    coder.cpp \
+    decoder.cpp
 
 HEADERS += \
     codec_properties.hpp \
     converter_worker.hpp \
     converter_factory.hpp \
-    converter_service.hpp
+    converter_service.hpp \
+    coder.hpp \
+    decoder.hpp

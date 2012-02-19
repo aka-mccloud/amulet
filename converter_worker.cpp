@@ -1,22 +1,18 @@
-#include <QStringList>
-#include <QString>
 #include <QDebug>
 
 #include "converter_worker.hpp"
 
-ConverterWorker::ConverterWorker(const QFileInfo & inFile,
-                                 const QDir & outDir,
-                                 const CodecProperties &props,
+ConverterWorker::ConverterWorker(Decoder *decoder,
+                                 Coder *coder,
                                  QObject * parent) :
     QObject(parent),
-    properties(props),
-    inFile(inFile),
-    outDir(outDir),
+    decoder(decoder),
+    coder(coder),
     completed(0) {
-    coder = new QProcess();
-    decoder = new QProcess();
-    connect(coder, SIGNAL(finished(int)), this, SLOT(endConvert(int)));
-    connect(decoder, SIGNAL(readyReadStandardError()), this, SLOT(calculateProgress()));
+    this->decoder->getProcessInstance()->setStandardOutputProcess(
+                this->coder->getProcessInstance());
+    connect(this->coder, SIGNAL(finished()), this, SLOT(endConvert()));
+    connect(this->decoder, SIGNAL(progress(int)), this, SLOT(progressReady(int)));
 }
 
 ConverterWorker::~ConverterWorker() {
@@ -25,40 +21,20 @@ ConverterWorker::~ConverterWorker() {
 }
 
 void ConverterWorker::start() {
-    QString outFile = outDir.absolutePath() + "/" +
-            inFile.completeBaseName() + "." + extension;
-    QStringList decoderArguments;
-    decoderArguments += QString("-d");
-    decoderArguments += QString("-c");
-    decoderArguments += inFile.absoluteFilePath();
-
-    QStringList coderArguments;
-    coderArguments += properties.toStringList();
-    coderArguments += QString("-");
-    coderArguments += outFile;
-
-    decoder->setStandardOutputProcess(coder);
-    decoder->start(decoderName, decoderArguments);
-    coder->start(coderName, coderArguments);
+    decoder->start();
+    coder->start();
 }
 
 void ConverterWorker::stop() {
-    decoder->terminate();
-    coder->terminate();
+    decoder->stop();
+    coder->stop();
 }
 
-void ConverterWorker::endConvert(int) {
+void ConverterWorker::endConvert() {
     emit finished();
 }
 
-void ConverterWorker::calculateProgress() {
-    QString output(decoder->readAllStandardError());
-    QRegExp rx("([\\d]{1,3})% complete");
-
-    if (rx.indexIn(output) >= 0) {
-        qDebug() << rx.cap(1);
-        completed = rx.cap(1).toInt();
-
-        emit progress(completed);
-    }
+void ConverterWorker::progressReady(int p) {
+    qDebug() << p;
+    emit progress(p);
 }

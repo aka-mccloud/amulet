@@ -33,6 +33,7 @@ public:
                               const QDir & outDir,
                               const CodecProperties & props,
                               QObject * parent = 0);
+    virtual ~ConverterService();
     
 signals:
     void finished();

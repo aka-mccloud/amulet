@@ -1,3 +1,5 @@
+#include "coder.hpp"
+#include "decoder.hpp"
 #include "converter_factory.hpp"
 
 ConverterFactory::ConverterFactory(const QDir &outDir,
@@ -9,6 +11,10 @@ ConverterFactory::ConverterFactory(const QDir &outDir,
 }
 
 ConverterWorker * ConverterFactory::create(const QFileInfo inFile) {
+    QString outFile = outDir.absolutePath() + "/" +
+                inFile.completeBaseName() + "." + extension;
 
-    return new ConverterWorker(inFile, outDir, properties);
+    return new ConverterWorker(new Decoder(inFile.absoluteFilePath()),
+                               new Coder(properties, outFile),
+                               this);
 }

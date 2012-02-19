@@ -15,6 +15,11 @@ ConverterService::ConverterService(Queue & queue,
     factory(outDir, props, parent) {
 }
 
+ConverterService::~ConverterService() {
+    stop();
+    pool.clear();
+}
+
 void ConverterService::start() {
     if (pool.size() > 0) {
         WorkerPool::iterator it;
@@ -49,7 +54,7 @@ void ConverterService::pushNext() {
         queue.removeFirst();
         worker->start();
     } else if (pool.isEmpty()) {
-        //emit finished();
+//        emit finished();
         QCoreApplication::exit(0);
     }
 }
