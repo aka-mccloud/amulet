@@ -9,9 +9,11 @@ private:
     CodecProperties properties;
 
 public:
-    CodecFlac(CodecProperties & props);
-    Decoder * getDecoder();
-    Encoder * getEncoder();
+    explicit CodecFlac(CodecProperties & props);
+    virtual ~CodecFlac() {}
+
+    IDecoderProcess * getDecoder();
+    IEncoderProcess * getEncoder();
 
 };
 

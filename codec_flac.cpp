@@ -1,15 +1,16 @@
+#include "decoder.hpp"
 #include "codec_flac.hpp"
 
 CodecFlac::CodecFlac(CodecProperties & props) :
     properties(props) {
 }
 
-Decoder * CodecFlac::getDecoder() {
+IDecoderProcess * CodecFlac::getDecoder() {
 
     return new Decoder();
 }
 
-Encoder *CodecFlac::getEncoder() {
+IEncoderProcess * CodecFlac::getEncoder() {
 
     return NULL;
 }

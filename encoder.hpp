@@ -6,13 +6,15 @@
 #include <QStringList>
 
 #include "codec_properties.hpp"
+#include "iencoder_process.hpp"
 
 #define coderName "lame"
 #define extension "mp3"
 
-class Encoder : public QObject {
+class Encoder : public QObject, public IEncoderProcess {
 
     Q_OBJECT
+    Q_INTERFACES(IEncoderProcess)
 
 private:
     QProcess * process;
@@ -31,6 +33,7 @@ public:
     void setOutputFile(const QString & fileName);
 //    void setProperties(CodecProperties & props);
     QProcess * getProcessInstance();
+    QObject * getObject();
 
 signals:
     void finished();

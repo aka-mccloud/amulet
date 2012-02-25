@@ -7,7 +7,6 @@
 int main(int argc, char *argv[]) {
     QCoreApplication a(argc, argv);
 
-//    QFileInfo inFile("09 - Give It All.flac");
     Queue queue;
     queue.append(QFileInfo("02 - Injection.flac"));
     queue.append(QFileInfo("03 - Ready to Fall.flac"));

@@ -4,15 +4,17 @@
 #include <QMap>
 
 #include "codec_properties.hpp"
-#include "decoder.hpp"
-#include "encoder.hpp"
+#include "idecoder_process.hpp"
+#include "iencoder_process.hpp"
 
 class ICodecProvider {
 
 public:
 //    virtual ICodecProvider(CodecProperties & props) = 0;
-    virtual Decoder * getDecoder() = 0;
-    virtual Encoder * getEncoder() = 0;
+    virtual ~ICodecProvider() {}
+
+    virtual IDecoderProcess * getDecoder() = 0;
+    virtual IEncoderProcess * getEncoder() = 0;
 
 };
 

@@ -4,7 +4,7 @@ Decoder::Decoder(QObject * parent) :
     QObject(parent) {
     args += QString("-d");
 
-    process = new QProcess(parent);
+    process = new QProcess(this);
     connect(process, SIGNAL(readyReadStandardError()), this, SLOT(calculateProgress()));
     connect(process, SIGNAL(finished(int)), this, SLOT(finished(int)));
 }
@@ -24,6 +24,11 @@ void Decoder::setOutputFile(const QString & fileName) {
 QProcess * Decoder::getProcessInstance() {
 
     return process;
+}
+
+QObject * Decoder::getObject() {
+
+    return this;
 }
 
 void Decoder::start() {

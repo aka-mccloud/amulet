@@ -5,7 +5,7 @@ Encoder::Encoder(CodecProperties & props,
     QObject(parent) {
     args += props.toStringList();
 
-    process = new QProcess(parent);
+    process = new QProcess(this);
     connect(process, SIGNAL(finished(int)), this, SLOT(finished(int)));
 }
 
@@ -24,6 +24,11 @@ void Encoder::setOutputFile(const QString & fileName) {
 QProcess * Encoder::getProcessInstance() {
 
     return process;
+}
+
+QObject * Encoder::getObject() {
+
+    return this;
 }
 
 void Encoder::start() {

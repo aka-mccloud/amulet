@@ -10,16 +10,16 @@ ConverterFactory::ConverterFactory(const QDir & outDir,
 
 ConverterWorker * ConverterFactory::create(const QFileInfo inFile) {
     ConverterWorker * converterWorker = NULL;
-    Decoder * decoder = codecFactory.getDecoderForType(inFile.suffix());
-    Encoder * coder = codecFactory.getEncoderForType(extension);
+    IDecoderProcess * decoder = codecFactory.getDecoderForType(inFile.suffix());
+    IEncoderProcess * encoder = codecFactory.getEncoderForType("mp3");
 
-    if ((decoder != NULL) && (coder != NULL)) {
+    if ((decoder != NULL) && (encoder != NULL)) {
         QString outFile = outDir.absolutePath() + "/" +
-                    inFile.completeBaseName() + "." + extension;
+                    inFile.completeBaseName() + ".mp3";
         decoder->setInputFile(inFile.absoluteFilePath());
-        coder->setOutputFile(outFile);
+        encoder->setOutputFile(outFile);
 
-        converterWorker = new ConverterWorker(decoder, coder, this);
+        converterWorker = new ConverterWorker(decoder, encoder, this);
     }
 
     return converterWorker;

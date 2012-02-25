@@ -1,8 +1,8 @@
 #ifndef CODEC_FACTORY_HPP
 #define CODEC_FACTORY_HPP
 
-#include "decoder.hpp"
-#include "encoder.hpp"
+#include "idecoder_process.hpp"
+#include "iencoder_process.hpp"
 #include "codec_flac.hpp"
 #include "codec_lame.hpp"
 
@@ -15,8 +15,8 @@ public:
     CodecFactory(CodecProperties & props);
     virtual ~CodecFactory();
 
-    Decoder * getDecoderForType(const QString & type);
-    Encoder * getEncoderForType(const QString & type);
+    IDecoderProcess * getDecoderForType(const QString & type);
+    IEncoderProcess * getEncoderForType(const QString & type);
 
 };
 

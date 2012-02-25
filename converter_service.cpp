@@ -6,13 +6,14 @@ ConverterService::ConverterService(Queue & queue,
                                    const QDir & outDir,
                                    CodecProperties & props,
                                    int threads,
-                                   QObject *parent) :
+                                   QObject * parent) :
     QObject(parent),
     properties(props),
     queue(queue),
     outDir(outDir),
     threads(threads),
-    factory(outDir, props, parent) {
+    factory(outDir, props, parent),
+    pool(parent) {
     connect(&pool, SIGNAL(workerFinished()), this, SLOT(pushNext()));
 }
 

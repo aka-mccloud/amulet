@@ -37,4 +37,7 @@ HEADERS += \
     icodec_provider.hpp \
     worker_pool.hpp \
     iworker.hpp \
-    encoder.hpp
+    encoder.hpp \
+    iencoder_process.hpp \
+    idecoder_process.hpp \
+    icodec_plugin.hpp

@@ -10,8 +10,8 @@ private:
 
 public:
     CodecLame(CodecProperties & props);
-    Decoder * getDecoder();
-    Encoder * getEncoder();
+    IDecoderProcess * getDecoder();
+    IEncoderProcess * getEncoder();
 
 };
 

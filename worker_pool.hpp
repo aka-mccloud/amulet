@@ -17,7 +17,7 @@ private slots:
     void jobFinished(IWorker *);
 
 public:
-    explicit WorkerPool(QObject *parent = 0);
+    explicit WorkerPool(QObject * parent = 0);
     virtual ~WorkerPool();
 
     void execute(IWorker * worker);

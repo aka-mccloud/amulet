@@ -4,16 +4,17 @@
 #include <QLinkedList>
 
 #include "iworker.hpp"
-#include "encoder.hpp"
-#include "decoder.hpp"
+#include "idecoder_process.hpp"
+#include "iencoder_process.hpp"
 
-class ConverterWorker : public IWorker {
+class ConverterWorker : public QObject, public IWorker {
 
     Q_OBJECT
+    Q_INTERFACES(IWorker)
 
 private:
-    Decoder * decoder;
-    Encoder * encoder;
+    IDecoderProcess * decoder;
+    IEncoderProcess * encoder;
     int completed;
 
 private slots:
@@ -21,14 +22,16 @@ private slots:
     void progressReady(int p);
 
 public:
-    explicit ConverterWorker(Decoder * decoder,
-                             Encoder * encoder,
+    explicit ConverterWorker(IDecoderProcess * decoder,
+                             IEncoderProcess * encoder,
                              QObject * parent = 0);
     virtual ~ConverterWorker();
 
-//signals:
-//    void progress(int);
-//    void finished();
+    QObject * getObject();
+
+signals:
+    void progress(int);
+    void finished(IWorker *);
 
 public:
     void start();

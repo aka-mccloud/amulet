@@ -5,11 +5,14 @@
 #include <QProcess>
 #include <QStringList>
 
+#include "idecoder_process.hpp"
+
 #define decoderName "flac"
 
-class Decoder : public QObject
-{
+class Decoder : public QObject, public IDecoderProcess {
+
     Q_OBJECT
+    Q_INTERFACES(IDecoderProcess)
 
 private:
     QProcess * process;
@@ -29,6 +32,7 @@ public:
     void setInputFile(const QString & fileName);
     void setOutputFile(const QString & fileName);
     QProcess * getProcessInstance();
+    QObject * getObject();
 
 signals:
     void progress(int);

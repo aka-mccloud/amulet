@@ -9,7 +9,7 @@ WorkerPool::~WorkerPool() {
 }
 
 void WorkerPool::execute(IWorker * worker) {
-    connect(worker, SIGNAL(finished(IWorker *)), this, SLOT(jobFinished(IWorker *)));
+    connect(worker->getObject(), SIGNAL(finished(IWorker *)), this, SLOT(jobFinished(IWorker *)));
     workerList.append(worker);
     worker->start();
 }
@@ -21,6 +21,7 @@ bool WorkerPool::isEmpty() {
 
 void WorkerPool::jobFinished(IWorker * worker) {
     if (workerList.removeOne(worker)) {
+        worker->getObject()->deleteLater();
         emit workerFinished();
     }
 }

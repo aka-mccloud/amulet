@@ -1,3 +1,4 @@
+#include "encoder.hpp"
 #include "codec_lame.hpp"
 
 CodecLame::CodecLame(CodecProperties & props) :
@@ -5,12 +6,12 @@ CodecLame::CodecLame(CodecProperties & props) :
 
 }
 
-Decoder *CodecLame::getDecoder() {
+IDecoderProcess * CodecLame::getDecoder() {
 
     return NULL;
 }
 
-Encoder * CodecLame::getEncoder() {
+IEncoderProcess * CodecLame::getEncoder() {
 
     return new Encoder(properties);
 }

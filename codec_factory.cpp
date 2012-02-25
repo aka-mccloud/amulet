@@ -9,8 +9,8 @@ CodecFactory::~CodecFactory() {
 
 }
 
-Decoder * CodecFactory::getDecoderForType(const QString & type) {
-    Decoder * decoder = NULL;
+IDecoderProcess * CodecFactory::getDecoderForType(const QString & type) {
+    IDecoderProcess * decoder = NULL;
     if (codecMap.contains(type)) {
         decoder = codecMap[type]->getDecoder();
     }
@@ -18,8 +18,8 @@ Decoder * CodecFactory::getDecoderForType(const QString & type) {
     return decoder;
 }
 
-Encoder * CodecFactory::getEncoderForType(const QString & type) {
-    Encoder * coder = NULL;
+IEncoderProcess * CodecFactory::getEncoderForType(const QString & type) {
+    IEncoderProcess * coder = NULL;
     if (codecMap.contains(type)) {
         coder = codecMap[type]->getEncoder();
     }
