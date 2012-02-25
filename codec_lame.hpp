@@ -1,13 +1,17 @@
 #ifndef CODEC_LAME_HPP
 #define CODEC_LAME_HPP
 
-#include "coder.hpp"
+#include "icodec_provider.hpp"
 
-class CodecLame {
+class CodecLame : public ICodecProvider {
+
+private:
+    CodecProperties properties;
 
 public:
-    CodecLame();
-    static Coder * getCodec();
+    CodecLame(CodecProperties & props);
+    Decoder * getDecoder();
+    Encoder * getEncoder();
 
 };
 

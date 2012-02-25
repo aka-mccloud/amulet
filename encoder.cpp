@@ -1,29 +1,32 @@
-#include "coder.hpp"
+#include "encoder.hpp"
 
-Coder::Coder(QObject * parent) :
+Encoder::Encoder(CodecProperties & props,
+             QObject * parent) :
     QObject(parent) {
+    args += props.toStringList();
+
     process = new QProcess(parent);
     connect(process, SIGNAL(finished(int)), this, SLOT(finished(int)));
 }
 
-Coder::~Coder() {
+Encoder::~Encoder() {
     delete process;
 }
 
-void Coder::setOutputFile(const QString & fileName) {
+void Encoder::setOutputFile(const QString & fileName) {
     outputFile = fileName;
 }
 
-void Coder::setProperties(CodecProperties & props) {
-    args += props.toStringList();
-}
+//void Coder::setProperties(CodecProperties & props) {
+//    args += props.toStringList();
+//}
 
-QProcess * Coder::getProcessInstance() {
+QProcess * Encoder::getProcessInstance() {
 
     return process;
 }
 
-void Coder::start() {
+void Encoder::start() {
     if (inputFile.isEmpty()) {
         args += QString("-");
     } else {
@@ -34,10 +37,10 @@ void Coder::start() {
     process->start(coderName, args);
 }
 
-void Coder::stop() {
+void Encoder::stop() {
     process->terminate();
 }
 
-void Coder::finished(int) {
+void Encoder::finished(int) {
     emit finished();
 }

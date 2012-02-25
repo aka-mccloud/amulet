@@ -8,7 +8,7 @@
 
 #include "codec_properties.hpp"
 #include "converter_factory.hpp"
-#include "converter_worker.hpp"
+#include "worker_pool.hpp"
 
 typedef QList<QFileInfo> Queue;
 
@@ -20,10 +20,9 @@ private:
     CodecProperties properties;
     Queue queue;
     QDir outDir;
-    bool work;
     int threads;
-    WorkerPool pool;
     ConverterFactory factory;
+    WorkerPool pool;
 
 private slots:
     void pushNext();
@@ -31,7 +30,7 @@ private slots:
 public:
     explicit ConverterService(Queue & queue,
                               const QDir & outDir,
-                              const CodecProperties & props,
+                              CodecProperties & props,
                               int threads,
                               QObject * parent = 0);
     virtual ~ConverterService();

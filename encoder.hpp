@@ -1,5 +1,5 @@
-#ifndef CODER_HPP
-#define CODER_HPP
+#ifndef ENCODER_HPP
+#define ENCODER_HPP
 
 #include <QObject>
 #include <QProcess>
@@ -10,7 +10,7 @@
 #define coderName "lame"
 #define extension "mp3"
 
-class Coder : public QObject {
+class Encoder : public QObject {
 
     Q_OBJECT
 
@@ -24,11 +24,12 @@ private slots:
     void finished(int);
 
 public:
-    explicit Coder(QObject * parent = 0);
-    virtual ~Coder();
+    explicit Encoder(CodecProperties & props,
+                   QObject * parent = 0);
+    virtual ~Encoder();
 
     void setOutputFile(const QString & fileName);
-    void setProperties(CodecProperties & props);
+//    void setProperties(CodecProperties & props);
     QProcess * getProcessInstance();
 
 signals:
@@ -40,4 +41,4 @@ public slots:
 
 };
 
-#endif // CODER_HPP
+#endif // ENCODER_HPP

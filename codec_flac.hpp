@@ -1,13 +1,17 @@
 #ifndef CODEC_FLAC_HPP
 #define CODEC_FLAC_HPP
 
-#include <decoder.hpp>
+#include "icodec_provider.hpp"
 
-class CodecFlac {
+class CodecFlac : public ICodecProvider {
+
+private:
+    CodecProperties properties;
 
 public:
-    CodecFlac();
-    static Decoder * getDecoder();
+    CodecFlac(CodecProperties & props);
+    Decoder * getDecoder();
+    Encoder * getEncoder();
 
 };
 

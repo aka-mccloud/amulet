@@ -18,17 +18,23 @@ SOURCES += main.cpp \
     converter_worker.cpp \
     converter_factory.cpp \
     converter_service.cpp \
-    coder.cpp \
     decoder.cpp \
     codec_flac.cpp \
-    codec_lame.cpp
+    codec_lame.cpp \
+    codec_factory.cpp \
+    worker_pool.cpp \
+    encoder.cpp
 
 HEADERS += \
     codec_properties.hpp \
     converter_worker.hpp \
     converter_factory.hpp \
     converter_service.hpp \
-    coder.hpp \
     decoder.hpp \
     codec_lame.hpp \
-    codec_flac.hpp
+    codec_flac.hpp \
+    codec_factory.hpp \
+    icodec_provider.hpp \
+    worker_pool.hpp \
+    iworker.hpp \
+    encoder.hpp

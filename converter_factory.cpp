@@ -1,24 +1,26 @@
-#include "coder.hpp"
-#include "codec_flac.hpp"
-#include "codec_lame.hpp"
 #include "converter_factory.hpp"
 
-ConverterFactory::ConverterFactory(const QDir &outDir,
-                                   const CodecProperties &props,
+ConverterFactory::ConverterFactory(const QDir & outDir,
+                                   CodecProperties & props,
                                    QObject * parent) :
     QObject(parent),
-    properties(props),
-    outDir(outDir) {
+    outDir(outDir),
+    codecFactory(props) {
 }
 
 ConverterWorker * ConverterFactory::create(const QFileInfo inFile) {
-    QString outFile = outDir.absolutePath() + "/" +
-                inFile.completeBaseName() + "." + extension;
-    Decoder * decoder = CodecFlac::getDecoder();
-    decoder->setInputFile(inFile.absoluteFilePath());
-    Coder * coder = CodecLame::getCodec();
-    coder->setProperties(properties);
-    coder->setOutputFile(outFile);
+    ConverterWorker * converterWorker = NULL;
+    Decoder * decoder = codecFactory.getDecoderForType(inFile.suffix());
+    Encoder * coder = codecFactory.getEncoderForType(extension);
 
-    return new ConverterWorker(decoder, coder, this);
+    if ((decoder != NULL) && (coder != NULL)) {
+        QString outFile = outDir.absolutePath() + "/" +
+                    inFile.completeBaseName() + "." + extension;
+        decoder->setInputFile(inFile.absoluteFilePath());
+        coder->setOutputFile(outFile);
+
+        converterWorker = new ConverterWorker(decoder, coder, this);
+    }
+
+    return converterWorker;
 }

@@ -1,9 +1,16 @@
 #include "codec_lame.hpp"
 
-CodecLame::CodecLame() {
+CodecLame::CodecLame(CodecProperties & props) :
+    properties(props) {
+
 }
 
-Coder * CodecLame::getCodec() {
+Decoder *CodecLame::getDecoder() {
 
-    return new Coder();
+    return NULL;
+}
+
+Encoder * CodecLame::getEncoder() {
+
+    return new Encoder(properties);
 }

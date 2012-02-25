@@ -5,7 +5,7 @@
 #include <QFileInfo>
 #include <QDir>
 
-#include "codec_properties.hpp"
+#include "codec_factory.hpp"
 #include "converter_worker.hpp"
 
 class ConverterFactory : public QObject {
@@ -13,12 +13,12 @@ class ConverterFactory : public QObject {
     Q_OBJECT
 
 private:
-    CodecProperties properties;
     QDir outDir;
+    CodecFactory codecFactory;
 
 public:
     explicit ConverterFactory(const QDir & outDir,
-                              const CodecProperties & props,
+                              CodecProperties & props,
                               QObject * parent = 0);
 
     ConverterWorker * create(const QFileInfo inFile);

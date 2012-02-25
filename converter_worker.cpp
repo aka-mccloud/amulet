@@ -3,35 +3,37 @@
 #include "converter_worker.hpp"
 
 ConverterWorker::ConverterWorker(Decoder *decoder,
-                                 Coder *coder,
+                                 Encoder *coder,
                                  QObject * parent) :
-    QObject(parent),
+    IWorker(parent),
     decoder(decoder),
-    coder(coder),
+    encoder(coder),
     completed(0) {
     this->decoder->getProcessInstance()->setStandardOutputProcess(
-                this->coder->getProcessInstance());
-    connect(this->coder, SIGNAL(finished()), this, SLOT(endConvert()));
+                this->encoder->getProcessInstance());
+    connect(this->encoder, SIGNAL(finished()), this, SLOT(endConvert()));
     connect(this->decoder, SIGNAL(progress(int)), this, SLOT(progressReady(int)));
 }
 
 ConverterWorker::~ConverterWorker() {
+    stop();
     delete decoder;
-    delete coder;
+    delete encoder;
 }
 
 void ConverterWorker::start() {
     decoder->start();
-    coder->start();
+    encoder->start();
 }
 
 void ConverterWorker::stop() {
     decoder->stop();
-    coder->stop();
+    encoder->stop();
 }
 
 void ConverterWorker::endConvert() {
-    emit finished();
+
+    emit finished(this);
 }
 
 void ConverterWorker::progressReady(int p) {
