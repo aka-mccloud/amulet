@@ -22,6 +22,7 @@ public:
 
     void execute(IWorker * worker);
     bool isEmpty();
+    int size();
     
 signals:
     void workerFinished();

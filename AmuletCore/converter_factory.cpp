@@ -5,7 +5,7 @@ ConverterFactory::ConverterFactory(const QDir & outDir,
                                    QObject * parent) :
     QObject(parent),
     outDir(outDir),
-    codecFactory(props) {
+    properties(props) {
 }
 
 ConverterWorker * ConverterFactory::create(const QFileInfo inFile) {
@@ -18,6 +18,7 @@ ConverterWorker * ConverterFactory::create(const QFileInfo inFile) {
                     inFile.completeBaseName() + ".mp3";
         decoder->setInputFile(inFile.absoluteFilePath());
         encoder->setOutputFile(outFile);
+        encoder->setProperties(properties);
 
         converterWorker = new ConverterWorker(decoder, encoder, this);
     }

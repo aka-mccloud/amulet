@@ -9,14 +9,23 @@ WorkerPool::~WorkerPool() {
 }
 
 void WorkerPool::execute(IWorker * worker) {
-    connect(worker->getObject(), SIGNAL(finished(IWorker *)), this, SLOT(jobFinished(IWorker *)));
-    workerList.append(worker);
-    worker->start();
+    if (worker != NULL) {
+        connect(worker->getObject(), SIGNAL(finished(IWorker *)), this, SLOT(jobFinished(IWorker *)));
+        workerList.append(worker);
+        worker->start();
+    } else {
+        emit workerFinished();
+    }
 }
 
 bool WorkerPool::isEmpty() {
 
     return workerList.isEmpty();
+}
+
+int WorkerPool::size() {
+
+    return workerList.size();
 }
 
 void WorkerPool::jobFinished(IWorker * worker) {

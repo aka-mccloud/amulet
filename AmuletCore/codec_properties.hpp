@@ -22,7 +22,7 @@ public:
     CodecProperties();
 
     QString toString();
-    QStringList toStringList();
+    QStringList toStringList() const;
 
     QString & operator [] (Options option) {
         return values[option];

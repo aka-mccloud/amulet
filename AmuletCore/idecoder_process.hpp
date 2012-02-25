@@ -5,9 +5,7 @@
 #include <QString>
 #include <QProcess>
 
-class IDecoderProcess/* : public QObject */{
-
-//    Q_OBJECT
+class IDecoderProcess {
 
 //signals:
     virtual void progress(int) = 0;

@@ -3,16 +3,16 @@
 
 #include "idecoder_process.hpp"
 #include "iencoder_process.hpp"
-#include "codec_flac.hpp"
-#include "codec_lame.hpp"
+#include "plugins_provider.hpp"
 
 class CodecFactory {
 
 private:
     CodecMap codecMap;
+    PluginsProvider plugins;
 
 public:
-    CodecFactory(CodecProperties & props);
+    explicit CodecFactory();
     virtual ~CodecFactory();
 
     IDecoderProcess * getDecoderForType(const QString & type);

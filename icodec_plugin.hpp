@@ -1,4 +1,0 @@
-#ifndef ICODEC_PLUGIN_HPP
-#define ICODEC_PLUGIN_HPP
-
-#endif // ICODEC_PLUGIN_HPP

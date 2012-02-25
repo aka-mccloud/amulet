@@ -10,9 +10,11 @@
 #include "converter_factory.hpp"
 #include "worker_pool.hpp"
 
+#include "AmuletCore_global.hpp"
+
 typedef QList<QFileInfo> Queue;
 
-class ConverterService : public QObject {
+class AMULETCORESHARED_EXPORT ConverterService : public QObject {
 
     Q_OBJECT
 

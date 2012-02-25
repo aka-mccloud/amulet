@@ -3,19 +3,13 @@
 
 #include <QObject>
 
-class IWorker/* : public QObject */{
-
-//    Q_OBJECT
+class IWorker {
 
 //signals:
-//    void progress(int);
-//    void finished(IWorker *);
+    virtual void progress(int) = 0;
+    virtual void finished(IWorker *) = 0;
 
 public:
-//    explicit IWorker(QObject * parent = 0) :
-//        QObject(parent) {
-
-//    }
     virtual ~IWorker() {}
 
     virtual QObject * getObject() = 0;

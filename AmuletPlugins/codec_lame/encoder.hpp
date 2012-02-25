@@ -26,12 +26,11 @@ private slots:
     void finished(int);
 
 public:
-    explicit Encoder(CodecProperties & props,
-                   QObject * parent = 0);
+    explicit Encoder(QObject * parent = 0);
     virtual ~Encoder();
 
+    void setProperties(const CodecProperties & props);
     void setOutputFile(const QString & fileName);
-//    void setProperties(CodecProperties & props);
     QProcess * getProcessInstance();
     QObject * getObject();
 

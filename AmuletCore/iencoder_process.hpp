@@ -5,9 +5,9 @@
 #include <QString>
 #include <QProcess>
 
-class IEncoderProcess/* : public QObject */{
+#include "codec_properties.hpp"
 
-//    Q_OBJECT
+class IEncoderProcess {
 
 //signals:
     virtual void finished() = 0;
@@ -16,6 +16,7 @@ public:
     virtual ~IEncoderProcess() {}
 
     virtual void setOutputFile(const QString & fileName) = 0;
+    virtual void setProperties(const CodecProperties & props) = 0;
     virtual QProcess * getProcessInstance() = 0;
     virtual QObject * getObject() = 0;
 

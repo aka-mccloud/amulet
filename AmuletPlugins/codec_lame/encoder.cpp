@@ -1,9 +1,8 @@
 #include "encoder.hpp"
 
-Encoder::Encoder(CodecProperties & props,
-             QObject * parent) :
+Encoder::Encoder(QObject * parent) :
     QObject(parent) {
-    args += props.toStringList();
+//    args += props.toStringList();
 
     process = new QProcess(this);
     connect(process, SIGNAL(finished(int)), this, SLOT(finished(int)));
@@ -17,9 +16,9 @@ void Encoder::setOutputFile(const QString & fileName) {
     outputFile = fileName;
 }
 
-//void Coder::setProperties(CodecProperties & props) {
-//    args += props.toStringList();
-//}
+void Encoder::setProperties(const CodecProperties & props) {
+    args += props.toStringList();
+}
 
 QProcess * Encoder::getProcessInstance() {
 

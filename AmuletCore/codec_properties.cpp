@@ -6,11 +6,11 @@ CodecProperties::CodecProperties() {
     options[LOWPASS] = "--lowpass";
 }
 
-QStringList CodecProperties::toStringList() {
+QStringList CodecProperties::toStringList() const {
     QStringList codecProps;
 
     QList<Options> keys = values.keys();
-    QList<Options>::const_iterator it;
+    QList<Options>::iterator it;
 
     for (it = keys.begin(); it != keys.end(); ++it) {
         codecProps += options[*it];

@@ -14,6 +14,7 @@ class ConverterFactory : public QObject {
 
 private:
     QDir outDir;
+    CodecProperties properties;
     CodecFactory codecFactory;
 
 public:

@@ -1,8 +1,7 @@
 #include "codec_factory.hpp"
 
-CodecFactory::CodecFactory(CodecProperties & props) {
-    codecMap["flac"] = new CodecFlac(props);
-    codecMap["mp3"] = new CodecLame(props);
+CodecFactory::CodecFactory() {
+    codecMap = plugins.getCodecMap();
 }
 
 CodecFactory::~CodecFactory() {

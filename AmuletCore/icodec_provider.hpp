@@ -10,7 +10,6 @@
 class ICodecProvider {
 
 public:
-//    virtual ICodecProvider(CodecProperties & props) = 0;
     virtual ~ICodecProvider() {}
 
     virtual IDecoderProcess * getDecoder() = 0;
@@ -19,5 +18,7 @@ public:
 };
 
 typedef QMap<QString, ICodecProvider *> CodecMap;
+
+Q_DECLARE_INTERFACE(ICodecProvider, "org.amulet.ICodecProvider")
 
 #endif // ICODEC_PROVIDER_H
