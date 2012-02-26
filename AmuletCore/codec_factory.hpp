@@ -13,7 +13,7 @@ private:
 
 public:
     explicit CodecFactory();
-    virtual ~CodecFactory();
+    virtual ~CodecFactory() {}
 
     IDecoderProcess * getDecoderForType(const QString & type);
     IEncoderProcess * getEncoderForType(const QString & type);

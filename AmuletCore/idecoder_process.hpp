@@ -7,10 +7,6 @@
 
 class IDecoderProcess {
 
-//signals:
-    virtual void progress(int) = 0;
-    virtual void finished() = 0;
-
 public:
     virtual ~IDecoderProcess() {}
 
@@ -21,6 +17,10 @@ public:
 //public slots:
     virtual void start() = 0;
     virtual void stop() = 0;
+
+//signals:
+    virtual void progress(int) = 0;
+    virtual void finished() = 0;
 
 };
 

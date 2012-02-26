@@ -9,10 +9,9 @@
 #include "codec_properties.hpp"
 #include "converter_factory.hpp"
 #include "worker_pool.hpp"
+#include "queue.hpp"
 
 #include "AmuletCore_global.hpp"
-
-typedef QList<QFileInfo> Queue;
 
 class AMULETCORESHARED_EXPORT ConverterService : public QObject {
 
@@ -28,6 +27,7 @@ private:
 
 private slots:
     void pushNext();
+    void updateProgress();
 
 public:
     explicit ConverterService(Queue & queue,
@@ -36,13 +36,14 @@ public:
                               int threads,
                               QObject * parent = 0);
     virtual ~ConverterService();
-    
-signals:
-    void finished();
-    
+
 public slots:
     void start();
     void stop();
+
+signals:
+    void progressChanged();
+    void finished();
 
 };
 

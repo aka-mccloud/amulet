@@ -38,7 +38,6 @@ void ConverterWorker::stop() {
 }
 
 void ConverterWorker::endConvert() {
-
     emit finished(this);
 }
 

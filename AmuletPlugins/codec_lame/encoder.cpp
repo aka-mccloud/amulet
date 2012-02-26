@@ -2,7 +2,6 @@
 
 Encoder::Encoder(QObject * parent) :
     QObject(parent) {
-//    args += props.toStringList();
 
     process = new QProcess(this);
     connect(process, SIGNAL(finished(int)), this, SLOT(finished(int)));

@@ -9,9 +9,6 @@
 
 class IEncoderProcess {
 
-//signals:
-    virtual void finished() = 0;
-
 public:
     virtual ~IEncoderProcess() {}
 
@@ -23,6 +20,9 @@ public:
 //public slots:
     virtual void start() = 0;
     virtual void stop() = 0;
+
+//signals:
+    virtual void finished() = 0;
 
 };
 

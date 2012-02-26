@@ -14,6 +14,7 @@ private:
     QLinkedList<IWorker *> workerList;
 
 private slots:
+    void updateProgress(int);
     void jobFinished(IWorker *);
 
 public:
@@ -23,12 +24,14 @@ public:
     void execute(IWorker * worker);
     bool isEmpty();
     int size();
-    
-signals:
-    void workerFinished();
-    
+
 public slots:
-    
+
+
+signals:
+    void progressChanged();
+    void workerFinished();
+
 };
 
 #endif // WORKER_POOL_HPP

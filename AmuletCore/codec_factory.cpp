@@ -4,10 +4,6 @@ CodecFactory::CodecFactory() {
     codecMap = plugins.getCodecMap();
 }
 
-CodecFactory::~CodecFactory() {
-
-}
-
 IDecoderProcess * CodecFactory::getDecoderForType(const QString & type) {
     IDecoderProcess * decoder = NULL;
     if (codecMap.contains(type)) {

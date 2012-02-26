@@ -29,13 +29,14 @@ public:
 
     QObject * getObject();
 
+public slots:
+    void start();
+    void stop();
+
 signals:
     void progress(int);
     void finished(IWorker *);
 
-public:
-    void start();
-    void stop();
 };
 
 #endif // CONVERTER_WORKER_HPP

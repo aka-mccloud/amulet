@@ -51,9 +51,7 @@ void Decoder::calculateProgress() {
     QRegExp rx("([\\d]{1,3})% complete");
 
     if (rx.indexIn(out) >= 0) {
-        //qDebug() << rx.cap(1);
         completed = rx.cap(1).toInt();
-
         emit progress(completed);
     }
 }

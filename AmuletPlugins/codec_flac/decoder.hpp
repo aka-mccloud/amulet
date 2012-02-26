@@ -34,13 +34,13 @@ public:
     QProcess * getProcessInstance();
     QObject * getObject();
 
-signals:
-    void progress(int);
-    void finished();
-
 public slots:
     void start();
     void stop();
+
+signals:
+    void progress(int);
+    void finished();
 
 };
 

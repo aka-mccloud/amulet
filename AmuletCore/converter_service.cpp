@@ -14,11 +14,31 @@ ConverterService::ConverterService(Queue & queue,
     threads(threads),
     factory(outDir, props, parent),
     pool(parent) {
-    connect(&pool, SIGNAL(workerFinished()), this, SLOT(pushNext()));
+    connect(&pool,
+            SIGNAL(workerFinished()),
+            SLOT(pushNext()));
+    connect(&pool,
+            SIGNAL(progressChanged()),
+            SLOT(updateProgress()));
 }
 
 ConverterService::~ConverterService() {
     stop();
+}
+
+void ConverterService::pushNext() {
+    if (queue.getUnprocessedCounter() != 0) {
+        IWorker * worker = factory.create(queue.getFirstUnprocessed());
+        pool.execute(worker);
+    } else if (pool.isEmpty()) {
+//        emit finished();
+        exit(0);
+    }
+
+}
+
+void ConverterService::updateProgress() {
+    emit progressChanged();
 }
 
 void ConverterService::start() {
@@ -32,16 +52,4 @@ void ConverterService::stop() {
 //    for (it = pool.begin(); it != pool.end(); ++it) {
 //        (*it)->stop();
 //    }
-}
-
-void ConverterService::pushNext() {
-    if (!queue.isEmpty()) {
-        IWorker * worker = factory.create(queue.first());
-        queue.removeFirst();
-        pool.execute(worker);
-    } else if (pool.isEmpty()) {
-        //        emit finished();
-        exit(0);
-    }
-
 }

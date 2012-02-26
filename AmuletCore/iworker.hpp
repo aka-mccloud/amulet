@@ -5,10 +5,6 @@
 
 class IWorker {
 
-//signals:
-    virtual void progress(int) = 0;
-    virtual void finished(IWorker *) = 0;
-
 public:
     virtual ~IWorker() {}
 
@@ -17,6 +13,10 @@ public:
 //public slots:
     virtual void start() = 0;
     virtual void stop() = 0;
+
+//signals:
+    virtual void progress(int) = 0;
+    virtual void finished(IWorker *) = 0;
 
 };
 

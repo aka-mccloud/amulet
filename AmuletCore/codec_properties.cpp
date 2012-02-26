@@ -19,3 +19,8 @@ QStringList CodecProperties::toStringList() const {
 
     return codecProps;
 }
+
+QString & CodecProperties::operator [](CodecProperties::Options option) {
+
+    return values[option];
+}
