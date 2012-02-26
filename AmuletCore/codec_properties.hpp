@@ -37,14 +37,13 @@ public:
 
 private:
     QMap<Options, QString> values;
-    QMap<Options, QString> options;
 
 public:
     explicit CodecProperties();
     virtual ~CodecProperties() {}
 
 //    QString toString();
-    QStringList toStringList() const;
+    QStringList toStringList(const QMap<Options, QString> & options) const;
 
     QString & operator [](Options option);
 

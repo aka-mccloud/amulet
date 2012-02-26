@@ -23,16 +23,18 @@
 #define PLUGINS_PROVIDER_HPP
 
 #include "icodec_provider.hpp"
+#include "plugin_loader.hpp"
 
 class PluginsProvider {
 
+    PluginLoader * pluginsLoader;
     CodecMap codecMap;
 
 public:
     explicit PluginsProvider();
     virtual ~PluginsProvider() {}
 
-    const CodecMap & getCodecMap();
+    CodecMap getCodecMap();
 
 };
 

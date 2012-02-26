@@ -23,6 +23,7 @@
 
 DropTableView::DropTableView(QWidget * parent) :
     QTableView(parent) {
+
 }
 
 void DropTableView::dragEnterEvent(QDragEnterEvent * event) {

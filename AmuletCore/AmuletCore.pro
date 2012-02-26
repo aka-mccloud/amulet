@@ -20,7 +20,8 @@ SOURCES += \
     codec_factory.cpp \
     plugins_provider.cpp \
     queue_item.cpp \
-    queue.cpp
+    queue.cpp \
+    plugin_loader.cpp
 
 HEADERS +=\
         AmuletCore_global.hpp \
@@ -37,7 +38,8 @@ HEADERS +=\
     codec_factory.hpp \
     plugins_provider.hpp \
     queue_item.hpp \
-    queue.hpp
+    queue.hpp \
+    plugin_loader.hpp
 
 symbian {
     MMP_RULES += EXPORTUNFROZEN

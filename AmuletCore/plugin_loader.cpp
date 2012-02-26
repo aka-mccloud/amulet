@@ -21,18 +21,41 @@
 
 #include <QCoreApplication>
 #include <QPluginLoader>
-#include <QObject>
 #include <QDebug>
 #include <QDir>
 
-#include "icodec_plugin.hpp"
-#include "plugins_provider.hpp"
+#include "plugin_loader.hpp"
 
-PluginsProvider::PluginsProvider() {
-    pluginsLoader = PluginLoader::instance();
+PluginLoader PluginLoader::pluginsLoader;
+
+PluginLoader::PluginLoader() {
+    QDir pluginsDir = QDir(QCoreApplication::applicationDirPath());
+            pluginsDir.cd("../AmuletPlugins");
+
+    foreach (QString fileName, pluginsDir.entryList(QDir::Files)) {
+        QPluginLoader plugin(pluginsDir.absoluteFilePath(fileName));
+        ICodecPlugin * codecPlugin = qobject_cast<ICodecPlugin *>(plugin.instance());
+        if (codecPlugin) {
+            foreach(QString format, codecPlugin->getFromats()) {
+                pluginMap.insert(format, codecPlugin);
+            }
+        } else {
+            qDebug() << plugin.errorString();
+        }
+    }
 }
 
-CodecMap PluginsProvider::getCodecMap() {
+PluginLoader * PluginLoader::instance() {
 
-    return pluginsLoader->getCodecMap();
+    return &pluginsLoader;
+}
+
+CodecMap PluginLoader::getCodecMap() {
+    CodecMap codecMap;
+    PluginMap::const_iterator it;
+    for (it = pluginMap.begin(); it != pluginMap.end(); ++it) {
+        codecMap.insert(it.key(), it.value()->getCodec());
+    }
+
+    return codecMap;
 }

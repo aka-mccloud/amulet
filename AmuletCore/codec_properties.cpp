@@ -22,12 +22,9 @@
 #include "codec_properties.hpp"
 
 CodecProperties::CodecProperties() {
-    options[BITRATE] = "-b";
-    options[SAMPLERATE] = "--resample";
-    options[LOWPASS] = "--lowpass";
 }
 
-QStringList CodecProperties::toStringList() const {
+QStringList CodecProperties::toStringList(const QMap<Options, QString> & options) const {
     QStringList codecProps;
 
     QList<Options> keys = values.keys();

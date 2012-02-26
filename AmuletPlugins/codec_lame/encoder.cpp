@@ -23,6 +23,9 @@
 
 Encoder::Encoder(QObject * parent) :
     QObject(parent) {
+    options[CodecProperties::BITRATE] = "-b";
+    options[CodecProperties::SAMPLERATE] = "--resample";
+    options[CodecProperties::LOWPASS] = "--lowpass";
 
     process = new QProcess(this);
     connect(process, SIGNAL(finished(int)), this, SLOT(finished(int)));
@@ -37,7 +40,7 @@ void Encoder::setOutputFile(const QString & fileName) {
 }
 
 void Encoder::setProperties(const CodecProperties & props) {
-    args += props.toStringList();
+    args += props.toStringList(options);
 }
 
 QProcess * Encoder::getProcessInstance() {

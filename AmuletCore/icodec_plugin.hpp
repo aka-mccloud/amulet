@@ -39,6 +39,9 @@ public:
 
 };
 
+typedef QPair<QString, ICodecPlugin * > PluginItem;
+typedef QMap<QString, ICodecPlugin *> PluginMap;
+
 Q_DECLARE_INTERFACE(ICodecPlugin, "org.amulet.ICodecPlugin")
 
 #endif // ICODEC_PLUGIN_HPP

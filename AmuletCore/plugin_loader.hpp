@@ -19,20 +19,26 @@
  *                                                                        *
  **************************************************************************/
 
-#include <QCoreApplication>
-#include <QPluginLoader>
-#include <QObject>
-#include <QDebug>
-#include <QDir>
+#ifndef PLUGIN_LOADER_HPP
+#define PLUGIN_LOADER_HPP
 
 #include "icodec_plugin.hpp"
-#include "plugins_provider.hpp"
 
-PluginsProvider::PluginsProvider() {
-    pluginsLoader = PluginLoader::instance();
-}
+class PluginLoader {
 
-CodecMap PluginsProvider::getCodecMap() {
+private:
+    static PluginLoader pluginsLoader;
+    PluginMap pluginMap;
 
-    return pluginsLoader->getCodecMap();
-}
+    PluginLoader();
+    PluginLoader(const PluginLoader &) {}
+
+    void operator =(const PluginLoader &) { }
+
+public:
+    static PluginLoader * instance();
+    CodecMap getCodecMap();
+
+};
+
+#endif // PLUGIN_LOADER_HPP

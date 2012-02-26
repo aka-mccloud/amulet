@@ -38,6 +38,7 @@ class Encoder : public QObject, public IEncoderProcess {
     Q_INTERFACES(IEncoderProcess)
 
 private:
+    QMap<CodecProperties::Options, QString> options;
     QProcess * process;
     QStringList args;
     QString inputFile;
