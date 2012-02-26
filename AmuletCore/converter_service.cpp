@@ -1,18 +1,31 @@
+/**************************************************************************
+ *                                                                        *
+ *  Copyright (C) 2012 by Yura Ivanov <yura.i1507@gmail.com>              *
+ *                                                                        *
+ *  This file is part of Amulet audio converter.                          *
+ *                                                                        *
+ *  Amulet is free software: you can redistribute it and/or modify        *
+ *  it under the terms of the GNU General Public License as published by  *
+ *  the Free Software Foundation, either version 2 of the License, or     *
+ *  (at your option) any later version.                                   *
+ *                                                                        *
+ *  Amulet is distributed in the hope that it will be useful,             *
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of        *
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
+ *  GNU General Public License for more details.                          *
+ *                                                                        *
+ *  You should have received a copy of the GNU General Public License     *
+ *  along with Amulet.  If not, see <http://www.gnu.org/licenses/>.       *
+ *                                                                        *
+ **************************************************************************/
+
 #include <QCoreApplication>
 
 #include "converter_service.hpp"
 
-ConverterService::ConverterService(Queue & queue,
-                                   const QDir & outDir,
-                                   CodecProperties & props,
-                                   int threads,
-                                   QObject * parent) :
+ConverterService::ConverterService(QObject * parent) :
     QObject(parent),
-    properties(props),
-    queue(queue),
-    outDir(outDir),
-    threads(threads),
-    factory(outDir, props, parent),
+    threads(1),
     pool(parent) {
     connect(&pool,
             SIGNAL(workerFinished()),
@@ -26,13 +39,29 @@ ConverterService::~ConverterService() {
     stop();
 }
 
+void ConverterService::setCodecProperties(CodecProperties props) {
+    properties = props;
+}
+
+void ConverterService::setMaxThreadCount(int maxThreadCount) {
+    threads = maxThreadCount;
+}
+
+void ConverterService::setOutDir(QDir outDir) {
+    this->outDir = outDir;
+}
+
+void ConverterService::setQueue(Queue * queue) {
+    this->queue = queue;
+}
+
 void ConverterService::pushNext() {
-    if (queue.getUnprocessedCounter() != 0) {
-        IWorker * worker = factory.create(queue.getFirstUnprocessed());
+    if (queue->getUnprocessedCounter() != 0) {
+        IWorker * worker = factory.create(
+                    queue->getFirstUnprocessed(), outDir, properties);
         pool.execute(worker);
     } else if (pool.isEmpty()) {
-//        emit finished();
-        exit(0);
+        emit finished();
     }
 
 }
@@ -48,8 +77,5 @@ void ConverterService::start() {
 }
 
 void ConverterService::stop() {
-//    WorkerPool::iterator it;
-//    for (it = pool.begin(); it != pool.end(); ++it) {
-//        (*it)->stop();
-//    }
+    //TODO: add implementation
 }

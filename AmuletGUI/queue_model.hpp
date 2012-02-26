@@ -19,29 +19,41 @@
  *                                                                        *
  **************************************************************************/
 
-#include "codec_properties.hpp"
 
-CodecProperties::CodecProperties() {
-    options[BITRATE] = "-b";
-    options[SAMPLERATE] = "--resample";
-    options[LOWPASS] = "--lowpass";
-}
+#ifndef QUEUE_MODEL_H
+#define QUEUE_MODEL_H
 
-QStringList CodecProperties::toStringList() const {
-    QStringList codecProps;
+#include <QAbstractTableModel>
 
-    QList<Options> keys = values.keys();
-    QList<Options>::iterator it;
+#include "queue.hpp"
 
-    for (it = keys.begin(); it != keys.end(); ++it) {
-        codecProps += options[*it];
-        codecProps += values[*it];
-    }
+class QueueModel : public QAbstractTableModel {
 
-    return codecProps;
-}
+    Q_OBJECT
 
-QString & CodecProperties::operator [](CodecProperties::Options option) {
+private:
+    Queue queue;
 
-    return values[option];
-}
+private slots:
+    void updateProgress();
+
+public:
+    explicit QueueModel(QObject *parent = 0);
+    virtual ~QueueModel() {}
+
+    int rowCount(const QModelIndex & parent = QModelIndex()) const;
+    int columnCount(const QModelIndex & parent = QModelIndex()) const;
+    QVariant data(const QModelIndex & index, int role) const;
+    QVariant headerData(int section,
+                        Qt::Orientation orientation,
+                        int role = Qt::DisplayRole) const;
+
+    void append(const QFileInfoList & files);
+//    void setFileList(const QLinkedList<QString> & list);
+    void delIndexes(const QModelIndexList & indexList);
+    void clear();
+    Queue * getQueue();
+
+};
+
+#endif // QUEUE_MODEL_H

@@ -19,29 +19,41 @@
  *                                                                        *
  **************************************************************************/
 
-#include "codec_properties.hpp"
+#ifndef MAIN_WINDOW_HPP
+#define MAIN_WINDOW_HPP
 
-CodecProperties::CodecProperties() {
-    options[BITRATE] = "-b";
-    options[SAMPLERATE] = "--resample";
-    options[LOWPASS] = "--lowpass";
+#include <QMainWindow>
+#include <QFileInfoList>
+#include <QDir>
+
+#include "converter_service.hpp"
+
+#include "queue_model.hpp"
+
+namespace Ui {
+class MainWindow;
 }
 
-QStringList CodecProperties::toStringList() const {
-    QStringList codecProps;
+class MainWindow : public QMainWindow {
 
-    QList<Options> keys = values.keys();
-    QList<Options>::iterator it;
+    Q_OBJECT
 
-    for (it = keys.begin(); it != keys.end(); ++it) {
-        codecProps += options[*it];
-        codecProps += values[*it];
-    }
+private:
+    Ui::MainWindow * ui;
+    ConverterService converterService;
+    QueueModel queueModel;
+    QStringList filter;
+    QString path;
 
-    return codecProps;
-}
+    void scanSubDirs(const QDir & dir, QFileInfoList * fileList);
 
-QString & CodecProperties::operator [](CodecProperties::Options option) {
+public:
+    explicit MainWindow(QWidget *parent = 0);
+    virtual ~MainWindow();
 
-    return values[option];
-}
+private slots:
+    void on_actionAddFiles_triggered();
+    void on_actionConvert_triggered();
+};
+
+#endif // MAIN_WINDOW_HPP

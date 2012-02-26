@@ -5,4 +5,5 @@ CONFIG += ordered
 SUBDIRS += \
     AmuletCore\
     AmuletConsole \
-    AmuletPlugins
+    AmuletPlugins \
+    AmuletGUI

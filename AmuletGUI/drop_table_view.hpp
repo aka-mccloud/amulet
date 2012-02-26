@@ -19,29 +19,32 @@
  *                                                                        *
  **************************************************************************/
 
-#include "codec_properties.hpp"
+#ifndef DROP_TABLE_VIEW_H
+#define DROP_TABLE_VIEW_H
 
-CodecProperties::CodecProperties() {
-    options[BITRATE] = "-b";
-    options[SAMPLERATE] = "--resample";
-    options[LOWPASS] = "--lowpass";
-}
+#include <QTableView>
+#include <QWidget>
+#include <QDragEnterEvent>
+#include <QDragMoveEvent>
+#include <QDropEvent>
+#include <QMimeData>
 
-QStringList CodecProperties::toStringList() const {
-    QStringList codecProps;
 
-    QList<Options> keys = values.keys();
-    QList<Options>::iterator it;
+class DropTableView : public QTableView {
 
-    for (it = keys.begin(); it != keys.end(); ++it) {
-        codecProps += options[*it];
-        codecProps += values[*it];
-    }
+    Q_OBJECT
 
-    return codecProps;
-}
+public:
+    DropTableView(QWidget * parent = 0);
 
-QString & CodecProperties::operator [](CodecProperties::Options option) {
+protected:
+    void dragEnterEvent(QDragEnterEvent * event);
+    void dragMoveEvent(QDragMoveEvent * event);
+    void dropEvent(QDropEvent * event);
 
-    return values[option];
-}
+signals:
+    void newDrop(const QMimeData * mimeData = 0);
+
+};
+
+#endif // DROP_TABLE_VIEW_H

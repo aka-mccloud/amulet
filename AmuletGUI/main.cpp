@@ -19,29 +19,14 @@
  *                                                                        *
  **************************************************************************/
 
-#include "codec_properties.hpp"
+#include <QtGui/QApplication>
+#include "main_window.hpp"
 
-CodecProperties::CodecProperties() {
-    options[BITRATE] = "-b";
-    options[SAMPLERATE] = "--resample";
-    options[LOWPASS] = "--lowpass";
-}
-
-QStringList CodecProperties::toStringList() const {
-    QStringList codecProps;
-
-    QList<Options> keys = values.keys();
-    QList<Options>::iterator it;
-
-    for (it = keys.begin(); it != keys.end(); ++it) {
-        codecProps += options[*it];
-        codecProps += values[*it];
-    }
-
-    return codecProps;
-}
-
-QString & CodecProperties::operator [](CodecProperties::Options option) {
-
-    return values[option];
+int main(int argc, char *argv[])
+{
+    QApplication a(argc, argv);
+    MainWindow w;
+    w.show();
+    
+    return a.exec();
 }
