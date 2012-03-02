@@ -33,7 +33,6 @@ int main(int argc, char *argv[]) {
     queue.append(QueueItem(QFileInfo("03 - Ready to Fall.flac")));
     queue.append(QueueItem(QFileInfo("09 - Give It All.flac")));
     queue.append(QueueItem(QFileInfo("12 - The Good Left Undone.flac")));
-    QDir outDir(QCoreApplication::applicationDirPath());
 
     CodecProperties properties;
     properties[CodecProperties::BITRATE] = "320";
@@ -44,7 +43,7 @@ int main(int argc, char *argv[]) {
     //QObject::connect(&service, SIGNAL(finished()), &a, SLOT(quit()));
     service.setCodecProperties(properties);
     service.setMaxThreadCount(3);
-    service.setOutDir(outDir);
+    service.setOutPath(QCoreApplication::applicationDirPath());
     service.setQueue(&queue);
     service.setOutFormat("mp3");
     service.start();

@@ -28,7 +28,7 @@ ConverterFactory::ConverterFactory(QObject * parent) :
 }
 
 ConverterWorker * ConverterFactory::create(QueueItem * item,
-                                           const QDir & outDir,
+                                           const QString & targetPath,
                                            const QString & format,
                                            const CodecProperties & props) {
     ConverterWorker * converterWorker = NULL;
@@ -39,10 +39,10 @@ ConverterWorker * ConverterFactory::create(QueueItem * item,
         IEncoderProcess * encoder = codecFactory.getEncoderForType(format);
 
         if ((decoder != NULL) && (encoder != NULL)) {
-            QString outFile = outDir.absolutePath() + "/" +
+            QString targetFile = targetPath + "/" +
                     file.completeBaseName() + "." + format;
             decoder->setInputFile(file.absoluteFilePath());
-            encoder->setOutputFile(outFile);
+            encoder->setOutputFile(targetFile);
             encoder->setProperties(props);
 
             converterWorker = new ConverterWorker(decoder, encoder, this);

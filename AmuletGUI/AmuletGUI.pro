@@ -13,13 +13,16 @@ TEMPLATE = app
 SOURCES += main.cpp\
         main_window.cpp \
     queue_model.cpp \
-    drop_table_view.cpp
+    drop_table_view.cpp \
+    properties_dialog.cpp
 
 HEADERS  += main_window.hpp \
     queue_model.hpp \
-    drop_table_view.hpp
+    drop_table_view.hpp \
+    properties_dialog.h
 
-FORMS    += main_window.ui
+FORMS    += main_window.ui \
+    properties_dialog.ui
 
 win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../AmuletCore/release/ -lAmuletCore
 else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../AmuletCore/debug/ -lAmuletCore

@@ -41,7 +41,7 @@ class AMULETCORESHARED_EXPORT ConverterService : public QObject {
 private:
     CodecProperties properties;
     Queue * queue;
-    QDir outDir;
+    QString targetPath;
     QString format;
     int threads;
     ConverterFactory factory;
@@ -57,7 +57,7 @@ public:
 
     void setCodecProperties(CodecProperties props);
     void setMaxThreadCount(int maxThreadCount);
-    void setOutDir(QDir outDir);
+    void setOutPath(const QString & targetPath);
     void setQueue(Queue * queue);
     void setOutFormat(const QString & format);
 

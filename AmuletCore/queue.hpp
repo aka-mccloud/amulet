@@ -47,6 +47,7 @@ public:
     int size() const;
     int getProcessedCounter();
     int getUnprocessedCounter();
+    void addInProgress();
     QueueItem * getFirstUnprocessed();
 
 public slots:

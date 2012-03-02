@@ -19,15 +19,18 @@
  *                                                                        *
  **************************************************************************/
 
+#include <QDesktopServices>
 #include <QFileDialog>
 #include <QUrl>
 
+#include "properties_dialog.h"
 #include "main_window.hpp"
 #include "ui_main_window.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow),
+    settings("Amulet"),
     queueModel(this) {
     ui->setupUi(this);
     pluginLoader = PluginLoader::instance();
@@ -36,6 +39,9 @@ MainWindow::MainWindow(QWidget *parent) :
     foreach (QWidget * widget, pluginLoader->getWidgets()) {
         ui->stackedWidget->addWidget(widget);
     }
+
+    defaultPath = settings.value("MainWindow/source_path", QDesktopServices::storageLocation(
+                                     QDesktopServices::HomeLocation)).toString();
 
     connect(&converterService,
             SIGNAL(progressChanged()),
@@ -75,7 +81,7 @@ void MainWindow::on_actionAddFiles_triggered() {
     filter += ");;All files(*.*)";
 
     QStringList fileList = QFileDialog::getOpenFileNames(
-                this, tr("Select file(s)"), path, filter);
+                this, tr("Select file(s)"), defaultPath, filter);
 
     QFileInfoList list;
     foreach (QString file, fileList) {
@@ -83,16 +89,16 @@ void MainWindow::on_actionAddFiles_triggered() {
     }
 
     if (!list.isEmpty()) {
-        path = list.first().absolutePath();
+        defaultPath = list.first().absolutePath();
         queueModel.append(list);
     }
 }
 
 void MainWindow::on_actionAddDir_triggered() {
-    path = QFileDialog::getExistingDirectory(this, tr("Select dir"), path);
+    defaultPath = QFileDialog::getExistingDirectory(this, tr("Select dir"), defaultPath);
 
-    if (!path.isEmpty()) {
-        QDir dir(path);
+    if (!defaultPath.isEmpty()) {
+        QDir dir(defaultPath);
 
         QFileInfoList fileList;
         scanSubDirs(dir, &fileList);
@@ -125,10 +131,16 @@ void MainWindow::on_actionClearList_triggered() {
 void MainWindow::on_actionConvert_triggered() {
     CodecProperties properties = qobject_cast<ICodecWidget *>(
                 ui->stackedWidget->currentWidget())->getProperties();
+    QString targetPath;
+    if (settings.value("Properties/path", false).toBool()) {
+        targetPath = settings.value("Properties/target_path",
+            QDesktopServices::storageLocation(QDesktopServices::HomeLocation)).toString();
+    }
+    int maxThreadCount = settings.value("Properties/threads", 1).toInt();
 
     converterService.setCodecProperties(properties);
-    converterService.setMaxThreadCount(3);
-    converterService.setOutDir(QDir(QApplication::applicationDirPath()));
+    converterService.setMaxThreadCount(maxThreadCount);
+    converterService.setOutPath(targetPath);
     converterService.setQueue(queueModel.getQueue());
     converterService.setOutFormat(ui->formatBox->currentText());
     converterService.start();
@@ -136,4 +148,9 @@ void MainWindow::on_actionConvert_triggered() {
 
 void MainWindow::on_formatBox_currentIndexChanged(int index) {
     ui->stackedWidget->setCurrentIndex(index);
+}
+
+void MainWindow::on_actionProperties_triggered() {
+    PropertiesDialog dialog(& settings, this);
+    dialog.exec();
 }

@@ -19,51 +19,38 @@
  *                                                                        *
  **************************************************************************/
 
-#ifndef MAIN_WINDOW_HPP
-#define MAIN_WINDOW_HPP
+#ifndef PROPERTIES_DIALOG_H
+#define PROPERTIES_DIALOG_H
 
-#include <QMainWindow>
+#include <QDialog>
 #include <QSettings>
-#include <QFileInfoList>
-#include <QDir>
-
-#include "converter_service.hpp"
-
-#include "queue_model.hpp"
-#include "plugin_loader.hpp"
 
 namespace Ui {
-class MainWindow;
+class PropertiesDialog;
 }
 
-class MainWindow : public QMainWindow {
+class PropertiesDialog : public QDialog {
 
     Q_OBJECT
 
-private:
-    Ui::MainWindow * ui;
-    QSettings settings;
-    PluginLoader * pluginLoader;
-    QueueModel queueModel;
-    ConverterService converterService;
-    QStringList filter;
-    QString defaultPath;
-
-    void scanSubDirs(const QDir & dir, QFileInfoList * fileList);
-
 public:
-    explicit MainWindow(QWidget *parent = 0);
-    virtual ~MainWindow();
+    explicit PropertiesDialog(QSettings * s, QWidget *parent = 0);
+    ~PropertiesDialog();
+
+    bool isLanguageChanged;
+
+private:
+    Ui::PropertiesDialog * ui;
+    QSettings * settings;
+    QString targetPath;
 
 private slots:
-    void on_actionAddFiles_triggered();
-    void on_actionAddDir_triggered();
-    void on_filesDropped(const QMimeData * mimeData);
-    void on_actionClearList_triggered();
-    void on_actionConvert_triggered();
-    void on_formatBox_currentIndexChanged(int index);
-    void on_actionProperties_triggered();
+    void on_languageBox_currentIndexChanged(int);
+    void on_buttonBox_accepted();
+    void on_selectButton_clicked();
+    void on_pathRBtn_clicked();
+    void on_samePathRBtn_clicked();
 
 };
 
-#endif // MAIN_WINDOW_HPP
+#endif // PROPERTIES_DIALOG_H

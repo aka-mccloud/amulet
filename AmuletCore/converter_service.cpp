@@ -47,12 +47,16 @@ void ConverterService::setMaxThreadCount(int maxThreadCount) {
     threads = maxThreadCount;
 }
 
-void ConverterService::setOutDir(QDir outDir) {
-    this->outDir = outDir;
+void ConverterService::setOutPath(const QString & targetPath) {
+    this->targetPath = targetPath;
 }
 
 void ConverterService::setQueue(Queue * queue) {
     this->queue = queue;
+    connect(&pool,
+            SIGNAL(workerFinished()),
+            this->queue,
+            SLOT(update()));
 }
 
 void ConverterService::setOutFormat(const QString & format) {
@@ -62,7 +66,8 @@ void ConverterService::setOutFormat(const QString & format) {
 void ConverterService::pushNext() {
     if (queue->getUnprocessedCounter() != 0) {
         IWorker * worker = factory.create(
-                    queue->getFirstUnprocessed(), outDir, format, properties);
+                    queue->getFirstUnprocessed(), targetPath, format, properties);
+//        queue->addInProgress();
         pool.execute(worker);
     } else if (pool.isEmpty()) {
         emit finished();

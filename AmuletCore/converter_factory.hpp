@@ -41,7 +41,7 @@ public:
     virtual ~ConverterFactory() {}
 
     ConverterWorker * create(QueueItem * item,
-                             const QDir & outDir,
+                             const QString & targetPath,
                              const QString & format,
                              const CodecProperties & props);
 

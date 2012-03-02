@@ -25,7 +25,8 @@
 WidgetLame::WidgetLame() :
     ui(new Ui::WidgetLame) {
     ui->setupUi(this);
-    ui->bitrateBox->addItems(QString("32 40 48 56 64 80 96 112 128 160 192 224 256 320").split(' '));
+    ui->bitrateBox->addItems(QString("320 256 224 192 160 128 112 96 80 64 80 64 56 48 40 32").split(' '));
+    ui->sampleRateBox->addItems(QString("48000 44100 32000").split(' '));
 }
 
 WidgetLame::~WidgetLame() {
@@ -44,7 +45,6 @@ CodecProperties WidgetLame::getProperties() {
     CodecProperties properties;
     properties[CodecProperties::BITRATE] = ui->bitrateBox->currentText();
     properties[CodecProperties::SAMPLERATE] = ui->sampleRateBox->currentText();
-    properties[CodecProperties::LOWPASS] = "22";
 
     return properties;
 }

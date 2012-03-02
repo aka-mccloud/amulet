@@ -64,6 +64,10 @@ int Queue::getUnprocessedCounter() {
     return queue.size() - processed - inProgress;
 }
 
+void Queue::addInProgress() {
+    inProgress++;
+}
+
 QueueItem * Queue::getFirstUnprocessed() {
     QLinkedList<QueueItem>::iterator it;
 
