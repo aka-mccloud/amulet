@@ -19,18 +19,64 @@
  *                                                                        *
  **************************************************************************/
 
-#include "encoder.hpp"
-#include "codec_provider.hpp"
+#include "decoder_flac.hpp"
 
-CodecProvider::CodecProvider() {
+DecoderFlac::DecoderFlac(QObject * parent) :
+    QObject(parent) {
+    args += QString("-d");
+
+    process = new QProcess(this);
+    connect(process, SIGNAL(readyReadStandardError()), this, SLOT(calculateProgress()));
+    connect(process, SIGNAL(finished(int)), this, SLOT(finished(int)));
 }
 
-IDecoderProcess * CodecProvider::getDecoder() {
-
-    return NULL;
+DecoderFlac::~DecoderFlac() {
+    delete process;
 }
 
-IEncoderProcess * CodecProvider::getEncoder() {
+void DecoderFlac::setInputFile(const QString & fileName) {
+    inputFile = fileName;
+}
 
-    return new Encoder();
+void DecoderFlac::setOutputFile(const QString & fileName) {
+    outputFile = fileName;
+}
+
+QProcess * DecoderFlac::getProcessInstance() {
+
+    return process;
+}
+
+QObject * DecoderFlac::getObject() {
+
+    return this;
+}
+
+void DecoderFlac::start() {
+    args += inputFile;
+    if (outputFile.isEmpty()) {
+        args += QString("-c");
+    } else {
+        args += outputFile;
+    }
+
+    process->start(decoderName, args);
+}
+
+void DecoderFlac::stop() {
+    process->terminate();
+}
+
+void DecoderFlac::calculateProgress() {
+    QString out(process->readAllStandardError());
+    QRegExp rx("([\\d]{1,3})% complete");
+
+    if (rx.indexIn(out) >= 0) {
+        completed = rx.cap(1).toInt();
+        emit progress(completed);
+    }
+}
+
+void DecoderFlac::finished(int) {
+    emit finished();
 }

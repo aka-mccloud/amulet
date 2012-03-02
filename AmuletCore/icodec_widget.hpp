@@ -19,64 +19,24 @@
  *                                                                        *
  **************************************************************************/
 
-#include "decoder.hpp"
+#include <QtGui/QWidget>
 
-Decoder::Decoder(QObject * parent) :
-    QObject(parent) {
-    args += QString("-d");
+#include "codec_properties.hpp"
 
-    process = new QProcess(this);
-    connect(process, SIGNAL(readyReadStandardError()), this, SLOT(calculateProgress()));
-    connect(process, SIGNAL(finished(int)), this, SLOT(finished(int)));
-}
+#ifndef ICODEC_WIDGET_HPP
+#define ICODEC_WIDGET_HPP
 
-Decoder::~Decoder() {
-    delete process;
-}
+class ICodecWidget : public QWidget {
 
-void Decoder::setInputFile(const QString & fileName) {
-    inputFile = fileName;
-}
+    Q_OBJECT
 
-void Decoder::setOutputFile(const QString & fileName) {
-    outputFile = fileName;
-}
+public:
+    virtual ~ICodecWidget() {}
 
-QProcess * Decoder::getProcessInstance() {
+    virtual CodecProperties getProperties() = 0;
 
-    return process;
-}
+};
 
-QObject * Decoder::getObject() {
+Q_DECLARE_INTERFACE(ICodecWidget, "org.amulet.ICodecWidget")
 
-    return this;
-}
-
-void Decoder::start() {
-    args += inputFile;
-    if (outputFile.isEmpty()) {
-        args += QString("-c");
-    } else {
-        args += outputFile;
-    }
-
-    process->start(decoderName, args);
-}
-
-void Decoder::stop() {
-    process->terminate();
-}
-
-void Decoder::calculateProgress() {
-    QString out(process->readAllStandardError());
-    QRegExp rx("([\\d]{1,3})% complete");
-
-    if (rx.indexIn(out) >= 0) {
-        completed = rx.cap(1).toInt();
-        emit progress(completed);
-    }
-}
-
-void Decoder::finished(int) {
-    emit finished();
-}
+#endif // ICODEC_WIDGET_HPP

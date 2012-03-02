@@ -55,10 +55,14 @@ void ConverterService::setQueue(Queue * queue) {
     this->queue = queue;
 }
 
+void ConverterService::setOutFormat(const QString & format) {
+    this->format = format;
+}
+
 void ConverterService::pushNext() {
     if (queue->getUnprocessedCounter() != 0) {
         IWorker * worker = factory.create(
-                    queue->getFirstUnprocessed(), outDir, properties);
+                    queue->getFirstUnprocessed(), outDir, format, properties);
         pool.execute(worker);
     } else if (pool.isEmpty()) {
         emit finished();

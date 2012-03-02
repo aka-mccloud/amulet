@@ -38,6 +38,8 @@ private:
 public:
     static PluginLoader * instance();
     CodecMap getCodecMap();
+    QStringList getFormats();
+    QList<QWidget *> getWidgets();
 
 };
 

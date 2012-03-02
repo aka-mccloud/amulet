@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       -= gui
+QT       += core gui
 
 TARGET = AmuletCore
 TEMPLATE = lib
@@ -39,7 +39,8 @@ HEADERS +=\
     plugins_provider.hpp \
     queue_item.hpp \
     queue.hpp \
-    plugin_loader.hpp
+    plugin_loader.hpp \
+    icodec_widget.hpp
 
 symbian {
     MMP_RULES += EXPORTUNFROZEN

@@ -19,29 +19,18 @@
  *                                                                        *
  **************************************************************************/
 
-#ifndef ICODEC_PLUGIN_HPP
-#define ICODEC_PLUGIN_HPP
+#include "encoder_lame.hpp"
+#include "codec_provider_lame.hpp"
 
-#include <QObject>
-#include <QStringList>
+CodecProviderLame::CodecProviderLame() {
+}
 
-#include "icodec_provider.hpp"
-#include "icodec_widget.hpp"
+IDecoderProcess * CodecProviderLame::getDecoder() {
 
-class ICodecPlugin : public QObject {
+    return NULL;
+}
 
-public:
-    virtual ~ICodecPlugin() {}
+IEncoderProcess * CodecProviderLame::getEncoder() {
 
-    virtual QStringList getFromats() = 0;
-    virtual ICodecProvider * getCodec() = 0;
-    virtual ICodecWidget * getWidget() = 0;
-
-};
-
-typedef QPair<QString, ICodecPlugin * > PluginItem;
-typedef QMap<QString, ICodecPlugin *> PluginMap;
-
-Q_DECLARE_INTERFACE(ICodecPlugin, "org.amulet.ICodecPlugin")
-
-#endif // ICODEC_PLUGIN_HPP
+    return new EncoderLame();
+}

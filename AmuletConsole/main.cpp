@@ -46,6 +46,7 @@ int main(int argc, char *argv[]) {
     service.setMaxThreadCount(3);
     service.setOutDir(outDir);
     service.setQueue(&queue);
+    service.setOutFormat("mp3");
     service.start();
 
     return a.exec();

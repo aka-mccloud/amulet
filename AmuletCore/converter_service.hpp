@@ -42,6 +42,7 @@ private:
     CodecProperties properties;
     Queue * queue;
     QDir outDir;
+    QString format;
     int threads;
     ConverterFactory factory;
     WorkerPool pool;
@@ -58,6 +59,7 @@ public:
     void setMaxThreadCount(int maxThreadCount);
     void setOutDir(QDir outDir);
     void setQueue(Queue * queue);
+    void setOutFormat(const QString & format);
 
 public slots:
     void start();

@@ -19,29 +19,50 @@
  *                                                                        *
  **************************************************************************/
 
-#ifndef ICODEC_PLUGIN_HPP
-#define ICODEC_PLUGIN_HPP
+#ifndef DECODER_HPP
+#define DECODER_HPP
 
 #include <QObject>
+#include <QProcess>
 #include <QStringList>
 
-#include "icodec_provider.hpp"
-#include "icodec_widget.hpp"
+#include "idecoder_process.hpp"
 
-class ICodecPlugin : public QObject {
+#define decoderName "flac"
+
+class DecoderFlac : public QObject, public IDecoderProcess {
+
+    Q_OBJECT
+    Q_INTERFACES(IDecoderProcess)
+
+private:
+    QProcess * process;
+    QStringList args;
+    QString inputFile;
+    QString outputFile;
+    int completed;
+
+private slots:
+    void calculateProgress();
+    void finished(int);
 
 public:
-    virtual ~ICodecPlugin() {}
+    explicit DecoderFlac(QObject * parent = 0);
+    virtual ~DecoderFlac();
 
-    virtual QStringList getFromats() = 0;
-    virtual ICodecProvider * getCodec() = 0;
-    virtual ICodecWidget * getWidget() = 0;
+    void setInputFile(const QString & fileName);
+    void setOutputFile(const QString & fileName);
+    QProcess * getProcessInstance();
+    QObject * getObject();
+
+public slots:
+    void start();
+    void stop();
+
+signals:
+    void progress(int);
+    void finished();
 
 };
 
-typedef QPair<QString, ICodecPlugin * > PluginItem;
-typedef QMap<QString, ICodecPlugin *> PluginMap;
-
-Q_DECLARE_INTERFACE(ICodecPlugin, "org.amulet.ICodecPlugin")
-
-#endif // ICODEC_PLUGIN_HPP
+#endif // DECODER_HPP

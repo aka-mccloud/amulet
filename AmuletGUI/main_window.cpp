@@ -29,6 +29,12 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow),
     queueModel(this) {
     ui->setupUi(this);
+    pluginLoader = PluginLoader::instance();
+    ui->formatBox->addItems(pluginLoader->getFormats());
+    ui->formatBox->setCurrentIndex(0);
+    foreach (QWidget * widget, pluginLoader->getWidgets()) {
+        ui->stackedWidget->addWidget(widget);
+    }
 
     connect(&converterService,
             SIGNAL(progressChanged()),
@@ -49,10 +55,6 @@ void MainWindow::scanSubDirs(const QDir & dir, QFileInfoList * fileList) {
 
     QStringList dirs = dir.entryList(filter, QDir::AllDirs | QDir::NoDotAndDotDot);
     if (!dirs.empty()) {
-//        QStringList::iterator dit;
-//        for (dit = dirs.begin(); dit != dirs.end(); ++dit) {
-//            scanSubDirs(QDir(dir.absolutePath() + QString::fromUtf8("/") + *dit), fileList);
-//        }
         foreach (QString dirName, dirs) {
             QDir newDir(dir);
             newDir.cd(dirName);
@@ -68,11 +70,11 @@ void MainWindow::on_actionAddFiles_triggered() {
     }
     filter += ");;All files(*.*)";
 
-    QStringList files = QFileDialog::getOpenFileNames(
+    QStringList fileList = QFileDialog::getOpenFileNames(
                 this, tr("Select file(s)"), path, filter);
 
     QFileInfoList list;
-    foreach (QString file, files) {
+    foreach (QString file, fileList) {
         list.append(QFileInfo(file));
     }
 
@@ -82,15 +84,31 @@ void MainWindow::on_actionAddFiles_triggered() {
     }
 }
 
+void MainWindow::on_actionAddDir_triggered() {
+    path = QFileDialog::getExistingDirectory(this, tr("Select dir"), path);
+
+    if (!path.isEmpty()) {
+        QDir dir(path);
+
+        QFileInfoList fileList;
+        scanSubDirs(dir, &fileList);
+
+        queueModel.append(fileList);
+    }
+}
+
 void MainWindow::on_actionConvert_triggered() {
-    CodecProperties properties;
-    properties[CodecProperties::BITRATE] = "320";
-    properties[CodecProperties::SAMPLERATE] = "44.1";
-    properties[CodecProperties::LOWPASS] = "22";
+    CodecProperties properties = qobject_cast<ICodecWidget *>(
+                ui->stackedWidget->currentWidget())->getProperties();
 
     converterService.setCodecProperties(properties);
     converterService.setMaxThreadCount(3);
     converterService.setOutDir(QDir(QApplication::applicationDirPath()));
     converterService.setQueue(queueModel.getQueue());
+    converterService.setOutFormat(ui->formatBox->currentText());
     converterService.start();
+}
+
+void MainWindow::on_formatBox_currentIndexChanged(int index) {
+    ui->stackedWidget->setCurrentIndex(index);
 }

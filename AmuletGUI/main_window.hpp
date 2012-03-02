@@ -29,6 +29,7 @@
 #include "converter_service.hpp"
 
 #include "queue_model.hpp"
+#include "plugin_loader.hpp"
 
 namespace Ui {
 class MainWindow;
@@ -40,6 +41,7 @@ class MainWindow : public QMainWindow {
 
 private:
     Ui::MainWindow * ui;
+    PluginLoader * pluginLoader;
     ConverterService converterService;
     QueueModel queueModel;
     QStringList filter;
@@ -54,6 +56,8 @@ public:
 private slots:
     void on_actionAddFiles_triggered();
     void on_actionConvert_triggered();
+    void on_formatBox_currentIndexChanged(int index);
+    void on_actionAddDir_triggered();
 };
 
 #endif // MAIN_WINDOW_HPP

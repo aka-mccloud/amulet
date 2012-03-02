@@ -19,29 +19,29 @@
  *                                                                        *
  **************************************************************************/
 
-#ifndef ICODEC_PLUGIN_HPP
-#define ICODEC_PLUGIN_HPP
+#include "widget_flac.hpp"
+#include "ui_widget_flac.h"
 
-#include <QObject>
-#include <QStringList>
+WidgetFlac::WidgetFlac() :
+    ui(new Ui::WidgetFlac) {
+    ui->setupUi(this);
+}
 
-#include "icodec_provider.hpp"
-#include "icodec_widget.hpp"
+WidgetFlac::~WidgetFlac() {
+    delete ui;
+}
 
-class ICodecPlugin : public QObject {
+void WidgetFlac::on_qualityEdit_valueChanged(int value) {
+    ui->qualitySlider->setValue(value);
+}
 
-public:
-    virtual ~ICodecPlugin() {}
+void WidgetFlac::on_qualitySlider_valueChanged(int value) {
+    ui->qualityEdit->setValue(value);
+}
 
-    virtual QStringList getFromats() = 0;
-    virtual ICodecProvider * getCodec() = 0;
-    virtual ICodecWidget * getWidget() = 0;
+CodecProperties WidgetFlac::getProperties() {
+    CodecProperties properties;
+    properties[CodecProperties::SAMPLERATE] = ui->sampleRateBox->currentText();
 
-};
-
-typedef QPair<QString, ICodecPlugin * > PluginItem;
-typedef QMap<QString, ICodecPlugin *> PluginMap;
-
-Q_DECLARE_INTERFACE(ICodecPlugin, "org.amulet.ICodecPlugin")
-
-#endif // ICODEC_PLUGIN_HPP
+    return properties;
+}

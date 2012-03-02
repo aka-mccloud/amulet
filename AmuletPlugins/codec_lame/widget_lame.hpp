@@ -19,29 +19,36 @@
  *                                                                        *
  **************************************************************************/
 
-#ifndef ICODEC_PLUGIN_HPP
-#define ICODEC_PLUGIN_HPP
+#ifndef WIDGET_LAME_HPP
+#define WIDGET_LAME_HPP
 
-#include <QObject>
-#include <QStringList>
-
-#include "icodec_provider.hpp"
 #include "icodec_widget.hpp"
+#include "codec_properties.hpp"
 
-class ICodecPlugin : public QObject {
+namespace Ui {
+class WidgetLame;
+}
+
+class WidgetLame : public ICodecWidget {
+
+    Q_OBJECT
+    Q_INTERFACES(ICodecWidget)
+
+private:
+    Ui::WidgetLame * ui;
+
+private slots:
+    void on_qualityEdit_valueChanged(int value);
+    void on_qualitySlider_valueChanged(int value);
+
+    void on_selectBox_currentIndexChanged(int index);
 
 public:
-    virtual ~ICodecPlugin() {}
+    explicit WidgetLame();
+    virtual ~WidgetLame();
 
-    virtual QStringList getFromats() = 0;
-    virtual ICodecProvider * getCodec() = 0;
-    virtual ICodecWidget * getWidget() = 0;
+    CodecProperties getProperties();
 
 };
 
-typedef QPair<QString, ICodecPlugin * > PluginItem;
-typedef QMap<QString, ICodecPlugin *> PluginMap;
-
-Q_DECLARE_INTERFACE(ICodecPlugin, "org.amulet.ICodecPlugin")
-
-#endif // ICODEC_PLUGIN_HPP
+#endif // WIDGET_LAME_HPP

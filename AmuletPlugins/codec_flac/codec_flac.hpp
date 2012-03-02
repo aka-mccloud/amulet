@@ -44,7 +44,7 @@ public:
 
     QStringList getFromats();
     ICodecProvider * getCodec();
-    QWidget * getWidget();
+    ICodecWidget * getWidget();
 
 };
 

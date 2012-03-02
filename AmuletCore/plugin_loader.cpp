@@ -59,3 +59,18 @@ CodecMap PluginLoader::getCodecMap() {
 
     return codecMap;
 }
+
+QStringList PluginLoader::getFormats() {
+
+    return pluginMap.keys();
+}
+
+QList<QWidget *> PluginLoader::getWidgets() {
+    QList<QWidget *> list;
+    PluginMap::const_iterator it;
+    for (it = pluginMap.begin(); it != pluginMap.end(); ++it) {
+        list.append(it.value()->getWidget());
+    }
+
+    return list;
+}

@@ -19,20 +19,20 @@
  *                                                                        *
  **************************************************************************/
 
-#ifndef CODEC_PROVIDER_HPP
-#define CODEC_PROVIDER_HPP
+#ifndef CODEC_PROVIDER_LAME_HPP
+#define CODEC_PROVIDER_LAME_HPP
 
 #include "icodec_provider.hpp"
 
-class CodecProvider : public ICodecProvider {
+class CodecProviderLame : public ICodecProvider {
 
 public:
-    explicit CodecProvider();
-    virtual ~CodecProvider() {}
+    explicit CodecProviderLame();
+    virtual ~CodecProviderLame() {}
 
     IDecoderProcess * getDecoder();
     IEncoderProcess * getEncoder();
 
 };
 
-#endif // CODEC_PROVIDER_HPP
+#endif // CODEC_PROVIDER_LAME_HPP

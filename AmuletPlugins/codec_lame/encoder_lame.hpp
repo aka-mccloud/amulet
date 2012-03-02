@@ -19,29 +19,47 @@
  *                                                                        *
  **************************************************************************/
 
-#ifndef ICODEC_PLUGIN_HPP
-#define ICODEC_PLUGIN_HPP
+#ifndef ENCODER_LAME_HPP
+#define ENCODER_LAME_HPP
 
 #include <QObject>
-#include <QStringList>
 
-#include "icodec_provider.hpp"
-#include "icodec_widget.hpp"
+#include "iencoder_process.hpp"
 
-class ICodecPlugin : public QObject {
+#define coderName "lame"
+#define extension "mp3"
+
+class EncoderLame : public QObject, public IEncoderProcess {
+
+    Q_OBJECT
+    Q_INTERFACES(IEncoderProcess)
+
+private:
+    QMap<CodecProperties::Options, QString> options;
+    QProcess * process;
+    QStringList args;
+    QString inputFile;
+    QString outputFile;
+
+private slots:
+    void finished(int);
 
 public:
-    virtual ~ICodecPlugin() {}
+    explicit EncoderLame(QObject * parent = 0);
+    virtual ~EncoderLame();
 
-    virtual QStringList getFromats() = 0;
-    virtual ICodecProvider * getCodec() = 0;
-    virtual ICodecWidget * getWidget() = 0;
+    void setProperties(const CodecProperties & props);
+    void setOutputFile(const QString & fileName);
+    QProcess * getProcessInstance();
+    QObject * getObject();
+
+public slots:
+    void start();
+    void stop();
+
+signals:
+    void finished();
 
 };
 
-typedef QPair<QString, ICodecPlugin * > PluginItem;
-typedef QMap<QString, ICodecPlugin *> PluginMap;
-
-Q_DECLARE_INTERFACE(ICodecPlugin, "org.amulet.ICodecPlugin")
-
-#endif // ICODEC_PLUGIN_HPP
+#endif // ENCODER_LAME_HPP

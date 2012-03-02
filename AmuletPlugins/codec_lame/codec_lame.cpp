@@ -21,11 +21,12 @@
 
 #include <QtPlugin>
 
-#include "codec_provider.hpp"
+#include "codec_provider_lame.hpp"
+#include "widget_lame.hpp"
 #include "codec_lame.hpp"
 
 CodecLame::CodecLame() {
-    codecProvider = new CodecProvider();
+    codecProvider = new CodecProviderLame();
     formats += "mp3";
 }
 
@@ -34,14 +35,14 @@ QStringList CodecLame::getFromats() {
     return formats;
 }
 
-ICodecProvider *CodecLame::getCodec() {
+ICodecProvider * CodecLame::getCodec() {
 
     return codecProvider;
 }
 
-QWidget *CodecLame::getWidget() {
+ICodecWidget * CodecLame::getWidget() {
 
-    return NULL;
+    return new WidgetLame();
 }
 
 Q_EXPORT_PLUGIN(CodecLame)

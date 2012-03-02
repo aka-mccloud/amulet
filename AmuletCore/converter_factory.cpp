@@ -29,17 +29,18 @@ ConverterFactory::ConverterFactory(QObject * parent) :
 
 ConverterWorker * ConverterFactory::create(QueueItem * item,
                                            const QDir & outDir,
+                                           const QString & format,
                                            const CodecProperties & props) {
     ConverterWorker * converterWorker = NULL;
 
     if (item != NULL) {
         QFileInfo file = item->getFile();
         IDecoderProcess * decoder = codecFactory.getDecoderForType(file.suffix());
-        IEncoderProcess * encoder = codecFactory.getEncoderForType("mp3");
+        IEncoderProcess * encoder = codecFactory.getEncoderForType(format);
 
         if ((decoder != NULL) && (encoder != NULL)) {
             QString outFile = outDir.absolutePath() + "/" +
-                    file.completeBaseName() + ".mp3";
+                    file.completeBaseName() + "." + format;
             decoder->setInputFile(file.absoluteFilePath());
             encoder->setOutputFile(outFile);
             encoder->setProperties(props);

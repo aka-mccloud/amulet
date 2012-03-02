@@ -21,11 +21,12 @@
 
 #include <QtPlugin>
 
-#include "codec_provider.hpp"
+#include "codec_provider_flac.hpp"
+#include "widget_flac.hpp"
 #include "codec_flac.hpp"
 
 CodecFlac::CodecFlac() {
-    codecProvider = new CodecProvider();
+    codecProvider = new CodecProviderFlac();
     formats += "flac";
 }
 
@@ -39,9 +40,9 @@ ICodecProvider * CodecFlac::getCodec() {
     return codecProvider;
 }
 
-QWidget * CodecFlac::getWidget() {
+ICodecWidget * CodecFlac::getWidget() {
 
-    return NULL;
+    return new WidgetFlac();
 }
 
 Q_EXPORT_PLUGIN(CodecFlac)

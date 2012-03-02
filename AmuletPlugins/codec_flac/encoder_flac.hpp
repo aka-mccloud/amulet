@@ -23,16 +23,13 @@
 #define ENCODER_HPP
 
 #include <QObject>
-#include <QProcess>
-#include <QStringList>
 
-#include "codec_properties.hpp"
 #include "iencoder_process.hpp"
 
-#define coderName "lame"
-#define extension "mp3"
+#define coderName "flac"
+#define extension "flac"
 
-class Encoder : public QObject, public IEncoderProcess {
+class EncoderFlac :public QObject, public IEncoderProcess {
 
     Q_OBJECT
     Q_INTERFACES(IEncoderProcess)
@@ -48,8 +45,8 @@ private slots:
     void finished(int);
 
 public:
-    explicit Encoder(QObject * parent = 0);
-    virtual ~Encoder();
+    explicit EncoderFlac(QObject *parent = 0);
+    virtual ~EncoderFlac();
 
     void setProperties(const CodecProperties & props);
     void setOutputFile(const QString & fileName);

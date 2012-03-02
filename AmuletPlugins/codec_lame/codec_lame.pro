@@ -11,14 +11,19 @@ TEMPLATE = lib
 CONFIG += plugin
 
 SOURCES += codec_lame.cpp \
-    codec_provider.cpp \
-    encoder.cpp
+    widget_lame.cpp \
+    encoder_lame.cpp \
+    codec_provider_lame.cpp
 
 HEADERS += codec_lame.hpp \
-    codec_provider.hpp \
-    encoder.hpp
+    encoder_lame.hpp \
+    widget_lame.hpp \
+    codec_provider_lame.hpp
 
 DESTDIR = ../
 
 INCLUDEPATH += $$PWD/../../AmuletCore
 DEPENDPATH += $$PWD/../../AmuletCore
+
+FORMS += \
+    widget_lame.ui

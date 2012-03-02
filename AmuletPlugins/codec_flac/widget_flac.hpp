@@ -19,55 +19,33 @@
  *                                                                        *
  **************************************************************************/
 
-#include "encoder.hpp"
+#ifndef WIDGET_HPP
+#define WIDGET_HPP
 
-Encoder::Encoder(QObject * parent) :
-    QObject(parent) {
-    options[CodecProperties::BITRATE] = "-b";
-    options[CodecProperties::SAMPLERATE] = "--resample";
-    options[CodecProperties::LOWPASS] = "--lowpass";
+#include "icodec_widget.hpp"
+#include "codec_properties.hpp"
 
-    process = new QProcess(this);
-    connect(process, SIGNAL(finished(int)), this, SLOT(finished(int)));
+namespace Ui {
+class WidgetFlac;
 }
 
-Encoder::~Encoder() {
-    delete process;
-}
+class WidgetFlac : public ICodecWidget {
 
-void Encoder::setOutputFile(const QString & fileName) {
-    outputFile = fileName;
-}
+    Q_OBJECT
 
-void Encoder::setProperties(const CodecProperties & props) {
-    args += props.toStringList(options);
-}
+private:
+    Ui::WidgetFlac *ui;
 
-QProcess * Encoder::getProcessInstance() {
+private slots:
+    void on_qualityEdit_valueChanged(int value);
+    void on_qualitySlider_valueChanged(int value);
 
-    return process;
-}
+public:
+    explicit WidgetFlac();
+    virtual ~WidgetFlac();
 
-QObject * Encoder::getObject() {
+    CodecProperties getProperties();
 
-    return this;
-}
+};
 
-void Encoder::start() {
-    if (inputFile.isEmpty()) {
-        args += QString("-");
-    } else {
-        args += inputFile;
-    }
-    args += outputFile;
-
-    process->start(coderName, args);
-}
-
-void Encoder::stop() {
-    process->terminate();
-}
-
-void Encoder::finished(int) {
-    emit finished();
-}
+#endif // WIDGET_HPP

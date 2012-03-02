@@ -19,50 +19,55 @@
  *                                                                        *
  **************************************************************************/
 
-#ifndef DECODER_HPP
-#define DECODER_HPP
+#include "encoder_lame.hpp"
 
-#include <QObject>
-#include <QProcess>
-#include <QStringList>
+EncoderLame::EncoderLame(QObject * parent) :
+    QObject(parent) {
+    options[CodecProperties::BITRATE] = "-b";
+    options[CodecProperties::SAMPLERATE] = "--resample";
+    options[CodecProperties::LOWPASS] = "--lowpass";
 
-#include "idecoder_process.hpp"
+    process = new QProcess(this);
+    connect(process, SIGNAL(finished(int)), this, SLOT(finished(int)));
+}
 
-#define decoderName "flac"
+EncoderLame::~EncoderLame() {
+    delete process;
+}
 
-class Decoder : public QObject, public IDecoderProcess {
+void EncoderLame::setOutputFile(const QString & fileName) {
+    outputFile = fileName;
+}
 
-    Q_OBJECT
-    Q_INTERFACES(IDecoderProcess)
+void EncoderLame::setProperties(const CodecProperties & props) {
+    args += props.toStringList(options);
+}
 
-private:
-    QProcess * process;
-    QStringList args;
-    QString inputFile;
-    QString outputFile;
-    int completed;
+QProcess * EncoderLame::getProcessInstance() {
 
-private slots:
-    void calculateProgress();
-    void finished(int);
+    return process;
+}
 
-public:
-    explicit Decoder(QObject * parent = 0);
-    virtual ~Decoder();
+QObject * EncoderLame::getObject() {
 
-    void setInputFile(const QString & fileName);
-    void setOutputFile(const QString & fileName);
-    QProcess * getProcessInstance();
-    QObject * getObject();
+    return this;
+}
 
-public slots:
-    void start();
-    void stop();
+void EncoderLame::start() {
+    if (inputFile.isEmpty()) {
+        args += QString("-");
+    } else {
+        args += inputFile;
+    }
+    args += outputFile;
 
-signals:
-    void progress(int);
-    void finished();
+    process->start(coderName, args);
+}
 
-};
+void EncoderLame::stop() {
+    process->terminate();
+}
 
-#endif // DECODER_HPP
+void EncoderLame::finished(int) {
+    emit finished();
+}

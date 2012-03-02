@@ -19,20 +19,18 @@
  *                                                                        *
  **************************************************************************/
 
-#ifndef CODEC_PROVIDER_HPP
-#define CODEC_PROVIDER_HPP
+#include "decoder_flac.hpp"
+#include "codec_provider_flac.hpp"
 
-#include "icodec_provider.hpp"
+CodecProviderFlac::CodecProviderFlac() {
+}
 
-class CodecProvider : public ICodecProvider {
+IDecoderProcess * CodecProviderFlac::getDecoder() {
 
-public:
-    explicit CodecProvider();
-    virtual ~CodecProvider() {}
+    return new DecoderFlac();
+}
 
-    IDecoderProcess * getDecoder();
-    IEncoderProcess * getEncoder();
+IEncoderProcess * CodecProviderFlac::getEncoder() {
 
-};
-
-#endif // CODEC_PROVIDER_HPP
+    return NULL;
+}

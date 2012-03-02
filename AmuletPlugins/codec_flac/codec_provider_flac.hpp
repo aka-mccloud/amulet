@@ -19,29 +19,20 @@
  *                                                                        *
  **************************************************************************/
 
-#ifndef ICODEC_PLUGIN_HPP
-#define ICODEC_PLUGIN_HPP
-
-#include <QObject>
-#include <QStringList>
+#ifndef CODEC_PROVIDER_HPP
+#define CODEC_PROVIDER_HPP
 
 #include "icodec_provider.hpp"
-#include "icodec_widget.hpp"
 
-class ICodecPlugin : public QObject {
+class CodecProviderFlac : public ICodecProvider {
 
 public:
-    virtual ~ICodecPlugin() {}
+    explicit CodecProviderFlac();
+    virtual ~CodecProviderFlac() {}
 
-    virtual QStringList getFromats() = 0;
-    virtual ICodecProvider * getCodec() = 0;
-    virtual ICodecWidget * getWidget() = 0;
+    IDecoderProcess * getDecoder();
+    IEncoderProcess * getEncoder();
 
 };
 
-typedef QPair<QString, ICodecPlugin * > PluginItem;
-typedef QMap<QString, ICodecPlugin *> PluginMap;
-
-Q_DECLARE_INTERFACE(ICodecPlugin, "org.amulet.ICodecPlugin")
-
-#endif // ICODEC_PLUGIN_HPP
+#endif // CODEC_PROVIDER_HPP

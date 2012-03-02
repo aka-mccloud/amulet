@@ -53,6 +53,9 @@
         <property name="cornerButtonEnabled">
          <bool>false</bool>
         </property>
+        <attribute name="horizontalHeaderVisible">
+         <bool>false</bool>
+        </attribute>
         <attribute name="horizontalHeaderCascadingSectionResizes">
          <bool>true</bool>
         </attribute>
@@ -115,6 +118,9 @@
               </size>
              </property>
             </widget>
+           </item>
+           <item row="2" column="0">
+            <widget class="QStackedWidget" name="stackedWidget"/>
            </item>
           </layout>
          </item>

@@ -42,6 +42,7 @@ public:
 
     ConverterWorker * create(QueueItem * item,
                              const QDir & outDir,
+                             const QString & format,
                              const CodecProperties & props);
 
 };

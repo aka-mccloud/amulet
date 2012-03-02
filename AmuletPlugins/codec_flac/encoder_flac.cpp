@@ -19,29 +19,52 @@
  *                                                                        *
  **************************************************************************/
 
-#ifndef ICODEC_PLUGIN_HPP
-#define ICODEC_PLUGIN_HPP
+#include "encoder_flac.hpp"
 
-#include <QObject>
-#include <QStringList>
+EncoderFlac::EncoderFlac(QObject * parent) :
+    QObject(parent) {
 
-#include "icodec_provider.hpp"
-#include "icodec_widget.hpp"
+    process = new QProcess(this);
+    connect(process, SIGNAL(finished(int)), this, SLOT(finished(int)));
+}
 
-class ICodecPlugin : public QObject {
+EncoderFlac::~EncoderFlac() {
+    delete process;
+}
 
-public:
-    virtual ~ICodecPlugin() {}
+void EncoderFlac::setOutputFile(const QString & fileName) {
+    outputFile = fileName;
+}
 
-    virtual QStringList getFromats() = 0;
-    virtual ICodecProvider * getCodec() = 0;
-    virtual ICodecWidget * getWidget() = 0;
+void EncoderFlac::setProperties(const CodecProperties & props) {
+    args += props.toStringList(options);
+}
 
-};
+QProcess * EncoderFlac::getProcessInstance() {
 
-typedef QPair<QString, ICodecPlugin * > PluginItem;
-typedef QMap<QString, ICodecPlugin *> PluginMap;
+    return process;
+}
 
-Q_DECLARE_INTERFACE(ICodecPlugin, "org.amulet.ICodecPlugin")
+QObject * EncoderFlac::getObject() {
 
-#endif // ICODEC_PLUGIN_HPP
+    return this;
+}
+
+void EncoderFlac::start() {
+    if (inputFile.isEmpty()) {
+        args += QString("-");
+    } else {
+        args += inputFile;
+    }
+    args += outputFile;
+
+    process->start(coderName, args);
+}
+
+void EncoderFlac::stop() {
+    process->terminate();
+}
+
+void EncoderFlac::finished(int) {
+    emit finished();
+}

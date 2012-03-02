@@ -19,18 +19,36 @@
  *                                                                        *
  **************************************************************************/
 
-#include "decoder.hpp"
-#include "codec_provider.hpp"
+#include "widget_lame.hpp"
+#include "ui_widget_lame.h"
 
-CodecProvider::CodecProvider() {
+WidgetLame::WidgetLame() :
+    ui(new Ui::WidgetLame) {
+    ui->setupUi(this);
+    ui->bitrateBox->addItems(QString("32 40 48 56 64 80 96 112 128 160 192 224 256 320").split(' '));
 }
 
-IDecoderProcess * CodecProvider::getDecoder() {
-
-    return new Decoder();
+WidgetLame::~WidgetLame() {
+    delete ui;
 }
 
-IEncoderProcess * CodecProvider::getEncoder() {
+void WidgetLame::on_qualityEdit_valueChanged(int value) {
+    ui->qualitySlider->setValue(value);
+}
 
-    return NULL;
+void WidgetLame::on_qualitySlider_valueChanged(int value) {
+    ui->qualityEdit->setValue(value);
+}
+
+CodecProperties WidgetLame::getProperties() {
+    CodecProperties properties;
+    properties[CodecProperties::BITRATE] = ui->bitrateBox->currentText();
+    properties[CodecProperties::SAMPLERATE] = ui->sampleRateBox->currentText();
+    properties[CodecProperties::LOWPASS] = "22";
+
+    return properties;
+}
+
+void WidgetLame::on_selectBox_currentIndexChanged(int index) {
+    ui->stackedWidget->setCurrentIndex(index);
 }
