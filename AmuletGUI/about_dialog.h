@@ -19,50 +19,28 @@
  *                                                                        *
  **************************************************************************/
 
-#include <QDebug>
+#ifndef _ABOUT_DIALOG_H_
+#define _ABOUT_DIALOG_H_
 
-#include "converter_worker.hpp"
+#include <QDialog>
 
-ConverterWorker::ConverterWorker(IDecoderProcess * decoder,
-                                 IEncoderProcess * encoder,
-                                 QObject * parent) :
-    QObject(parent),
-    decoder(decoder),
-    encoder(encoder),
-    completed(0) {
-    this->decoder->getProcessInstance()->setStandardOutputProcess(this->encoder->getProcessInstance());
-    connect(this->encoder->getObject(), SIGNAL(finished()),
-            SLOT(endConvert()));
-    connect(this->decoder->getObject(), SIGNAL(progress(int)),
-            SLOT(progressReady(int)));
+#include "ui_about_dialog.h"
+
+namespace Ui {
+class AboutDialog;
 }
 
-ConverterWorker::~ConverterWorker() {
-    stop();
-    delete decoder;
-    delete encoder;
-}
+class AboutDialog : public QDialog {
 
-QObject * ConverterWorker::getObject() {
+    Q_OBJECT
 
-    return this;
-}
+private:
+    Ui::AboutDialog * ui;
 
-void ConverterWorker::start() {
-    decoder->start();
-    encoder->start();
-}
+public:
+    AboutDialog(QWidget *parent = 0);
+    ~AboutDialog();
 
-void ConverterWorker::stop() {
-    decoder->stop();
-    encoder->stop();
-}
+};
 
-void ConverterWorker::endConvert() {
-    emit finished(this);
-}
-
-void ConverterWorker::progressReady(int p) {
-//    qDebug() << p;
-    emit progress(p);
-}
+#endif //_ABOUT_DIALOG_H_

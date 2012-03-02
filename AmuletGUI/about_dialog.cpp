@@ -19,50 +19,22 @@
  *                                                                        *
  **************************************************************************/
 
-#include <QDebug>
+#include <QPixmap>
 
-#include "converter_worker.hpp"
+#include "about_dialog.h"
 
-ConverterWorker::ConverterWorker(IDecoderProcess * decoder,
-                                 IEncoderProcess * encoder,
-                                 QObject * parent) :
-    QObject(parent),
-    decoder(decoder),
-    encoder(encoder),
-    completed(0) {
-    this->decoder->getProcessInstance()->setStandardOutputProcess(this->encoder->getProcessInstance());
-    connect(this->encoder->getObject(), SIGNAL(finished()),
-            SLOT(endConvert()));
-    connect(this->decoder->getObject(), SIGNAL(progress(int)),
-            SLOT(progressReady(int)));
+AboutDialog::AboutDialog(QWidget * parent) :
+    QDialog(parent) {
+    ui = new Ui::AboutDialog;
+    ui->setupUi(this);
+    QPixmap pix(":/icons/amulet.png");
+    this->ui->aboutLogoLbl->setPixmap(pix);
+    this->ui->aboutTextLbl->setText(
+                tr("<b>Amulet</b><br>Simple audio converter.<br>Version ") + "0.1" +
+                tr("<br><br>Authors:<br>Yura Ivanov <a href=\"mailto:yura.i1507@gmail.com\">yura.i1507@gmail.com</a>") +
+                tr("<br><br><a href=\"http://www.gnu.org/licenses/gpl-2.0.html\">License: GNU General Public License, version 2"));
 }
 
-ConverterWorker::~ConverterWorker() {
-    stop();
-    delete decoder;
-    delete encoder;
-}
-
-QObject * ConverterWorker::getObject() {
-
-    return this;
-}
-
-void ConverterWorker::start() {
-    decoder->start();
-    encoder->start();
-}
-
-void ConverterWorker::stop() {
-    decoder->stop();
-    encoder->stop();
-}
-
-void ConverterWorker::endConvert() {
-    emit finished(this);
-}
-
-void ConverterWorker::progressReady(int p) {
-//    qDebug() << p;
-    emit progress(p);
+AboutDialog::~AboutDialog() {
+    delete ui;
 }

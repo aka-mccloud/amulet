@@ -24,6 +24,7 @@
 #include <QUrl>
 
 #include "properties_dialog.h"
+#include "about_dialog.h"
 #include "main_window.hpp"
 #include "ui_main_window.h"
 
@@ -153,4 +154,9 @@ void MainWindow::on_formatBox_currentIndexChanged(int index) {
 void MainWindow::on_actionProperties_triggered() {
     PropertiesDialog dialog(& settings, this);
     dialog.exec();
+}
+
+void MainWindow::on_actionAbout_triggered() {
+    AboutDialog about(this);
+    about.exec();
 }
