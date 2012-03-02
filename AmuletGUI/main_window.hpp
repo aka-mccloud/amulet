@@ -55,9 +55,11 @@ public:
 
 private slots:
     void on_actionAddFiles_triggered();
+    void on_actionAddDir_triggered();
+    void on_filesDropped(const QMimeData * mimeData);
     void on_actionConvert_triggered();
     void on_formatBox_currentIndexChanged(int index);
-    void on_actionAddDir_triggered();
+
 };
 
 #endif // MAIN_WINDOW_HPP

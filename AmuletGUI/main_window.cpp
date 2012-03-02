@@ -20,6 +20,7 @@
  **************************************************************************/
 
 #include <QFileDialog>
+#include <QUrl>
 
 #include "main_window.hpp"
 #include "ui_main_window.h"
@@ -40,6 +41,9 @@ MainWindow::MainWindow(QWidget *parent) :
             SIGNAL(progressChanged()),
             &queueModel,
             SLOT(updateProgress()));
+    connect(ui->queueTableView,
+            SIGNAL(filesDropped(const QMimeData *)),
+            SLOT(on_filesDropped(const QMimeData *)));
 
     ui->queueTableView->setModel(&queueModel);
     filter << "*.flac" << "*.mp3";
@@ -95,6 +99,23 @@ void MainWindow::on_actionAddDir_triggered() {
 
         queueModel.append(fileList);
     }
+}
+
+void MainWindow::on_filesDropped(const QMimeData * mimeData) {
+    QFileInfoList fileList;
+    QList<QUrl> urlList = mimeData->urls();
+
+    foreach (QUrl url, urlList) {
+        QFileInfo file(url.toLocalFile());
+        if ((file.isFile()) && filter.contains("*." + file.suffix())) {
+            fileList.append(file);
+        }
+        if (file.isDir()) {
+            scanSubDirs(QDir(url.toLocalFile()), &fileList);
+        }
+    }
+
+    queueModel.append(fileList);
 }
 
 void MainWindow::on_actionConvert_triggered() {

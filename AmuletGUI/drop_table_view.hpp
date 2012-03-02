@@ -43,7 +43,7 @@ protected:
     void dropEvent(QDropEvent * event);
 
 signals:
-    void newDrop(const QMimeData * mimeData = 0);
+    void filesDropped(const QMimeData * mimeData = 0);
 
 };
 

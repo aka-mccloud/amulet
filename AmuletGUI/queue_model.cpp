@@ -53,8 +53,6 @@ QVariant QueueModel::data(const QModelIndex &index, int role) const {
         return QVariant();
 
     QLinkedList<QueueItem>::const_iterator it = queue.begin() + index.row();
-//    FileList::const_iterator it(fileList.begin() + index.row());
-//    QLinkedList<QMap<Phonon::MetaData, QString> >::const_iterator iit(metaDataList.begin() + index.row());
     if (role == Qt::DisplayRole) {
         switch (index.column()) {
         case 0:
@@ -87,19 +85,6 @@ void QueueModel::append(const QFileInfoList & files) {
 
     reset();
 }
-
-//void FilesModel::setFileList(const QLinkedList<QString> & list)
-//{
-//    foreach(QString file, list) {
-//        queue.append(QueueItem(QFileInfo(file)));
-//    }
-
-//    reset();
-//}
-
-//void FilesModel::setFileState(int index, int state) {
-//    (fileList.begin() + index)->second = state;
-//}
 
 void QueueModel::delIndexes(const QModelIndexList & indexList) {
     //TODO: add implementation

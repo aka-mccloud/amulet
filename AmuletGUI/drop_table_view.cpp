@@ -35,5 +35,5 @@ void DropTableView::dragMoveEvent(QDragMoveEvent * event) {
 }
 
 void DropTableView::dropEvent(QDropEvent * event) {
-    emit newDrop(event->mimeData());
+    emit filesDropped(event->mimeData());
 }
