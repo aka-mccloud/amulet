@@ -32,9 +32,10 @@ class WidgetFlac;
 class WidgetFlac : public ICodecWidget {
 
     Q_OBJECT
+    Q_INTERFACES(ICodecWidget)
 
 private:
-    Ui::WidgetFlac *ui;
+    Ui::WidgetFlac * ui;
 
 private slots:
     void on_qualityEdit_valueChanged(int value);

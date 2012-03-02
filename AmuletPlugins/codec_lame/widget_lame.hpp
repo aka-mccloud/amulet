@@ -40,7 +40,6 @@ private:
 private slots:
     void on_qualityEdit_valueChanged(int value);
     void on_qualitySlider_valueChanged(int value);
-
     void on_selectBox_currentIndexChanged(int index);
 
 public:

@@ -57,6 +57,7 @@ private slots:
     void on_actionAddFiles_triggered();
     void on_actionAddDir_triggered();
     void on_filesDropped(const QMimeData * mimeData);
+    void on_actionClearList_triggered();
     void on_actionConvert_triggered();
     void on_formatBox_currentIndexChanged(int index);
 

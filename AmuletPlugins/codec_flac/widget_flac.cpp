@@ -25,6 +25,7 @@
 WidgetFlac::WidgetFlac() :
     ui(new Ui::WidgetFlac) {
     ui->setupUi(this);
+    ui->sampleRateBox->addItems(QString("48000 44100 22050").split(' '));
 }
 
 WidgetFlac::~WidgetFlac() {

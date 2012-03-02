@@ -118,6 +118,10 @@ void MainWindow::on_filesDropped(const QMimeData * mimeData) {
     queueModel.append(fileList);
 }
 
+void MainWindow::on_actionClearList_triggered() {
+    queueModel.clear();
+}
+
 void MainWindow::on_actionConvert_triggered() {
     CodecProperties properties = qobject_cast<ICodecWidget *>(
                 ui->stackedWidget->currentWidget())->getProperties();
