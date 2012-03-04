@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>FlacCodecWidget</class>
+ <widget class="QWidget" name="FlacCodecWidget">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>115</width>
+    <height>335</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <property name="margin">
+    <number>0</number>
+   </property>
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout_2" stretch="0,0">
+     <item>
+      <widget class="QLabel" name="qualityLabel">
+       <property name="minimumSize">
+        <size>
+         <width>45</width>
+         <height>23</height>
+        </size>
+       </property>
+       <property name="text">
+        <string>Quality:</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QSpinBox" name="qualityEdit">
+       <property name="minimumSize">
+        <size>
+         <width>49</width>
+         <height>23</height>
+        </size>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <widget class="QSlider" name="qualitySlider">
+     <property name="minimumSize">
+      <size>
+       <width>100</width>
+       <height>23</height>
+      </size>
+     </property>
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout_3">
+     <item>
+      <widget class="QLabel" name="minLabel">
+       <property name="minimumSize">
+        <size>
+         <width>47</width>
+         <height>15</height>
+        </size>
+       </property>
+       <property name="text">
+        <string>Min</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLabel" name="maxLabel">
+       <property name="minimumSize">
+        <size>
+         <width>47</width>
+         <height>15</height>
+        </size>
+       </property>
+       <property name="text">
+        <string>Max</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <widget class="QLabel" name="sampleRateLabel">
+     <property name="minimumSize">
+      <size>
+       <width>100</width>
+       <height>15</height>
+      </size>
+     </property>
+     <property name="text">
+      <string>Sample rate:</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QComboBox" name="sampleRateBox">
+     <property name="minimumSize">
+      <size>
+       <width>100</width>
+       <height>24</height>
+      </size>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QLabel" name="channelsLabel">
+     <property name="minimumSize">
+      <size>
+       <width>100</width>
+       <height>15</height>
+      </size>
+     </property>
+     <property name="text">
+      <string>Channels:</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QComboBox" name="channelsBox">
+     <property name="minimumSize">
+      <size>
+       <width>100</width>
+       <height>24</height>
+      </size>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <spacer name="verticalSpacer">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>104</width>
+       <height>157</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
