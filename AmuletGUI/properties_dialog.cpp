@@ -22,7 +22,7 @@
 #include <QFileDialog>
 #include <QDesktopServices>
 
-#include "properties_dialog.h"
+#include "properties_dialog.hpp"
 #include "ui_properties_dialog.h"
 
 PropertiesDialog::PropertiesDialog(QSettings * s, QWidget * parent) :
@@ -49,11 +49,11 @@ PropertiesDialog::~PropertiesDialog() {
     delete ui;
 }
 
-void PropertiesDialog::on_samePathRBtn_clicked() {
+void PropertiesDialog::on_samePathRadioButton_clicked() {
     ui->selectButton->setEnabled(false);
 }
 
-void PropertiesDialog::on_pathRBtn_clicked() {
+void PropertiesDialog::on_pathRadioButton_clicked() {
     ui->selectButton->setEnabled(true);
 }
 

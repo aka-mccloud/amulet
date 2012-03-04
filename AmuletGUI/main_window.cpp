@@ -23,8 +23,8 @@
 #include <QFileDialog>
 #include <QUrl>
 
-#include "properties_dialog.h"
-#include "about_dialog.h"
+#include "properties_dialog.hpp"
+#include "about_dialog.hpp"
 #include "main_window.hpp"
 #include "ui_main_window.h"
 

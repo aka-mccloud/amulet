@@ -19,32 +19,38 @@
  *                                                                        *
  **************************************************************************/
 
-#ifndef CODEC_FLAC_HPP
-#define CODEC_FLAC_HPP
+#ifndef PROPERTIES_DIALOG_HPP
+#define PROPERTIES_DIALOG_HPP
 
-#include <QObject>
-#include <QWidget>
-#include <QStringList>
+#include <QDialog>
+#include <QSettings>
 
-#include "icodec_plugin.hpp"
+namespace Ui {
+class PropertiesDialog;
+}
 
-class CodecFlac : public ICodecPlugin {
+class PropertiesDialog : public QDialog {
 
     Q_OBJECT
-    Q_INTERFACES(ICodecPlugin)
-
-private:
-    ICodecProvider * codecProvider;
-    QStringList formats;
 
 public:
-    explicit CodecFlac();
-    virtual ~CodecFlac() {}
+    explicit PropertiesDialog(QSettings * s, QWidget * parent = 0);
+    ~PropertiesDialog();
 
-    QStringList getFromats();
-    ICodecProvider * getCodec();
-    ICodecWidget * getWidget();
+    bool isLanguageChanged;
+
+private:
+    Ui::PropertiesDialog * ui;
+    QSettings * settings;
+    QString targetPath;
+
+private slots:
+    void on_languageBox_currentIndexChanged(int);
+    void on_buttonBox_accepted();
+    void on_selectButton_clicked();
+    void on_pathRadioButton_clicked();
+    void on_samePathRadioButton_clicked();
 
 };
 
-#endif // CODEC_FLAC_HPP
+#endif // PROPERTIES_DIALOG_HPP

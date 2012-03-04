@@ -1,0 +1,2 @@
+add_subdirectory(codec_flac)
+add_subdirectory(codec_lame)

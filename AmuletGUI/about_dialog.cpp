@@ -21,7 +21,7 @@
 
 #include <QPixmap>
 
-#include "about_dialog.h"
+#include "about_dialog.hpp"
 
 AboutDialog::AboutDialog(QWidget * parent) :
     QDialog(parent) {

@@ -19,26 +19,28 @@
  *                                                                        *
  **************************************************************************/
 
-#ifndef PLUGINS_LOADER_HPP
-#define PLUGINS_LOADER_HPP
+#ifndef ABOUT_DIALOG_HPP
+#define ABOUT_DIALOG_HPP
 
-#include "icodec_plugin.hpp"
+#include <QDialog>
 
-class PluginsLoader {
+#include "ui_about_dialog.h"
+
+namespace Ui {
+class AboutDialog;
+}
+
+class AboutDialog : public QDialog {
+
+    Q_OBJECT
 
 private:
-    static PluginsLoader pluginsLoader;
-    PluginMap pluginMap;
-
-    PluginsLoader() {}
-    PluginsLoader(const PluginsLoader &) {}
-
-    PluginsLoader & operator =(const PluginsLoader &) { return *this; }
+    Ui::AboutDialog * ui;
 
 public:
-    static PluginsLoader * instance();
-    void load();
+    AboutDialog(QWidget * parent = 0);
+    ~AboutDialog();
 
 };
 
-#endif // PLUGINS_LOADER_HPP
+#endif // ABOUT_DIALOG_HPP
