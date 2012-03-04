@@ -20,16 +20,24 @@
  **************************************************************************/
 
 #include <QDebug>
+#include <QFileInfo>
 
 #include "converter_worker.hpp"
 
-ConverterWorker::ConverterWorker(IDecoderProcess * decoder,
+ConverterWorker::ConverterWorker(const QFileInfo & sourceFile,
+                                 const QString & targetPath,
+                                 const QString & format,
+                                 IDecoderProcess * decoder,
                                  IEncoderProcess * encoder,
                                  QObject * parent) :
     QObject(parent),
     decoder(decoder),
     encoder(encoder),
     completed(0) {
+    tagData = TagEngine::readFromFile(sourceFile);
+    targetFile = targetPath + "/" + sourceFile.completeBaseName() + "." + format;
+    decoder->setInputFile(sourceFile.absoluteFilePath());
+    encoder->setOutputFile(targetFile);
     this->decoder->getProcessInstance()->setStandardOutputProcess(this->encoder->getProcessInstance());
     connect(this->encoder->getObject(), SIGNAL(finished()),
             SLOT(endConvert()));
@@ -59,6 +67,7 @@ void ConverterWorker::stop() {
 }
 
 void ConverterWorker::endConvert() {
+    TagEngine::writeToFile(QFileInfo(targetFile), tagData);
     emit finished(this);
 }
 

@@ -1,9 +1,14 @@
 project(AmuletCore)
 cmake_minimum_required(VERSION 2.6)
+
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_SOURCE_DIR}/cmake/modules)
+
 find_package(Qt4 REQUIRED)
+find_package(Taglib REQUIRED)
 
 include_directories(
     ${QT_INCLUDES}
+    ${TAGLIB_INCLUDES}
     ${CMAKE_CURRENT_BINARY_DIR}
 )
 
@@ -17,6 +22,8 @@ set(AmuletCore_SOURCES
     plugins_provider.cpp
     queue.cpp
     queue_item.cpp
+    tag_data.cpp
+    tag_engine.cpp
     worker_pool.cpp
 )
 
@@ -40,4 +47,5 @@ add_library(AmuletCore SHARED
 target_link_libraries(AmuletCore
     ${QT_QTCORE_LIBRARY}
     ${QT_QTGUI_LIBRARY}
+    ${TAGLIB_LIBRARIES}
 )

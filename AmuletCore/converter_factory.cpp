@@ -39,13 +39,8 @@ ConverterWorker * ConverterFactory::create(QueueItem * item,
         IEncoderProcess * encoder = codecFactory.getEncoderForType(format);
 
         if ((decoder != NULL) && (encoder != NULL)) {
-            QString targetFile = targetPath + "/" +
-                    file.completeBaseName() + "." + format;
-            decoder->setInputFile(file.absoluteFilePath());
-            encoder->setOutputFile(targetFile);
             encoder->setProperties(props);
-
-            converterWorker = new ConverterWorker(decoder, encoder, this);
+            converterWorker = new ConverterWorker(file, targetPath, format, decoder, encoder, this);
             connect(converterWorker,
                     SIGNAL(progress(int)),
                     item,

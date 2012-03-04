@@ -20,6 +20,7 @@
  **************************************************************************/
 
 #include <QCoreApplication>
+#include <QDebug>
 
 #include "converter_service.hpp"
 
@@ -65,9 +66,9 @@ void ConverterService::setOutFormat(const QString & format) {
 
 void ConverterService::pushNext() {
     if (queue->getUnprocessedCounter() != 0) {
+        QueueItem * queueItem = queue->getFirstUnprocessed();
         IWorker * worker = factory.create(
-                    queue->getFirstUnprocessed(), targetPath, format, properties);
-//        queue->addInProgress();
+            queueItem, targetPath, format, properties);
         pool.execute(worker);
     } else if (pool.isEmpty()) {
         emit finished();

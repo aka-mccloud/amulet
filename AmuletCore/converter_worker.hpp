@@ -24,6 +24,8 @@
 
 #include <QLinkedList>
 
+#include "tag_data.h"
+#include "tag_engine.h"
 #include "iworker.hpp"
 #include "idecoder_process.hpp"
 #include "iencoder_process.hpp"
@@ -34,6 +36,8 @@ class ConverterWorker : public QObject, public IWorker {
     Q_INTERFACES(IWorker)
 
 private:
+    TagData * tagData;
+    QString targetFile;
     IDecoderProcess * decoder;
     IEncoderProcess * encoder;
     int completed;
@@ -43,7 +47,10 @@ private slots:
     void progressReady(int p);
 
 public:
-    explicit ConverterWorker(IDecoderProcess * decoder,
+    explicit ConverterWorker(const QFileInfo & sourceFile,
+                             const QString & targetPath,
+                             const QString & format,
+                             IDecoderProcess * decoder,
                              IEncoderProcess * encoder,
                              QObject * parent = 0);
     virtual ~ConverterWorker();

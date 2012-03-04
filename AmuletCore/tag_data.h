@@ -19,34 +19,28 @@
  *                                                                        *
  **************************************************************************/
 
-#include <QtPlugin>
+#ifndef TAG_DATA_H
+#define TAG_DATA_H
 
-#include "codec_provider_flac.hpp"
-#include "widget_flac.hpp"
-#include "codec_flac.hpp"
+#include <QString>
 
-CodecFlac::CodecFlac() {
-    codecProvider = new CodecProviderFlac();
-    formats += "flac";
-}
+class TagData {
 
-CodecFlac::~CodecFlac() {
+public:
+    explicit TagData();
+    virtual ~TagData();
+    
+    QString album;
+    QString artist;
+    QString comment;
+    QString composer;
+    QString genre;
+    QString title;
+    int disc;
+    int discTotal;
+    int track;
+    int year;
 
-}
+};
 
-QStringList CodecFlac::getFromats() {
-
-    return formats;
-}
-
-ICodecProvider * CodecFlac::getCodec() {
-
-    return codecProvider;
-}
-
-ICodecWidget * CodecFlac::getWidget() {
-
-    return new WidgetFlac();
-}
-
-Q_EXPORT_PLUGIN(CodecFlac)
+#endif // TAG_DATA_H

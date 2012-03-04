@@ -39,7 +39,7 @@ private:
 
 public:
     explicit CodecFlac();
-    virtual ~CodecFlac() {}
+    virtual ~CodecFlac();
 
     QStringList getFromats();
     ICodecProvider * getCodec();

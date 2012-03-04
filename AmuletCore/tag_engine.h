@@ -19,34 +19,19 @@
  *                                                                        *
  **************************************************************************/
 
-#include <QtPlugin>
+#ifndef TAG_ENGINE_H
+#define TAG_ENGINE_H
 
-#include "codec_provider_flac.hpp"
-#include "widget_flac.hpp"
-#include "codec_flac.hpp"
+#include <QFileInfo>
 
-CodecFlac::CodecFlac() {
-    codecProvider = new CodecProviderFlac();
-    formats += "flac";
-}
+#include "tag_data.h"
 
-CodecFlac::~CodecFlac() {
+class TagEngine {
+    
+public:
+    static TagData * readFromFile(const QFileInfo & file);
+    static bool writeToFile(const QFileInfo & file, TagData * tagData);
+    
+};
 
-}
-
-QStringList CodecFlac::getFromats() {
-
-    return formats;
-}
-
-ICodecProvider * CodecFlac::getCodec() {
-
-    return codecProvider;
-}
-
-ICodecWidget * CodecFlac::getWidget() {
-
-    return new WidgetFlac();
-}
-
-Q_EXPORT_PLUGIN(CodecFlac)
+#endif // TAG_ENGINE_H

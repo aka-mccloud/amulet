@@ -19,34 +19,16 @@
  *                                                                        *
  **************************************************************************/
 
-#include <QtPlugin>
+#include "tag_data.h"
 
-#include "codec_provider_flac.hpp"
-#include "widget_flac.hpp"
-#include "codec_flac.hpp"
-
-CodecFlac::CodecFlac() {
-    codecProvider = new CodecProviderFlac();
-    formats += "flac";
+TagData::TagData() :
+    disc(0),
+    discTotal(0),
+    track(0),
+    year(0) {
+    
 }
 
-CodecFlac::~CodecFlac() {
+TagData::~TagData() {
 
 }
-
-QStringList CodecFlac::getFromats() {
-
-    return formats;
-}
-
-ICodecProvider * CodecFlac::getCodec() {
-
-    return codecProvider;
-}
-
-ICodecWidget * CodecFlac::getWidget() {
-
-    return new WidgetFlac();
-}
-
-Q_EXPORT_PLUGIN(CodecFlac)
