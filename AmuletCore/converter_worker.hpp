@@ -41,6 +41,8 @@ private:
     IDecoderProcess * decoder;
     IEncoderProcess * encoder;
     int completed;
+    
+    QString replaceTags(QString path);
 
 private slots:
     void endConvert();

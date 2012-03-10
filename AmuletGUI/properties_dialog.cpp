@@ -37,9 +37,9 @@ PropertiesDialog::PropertiesDialog(QSettings * s, QWidget * parent) :
     if (settings->value("path", false).toBool()) {
         ui->pathRadioButton->setChecked(true);
         ui->selectButton->setEnabled(true);
-        ui->pathRadioButton->setText(tr("Path ") + targetPath);
+        ui->pathEdit->setEnabled(true);
     }
-    ui->pathRadioButton->setText(tr("Path ") + targetPath);
+    ui->pathEdit->setText(targetPath);
     ui->threadsBox->setValue(settings->value("threads", 1).toInt());
     ui->languageBox->setCurrentIndex(ui->languageBox->findText(settings->value("language", "en").toString()));
     settings->endGroup();
@@ -51,25 +51,26 @@ PropertiesDialog::~PropertiesDialog() {
 
 void PropertiesDialog::on_samePathRadioButton_clicked() {
     ui->selectButton->setEnabled(false);
+    ui->pathEdit->setEnabled(false);
 }
 
 void PropertiesDialog::on_pathRadioButton_clicked() {
     ui->selectButton->setEnabled(true);
+    ui->pathEdit->setEnabled(true);
 }
 
 void PropertiesDialog::on_selectButton_clicked() {
-    QString tmpDir = QFileDialog::getExistingDirectory(this, tr("Select dir"), targetPath);
+    QString targetPath = QFileDialog::getExistingDirectory(this, tr("Select dir"), targetPath);
 
-    if (!tmpDir.isEmpty()) {
-        targetPath = tmpDir;
-        ui->pathRadioButton->setText(tr("Path ") + targetPath);
+    if (!targetPath.isEmpty()) {
+        ui->pathEdit->setText(targetPath);
     }
 }
 
 void PropertiesDialog::on_buttonBox_accepted() {
     settings->beginGroup("Properties");
     settings->setValue("path", ui->pathRadioButton->isChecked());
-    settings->setValue("target_path", targetPath);
+    settings->setValue("target_path", ui->pathEdit->text());
     settings->setValue("threads", ui->threadsBox->value());
     settings->setValue("language", ui->languageBox->currentText());
     settings->endGroup();
