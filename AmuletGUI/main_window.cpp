@@ -23,6 +23,8 @@
 #include <QFileDialog>
 #include <QUrl>
 
+#include <math.h>
+
 #include "properties_dialog.hpp"
 #include "about_dialog.hpp"
 #include "main_window.hpp"
@@ -48,6 +50,9 @@ MainWindow::MainWindow(QWidget *parent) :
             SIGNAL(progressChanged()),
             &queueModel,
             SLOT(updateProgress()));
+    connect(&converterService,
+            SIGNAL(progressChanged()),
+            SLOT(changeProgress()));
     connect(ui->queueTableView,
             SIGNAL(filesDropped(const QMimeData *)),
             SLOT(on_filesDropped(const QMimeData *)));
@@ -159,4 +164,8 @@ void MainWindow::on_actionProperties_triggered() {
 void MainWindow::on_actionAbout_triggered() {
     AboutDialog about(this);
     about.exec();
+}
+
+void MainWindow::changeProgress() {
+    ui->progressBar->setValue(round(queueModel.getQueue()->countProgress()));
 }

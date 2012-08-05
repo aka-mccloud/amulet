@@ -63,8 +63,9 @@ private slots:
     void on_actionConvert_triggered();
     void on_formatBox_currentIndexChanged(int index);
     void on_actionProperties_triggered();
-
     void on_actionAbout_triggered();
+    void changeProgress();
+
 };
 
 #endif // MAIN_WINDOW_HPP

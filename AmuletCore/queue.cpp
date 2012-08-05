@@ -59,6 +59,16 @@ void Queue::cleanProgress() {
     }
 }
 
+double Queue::countProgress() {
+    int progress(0);
+
+    foreach (QueueItem item, queue) {
+        progress += item.getProgress();
+    }
+
+    return progress / size();
+}
+
 int Queue::size() const {
 
     return queue.size();

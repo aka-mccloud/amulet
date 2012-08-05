@@ -45,6 +45,7 @@ public:
     QLinkedList<QueueItem>::const_iterator begin() const;
     void clear();
     void cleanProgress();
+    double countProgress();
     int size() const;
     int countByStatus(QueueItem::Status status);
     int getUnprocessedCounter();
