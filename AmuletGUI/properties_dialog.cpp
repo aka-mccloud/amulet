@@ -60,7 +60,7 @@ void PropertiesDialog::on_pathRadioButton_clicked() {
 }
 
 void PropertiesDialog::on_selectButton_clicked() {
-    QString targetPath = QFileDialog::getExistingDirectory(this, tr("Select dir"), targetPath);
+    QString targetPath = QFileDialog::getExistingDirectory(this, tr("Select dir"), this->targetPath);
 
     if (!targetPath.isEmpty()) {
         ui->pathEdit->setText(targetPath);

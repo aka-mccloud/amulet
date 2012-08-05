@@ -34,7 +34,8 @@ Queue::Queue(Queue & queue) :
     processed(queue.processed) {
 }
 
-void Queue::append(const QueueItem & item) {
+void Queue::append(QueueItem item) {
+//    item.setStatus(QueueItem::WAITING);
     queue.append(item);
 }
 
@@ -49,40 +50,50 @@ void Queue::clear() {
     queue.clear();
 }
 
+void Queue::cleanProgress() {
+    QLinkedList<QueueItem>::iterator it;
+
+    for (it = queue.begin(); it != queue.end(); ++it) {
+        it->setStatus(QueueItem::WAITING);
+        it->setProgress(0);
+    }
+}
+
 int Queue::size() const {
 
     return queue.size();
 }
 
-int Queue::getProcessedCounter() {
+int Queue::countByStatus(QueueItem::Status status) {
+    QLinkedList<QueueItem>::const_iterator it;
+    int counter(0);
 
-    return processed;
+    for (it = queue.begin(); it != queue.end(); ++it) {
+        if (it->getStatus() == status) counter++;
+    }
+
+    return counter;
 }
 
 int Queue::getUnprocessedCounter() {
+    int count = 0;
+    foreach (QueueItem item, queue) {
+        if (item.getStatus() == QueueItem::WAITING)
+            count++;
+    }
 
-    return queue.size() - processed - inProgress;
-}
-
-void Queue::addInProgress() {
-    inProgress++;
+    return count;
 }
 
 QueueItem * Queue::getFirstUnprocessed() {
     QLinkedList<QueueItem>::iterator it;
 
-    for(it = queue.begin() + processed + inProgress; it != queue.end(); ++it) {
-        if ((*it).getProgress() == 0) {
-            inProgress++;
-
+    for (it = queue.begin(); it != queue.end(); ++it) {
+        if (it->getStatus() == QueueItem::WAITING) {
+            it->setStatus(QueueItem::PROCESSING);
             return &(*it);
         }
     }
 
     return NULL;
-}
-
-void Queue::update() {
-    inProgress--;
-    processed++;
 }

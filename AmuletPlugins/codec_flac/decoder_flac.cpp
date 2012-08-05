@@ -25,9 +25,9 @@ DecoderFlac::DecoderFlac(QObject * parent) :
     QObject(parent) {
     args += QString("-d");
 
-    process = new QProcess(this);
-    connect(process, SIGNAL(readyReadStandardError()), this, SLOT(calculateProgress()));
-    connect(process, SIGNAL(finished(int)), this, SLOT(finished(int)));
+    process = new QProcess();
+    connect(process, SIGNAL(readyReadStandardError()), SLOT(calculateProgress()));
+    connect(process, SIGNAL(finished(int)), SLOT(finished(int)));
 }
 
 DecoderFlac::~DecoderFlac() {

@@ -29,20 +29,33 @@ class QueueItem : public QObject {
 
     Q_OBJECT
 
+public:
+    enum Status {
+        NONE,
+        WAITING,
+        PROCESSING,
+        STOPPED,
+        PROCESSED,
+        FAILED
+    };
+
 private:
     QFileInfo file;
     int progress;
+    Status status;
 
 public:
     explicit QueueItem(QFileInfo file, QObject * parent = 0);
-    explicit QueueItem(const QueueItem & item);
+    QueueItem(const QueueItem & item);
     virtual ~QueueItem() {}
 
-    int getProgress() const;
+    const int getProgress() const;
     const QFileInfo & getFile() const;
+    const Status getStatus() const;
+    void setStatus(Status status);
 
 public slots:
-    void setPprogress(int);
+    void setProgress(int);
 
 };
 

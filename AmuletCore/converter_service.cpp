@@ -54,10 +54,7 @@ void ConverterService::setOutPath(const QString & targetPath) {
 
 void ConverterService::setQueue(Queue * queue) {
     this->queue = queue;
-    connect(&pool,
-            SIGNAL(workerFinished()),
-            this->queue,
-            SLOT(update()));
+    this->queue->cleanProgress();
 }
 
 void ConverterService::setOutFormat(const QString & format) {
@@ -67,8 +64,8 @@ void ConverterService::setOutFormat(const QString & format) {
 void ConverterService::pushNext() {
     if (queue->getUnprocessedCounter() != 0) {
         QueueItem * queueItem = queue->getFirstUnprocessed();
-        IWorker * worker = factory.create(
-            queueItem, targetPath, format, properties);
+        qDebug() << "Start converting file " << queueItem->getFile().absoluteFilePath();
+        IWorker * worker = factory.create(queueItem, targetPath, format, properties);
         pool.execute(worker);
     } else if (pool.isEmpty()) {
         emit finished();

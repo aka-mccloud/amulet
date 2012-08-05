@@ -44,7 +44,7 @@ ConverterWorker * ConverterFactory::create(QueueItem * item,
             connect(converterWorker,
                     SIGNAL(progress(int)),
                     item,
-                    SLOT(setPprogress(int)));
+                    SLOT(setProgress(int)));
         }
     }
 

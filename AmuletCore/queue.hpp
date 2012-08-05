@@ -41,17 +41,16 @@ public:
     explicit Queue(Queue & queue);
     virtual ~Queue() {}
 
-    void append(const QueueItem & item);
+    void append(QueueItem item);
     QLinkedList<QueueItem>::const_iterator begin() const;
     void clear();
+    void cleanProgress();
     int size() const;
-    int getProcessedCounter();
+    int countByStatus(QueueItem::Status status);
     int getUnprocessedCounter();
-    void addInProgress();
     QueueItem * getFirstUnprocessed();
 
 public slots:
-    void update();
 
 };
 

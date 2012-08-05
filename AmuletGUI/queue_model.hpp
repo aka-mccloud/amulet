@@ -34,9 +34,6 @@ class QueueModel : public QAbstractTableModel {
 private:
     Queue queue;
 
-private slots:
-    void updateProgress();
-
 public:
     explicit QueueModel(QObject *parent = 0);
     virtual ~QueueModel() {}
@@ -53,6 +50,9 @@ public:
     void delIndexes(const QModelIndexList & indexList);
     void clear();
     Queue * getQueue();
+
+public slots:
+    void updateProgress();
 
 };
 

@@ -24,16 +24,18 @@
 QueueItem::QueueItem(QFileInfo file, QObject * parent) :
     QObject(parent),
     file(file),
-    progress(0) {
+    progress(0),
+    status(NONE) {
 }
 
 QueueItem::QueueItem(const QueueItem & item) :
     QObject(item.parent()),
     file(item.file),
-    progress(item.progress) {
+    progress(item.progress),
+    status(item.status) {
 }
 
-int QueueItem::getProgress() const {
+const int QueueItem::getProgress() const {
 
     return progress;
 }
@@ -43,6 +45,14 @@ const QFileInfo &QueueItem::getFile() const {
     return file;
 }
 
-void QueueItem::setPprogress(int progress) {
+const QueueItem::Status QueueItem::getStatus() const {
+    return status;
+}
+
+void QueueItem::setStatus(QueueItem::Status status) {
+    this->status = status;
+}
+
+void QueueItem::setProgress(int progress) {
     this->progress = progress;
 }
