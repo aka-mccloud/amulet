@@ -37,7 +37,7 @@ add_library(codec_lame SHARED
 target_link_libraries(codec_lame
     ${QT_QTCORE_LIBRARY}
     ${QT_QTGUI_LIBRARY}
-    AmuletCore
+    amulet_core
 )
 
 add_custom_command(TARGET codec_lame POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:codec_lame> ${CMAKE_CURRENT_BINARY_DIR}/../$<TARGET_FILE_NAME:codec_lame> VERBATIM)

@@ -21,7 +21,7 @@
 
 #include <QFileInfo>
 #include <QIcon>
-#include <QMultiMap>
+#include <QSet>
 
 #include "queue_model.hpp"
 
@@ -52,7 +52,7 @@ QVariant QueueModel::data(const QModelIndex &index, int role) const {
     if (!index.isValid())
         return QVariant();
 
-    QLinkedList<QueueItem>::const_iterator it = queue.begin() + index.row();
+    QueueItemList::const_iterator it = queue.begin() + index.row();
     if (role == Qt::DisplayRole) {
         switch (index.column()) {
         case 0:
@@ -87,17 +87,12 @@ void QueueModel::append(const QFileInfoList & files) {
 }
 
 void QueueModel::delIndexes(const QModelIndexList & indexList) {
-    //TODO: add implementation
-//    QModelIndexList::const_iterator iit;
-//    QList<FileList::iterator> itList;
+    QSet<int> indices;
 
-//    for (iit = indexList.begin(); iit != indexList.end(); ++iit) {
-//        itList.push_back(fileList.begin() + iit->row());
-//    }
-
-//    for (int i = 0; i < indexList.size(); i++) {
-//        fileList.erase(itList[i]);
-//    }
+    foreach (QModelIndex index, indexList) {
+        indices.insert(index.row());
+    }
+    queue.removeIndices(indices.toList());
 
     reset();
 }

@@ -41,6 +41,7 @@ private:
     QString inputFile;
     QString outputFile;
     int completed;
+    bool terminated;
 
 private slots:
     void calculateProgress();

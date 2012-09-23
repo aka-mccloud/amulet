@@ -64,3 +64,9 @@ int WorkerPool::size() {
 
     return workerList.size();
 }
+
+void WorkerPool::stop() {
+    foreach (IWorker * worker, workerList) {
+        worker->stop();
+    }
+}

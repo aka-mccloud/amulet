@@ -22,7 +22,7 @@
 #ifndef CONVERTER_SERVICE_HPP
 #define CONVERTER_SERVICE_HPP
 
-#include <QObject>
+#include <QSettings>
 #include <QFileInfo>
 #include <QList>
 #include <QDir>
@@ -46,6 +46,7 @@ private:
     int threads;
     ConverterFactory factory;
     WorkerPool pool;
+    bool running;
 
 private slots:
     void pushNext();
@@ -55,11 +56,13 @@ public:
     explicit ConverterService(QObject * parent = 0);
     virtual ~ConverterService();
 
+    void setSettings(const QSettings & settings);
     void setCodecProperties(CodecProperties props);
     void setMaxThreadCount(int maxThreadCount);
     void setOutPath(const QString & targetPath);
     void setQueue(Queue * queue);
     void setOutFormat(const QString & format);
+    bool isRunning();
 
 public slots:
     void start();

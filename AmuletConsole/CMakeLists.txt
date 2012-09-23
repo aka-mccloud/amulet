@@ -12,11 +12,11 @@ set(AmuletConsole_SOURCES
     main.cpp
 )
 
-add_executable(AmuletConsole
+add_executable(amulet_console
     ${AmuletConsole_SOURCES}
 )
 
-target_link_libraries(AmuletConsole
+target_link_libraries(amulet_console
     ${QT_QTCORE_LIBRARY}
-    AmuletCore
+    amulet_core
 )

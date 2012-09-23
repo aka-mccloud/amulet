@@ -26,15 +26,16 @@
 #include <QLinkedList>
 
 #include "queue_item.hpp"
+#include <qlinkedlist.h>
+
+typedef QLinkedList<QueueItem> QueueItemList;
 
 class Queue : public QObject {
 
     Q_OBJECT
 
 private:
-    QLinkedList<QueueItem> queue;
-    int inProgress;
-    int processed;
+    QueueItemList queue;
 
 public:
     explicit Queue(QObject * parent = 0);
@@ -42,13 +43,13 @@ public:
     virtual ~Queue() {}
 
     void append(QueueItem item);
-    QLinkedList<QueueItem>::const_iterator begin() const;
+    QueueItemList::const_iterator begin() const;
     void clear();
     void cleanProgress();
     double countProgress();
+    void removeIndices(QList<int> indices);
     int size() const;
     int countByStatus(QueueItem::Status status);
-    int getUnprocessedCounter();
     QueueItem * getFirstUnprocessed();
 
 public slots:

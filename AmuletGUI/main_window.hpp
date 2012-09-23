@@ -50,6 +50,7 @@ private:
     QString defaultPath;
 
     void scanSubDirs(const QDir & dir, QFileInfoList * fileList);
+    void toggleToolBar(bool state);
 
 public:
     explicit MainWindow(QWidget *parent = 0);
@@ -58,13 +59,15 @@ public:
 private slots:
     void on_actionAddFiles_triggered();
     void on_actionAddDir_triggered();
-    void on_filesDropped(const QMimeData * mimeData);
     void on_actionClearList_triggered();
     void on_actionConvert_triggered();
-    void on_formatBox_currentIndexChanged(int index);
+    void on_actionDelete_triggered();
     void on_actionProperties_triggered();
     void on_actionAbout_triggered();
+    void on_formatBox_currentIndexChanged(int index);
     void changeProgress();
+    void filesDropped(const QMimeData * mimeData);
+    void finished();
 
 };
 

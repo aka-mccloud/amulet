@@ -22,16 +22,12 @@
 #include "queue.hpp"
 
 Queue::Queue(QObject * parent) :
-    QObject(parent),
-    inProgress(0),
-    processed(0) {
+    QObject(parent) {
 }
 
 Queue::Queue(Queue & queue) :
     QObject(queue.parent()),
-    queue(queue.queue),
-    inProgress(queue.inProgress),
-    processed(queue.processed) {
+    queue(queue.queue) {
 }
 
 void Queue::append(QueueItem item) {
@@ -39,19 +35,16 @@ void Queue::append(QueueItem item) {
     queue.append(item);
 }
 
-QLinkedList<QueueItem>::const_iterator Queue::begin() const {
-
+QueueItemList::const_iterator Queue::begin() const {
     return queue.begin();
 }
 
 void Queue::clear() {
-    inProgress = 0;
-    processed = 0;
     queue.clear();
 }
 
 void Queue::cleanProgress() {
-    QLinkedList<QueueItem>::iterator it;
+    QueueItemList::iterator it;
 
     for (it = queue.begin(); it != queue.end(); ++it) {
         it->setStatus(QueueItem::WAITING);
@@ -69,26 +62,27 @@ double Queue::countProgress() {
     return progress / size();
 }
 
-int Queue::size() const {
+void Queue::removeIndices(QList<int> indices) {
+    QList<QueueItemList::iterator> its;
 
+    foreach (int index, indices) {
+        its.push_back(queue.begin() + index);
+    }
+
+    foreach (QueueItemList::iterator it, its) {
+        queue.erase(it);
+    }
+}
+
+int Queue::size() const {
     return queue.size();
 }
 
 int Queue::countByStatus(QueueItem::Status status) {
-    QLinkedList<QueueItem>::const_iterator it;
-    int counter(0);
-
-    for (it = queue.begin(); it != queue.end(); ++it) {
-        if (it->getStatus() == status) counter++;
-    }
-
-    return counter;
-}
-
-int Queue::getUnprocessedCounter() {
     int count = 0;
+
     foreach (QueueItem item, queue) {
-        if (item.getStatus() == QueueItem::WAITING)
+        if (item.getStatus() == status)
             count++;
     }
 
@@ -96,7 +90,7 @@ int Queue::getUnprocessedCounter() {
 }
 
 QueueItem * Queue::getFirstUnprocessed() {
-    QLinkedList<QueueItem>::iterator it;
+    QueueItemList::iterator it;
 
     for (it = queue.begin(); it != queue.end(); ++it) {
         if (it->getStatus() == QueueItem::WAITING) {

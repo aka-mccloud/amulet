@@ -31,17 +31,14 @@ CodecLame::CodecLame() {
 }
 
 QStringList CodecLame::getFromats() {
-
     return formats;
 }
 
 ICodecProvider * CodecLame::getCodec() {
-
     return codecProvider;
 }
 
 ICodecWidget * CodecLame::getWidget() {
-
     return new WidgetLame();
 }
 

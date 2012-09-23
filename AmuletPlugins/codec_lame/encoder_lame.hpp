@@ -40,6 +40,7 @@ private:
     QStringList args;
     QString inputFile;
     QString outputFile;
+    bool terminated;
 
 private slots:
     void finished(int);

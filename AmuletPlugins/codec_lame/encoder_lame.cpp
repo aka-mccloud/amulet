@@ -22,7 +22,8 @@
 #include "encoder_lame.hpp"
 
 EncoderLame::EncoderLame(QObject * parent) :
-    QObject(parent) {
+    QObject(parent),
+    terminated(false) {
     options[CodecProperties::BITRATE] = "-b";
     options[CodecProperties::SAMPLERATE] = "--resample";
     options[CodecProperties::LOWPASS] = "--lowpass";
@@ -44,12 +45,10 @@ void EncoderLame::setProperties(const CodecProperties & props) {
 }
 
 QProcess * EncoderLame::getProcessInstance() {
-
     return process;
 }
 
 QObject * EncoderLame::getObject() {
-
     return this;
 }
 
@@ -65,9 +64,12 @@ void EncoderLame::start() {
 }
 
 void EncoderLame::stop() {
+    terminated = true;
     process->terminate();
 }
 
 void EncoderLame::finished(int) {
-    emit finished();
+    if (!terminated) {
+        emit finished();
+    }
 }

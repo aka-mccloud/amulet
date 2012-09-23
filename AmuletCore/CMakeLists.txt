@@ -39,13 +39,15 @@ set(AmuletCore_HEADERS
 
 qt4_wrap_cpp(AmuletCore_SOURCES_MOC ${AmuletCore_HEADERS})
 
-add_library(AmuletCore SHARED
+add_library(amulet_core SHARED
     ${AmuletCore_SOURCES}
     ${AmuletCore_SOURCES_MOC}
 )
 
-target_link_libraries(AmuletCore
+target_link_libraries(amulet_core
     ${QT_QTCORE_LIBRARY}
     ${QT_QTGUI_LIBRARY}
     ${TAGLIB_LIBRARIES}
 )
+
+install(TARGETS amulet_core DESTINATION lib)

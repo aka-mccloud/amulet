@@ -25,24 +25,25 @@
 
 #include "converter_worker.hpp"
 
-ConverterWorker::ConverterWorker(const QFileInfo & sourceFile,
+ConverterWorker::ConverterWorker(QueueItem * queueItem,
                                  const QString & targetPath,
                                  const QString & format,
                                  IDecoderProcess * decoder,
                                  IEncoderProcess * encoder,
                                  QObject * parent) :
     QObject(parent),
+    queueItem(queueItem),
     decoder(decoder),
     encoder(encoder),
     completed(0) {
-    tagData = TagEngine::readFromFile(sourceFile);
+    tagData = TagEngine::readFromFile(queueItem->getFile());
     targetFile = replaceTags(targetPath) + "." + format;
     QDir dir(targetFile.section('/', 0, -2));
     if (!dir.exists()) {
         dir.mkpath(dir.absolutePath());
     }
 
-    decoder->setInputFile(sourceFile.absoluteFilePath());
+    decoder->setInputFile(queueItem->getFile().absoluteFilePath());
     encoder->setOutputFile(targetFile);
     this->decoder->getProcessInstance()->setStandardOutputProcess(this->encoder->getProcessInstance());
     connect(this->encoder->getObject(),
@@ -90,6 +91,8 @@ void ConverterWorker::endConvert() {
 
 void ConverterWorker::progressReady(int p) {
 //    qDebug() << p;
+    queueItem->setProgress(p);
+
     emit progress(p);
 }
 

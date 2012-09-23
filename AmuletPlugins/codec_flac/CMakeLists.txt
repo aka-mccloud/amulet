@@ -39,7 +39,7 @@ add_library(codec_flac SHARED
 target_link_libraries(codec_flac
     ${QT_QTCORE_LIBRARY}
     ${QT_QTGUI_LIBRARY}
-    AmuletCore
+    amulet_core
 )
 
 add_custom_command(TARGET codec_flac POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:codec_flac> ${CMAKE_CURRENT_BINARY_DIR}/../$<TARGET_FILE_NAME:codec_flac> VERBATIM)

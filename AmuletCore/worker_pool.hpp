@@ -47,7 +47,7 @@ public:
     int size();
 
 public slots:
-
+    void stop();
 
 signals:
     void progressChanged();

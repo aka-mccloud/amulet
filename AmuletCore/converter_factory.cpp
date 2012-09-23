@@ -40,11 +40,7 @@ ConverterWorker * ConverterFactory::create(QueueItem * item,
 
         if ((decoder != NULL) && (encoder != NULL)) {
             encoder->setProperties(props);
-            converterWorker = new ConverterWorker(file, targetPath, format, decoder, encoder, this);
-            connect(converterWorker,
-                    SIGNAL(progress(int)),
-                    item,
-                    SLOT(setProgress(int)));
+            converterWorker = new ConverterWorker(item, targetPath, format, decoder, encoder, this);
         }
     }
 

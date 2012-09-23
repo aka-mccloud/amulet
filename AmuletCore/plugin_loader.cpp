@@ -19,7 +19,6 @@
  *                                                                        *
  **************************************************************************/
 
-#include <QCoreApplication>
 #include <QPluginLoader>
 #include <QDebug>
 #include <QDir>
@@ -29,24 +28,27 @@
 PluginLoader PluginLoader::pluginsLoader;
 
 PluginLoader::PluginLoader() {
-    QDir pluginsDir = QDir(QCoreApplication::applicationDirPath());
-            pluginsDir.cd("../AmuletPlugins");
+    QStringList dirs = QString(qgetenv("XDG_DATA_DIRS")).split(':', QString::SkipEmptyParts);
 
-    foreach (QString fileName, pluginsDir.entryList(QDir::Files)) {
-        QPluginLoader plugin(pluginsDir.absoluteFilePath(fileName));
-        ICodecPlugin * codecPlugin = qobject_cast<ICodecPlugin *>(plugin.instance());
-        if (codecPlugin) {
-            foreach(QString format, codecPlugin->getFromats()) {
-                pluginMap.insert(format, codecPlugin);
+    foreach (QString dir, dirs) {
+        QDir pluginsDir = QDir(dir);
+        pluginsDir.cd("amulet/plugins");
+
+        foreach (QString fileName, pluginsDir.entryList(QDir::Files)) {
+            QPluginLoader plugin(pluginsDir.absoluteFilePath(fileName));
+            ICodecPlugin * codecPlugin = qobject_cast<ICodecPlugin *>(plugin.instance());
+            if (codecPlugin) {
+                foreach(QString format, codecPlugin->getFromats()) {
+                    pluginMap.insert(format, codecPlugin);
+                }
+            } else {
+                qDebug() << plugin.errorString();
             }
-        } else {
-            qDebug() << plugin.errorString();
         }
     }
 }
 
 PluginLoader * PluginLoader::instance() {
-
     return &pluginsLoader;
 }
 
@@ -61,7 +63,6 @@ CodecMap PluginLoader::getCodecMap() {
 }
 
 QStringList PluginLoader::getFormats() {
-
     return pluginMap.keys();
 }
 

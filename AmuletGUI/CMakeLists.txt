@@ -40,14 +40,17 @@ qt4_wrap_ui(AmuletGUI_SOURCES_UI ${AmuletGUI_UI})
 qt4_wrap_cpp(AmuletGUI_SOURCES_MOC ${AmuletGUI_HEADERS})
 qt4_add_resources(AmuletGUI_SOURCES_QRC ${AmuletGUI_QRC})
 
-add_executable(AmuletGUI
+add_executable(amulet
     ${AmuletGUI_SOURCES}
     ${AmuletGUI_SOURCES_UI}
     ${AmuletGUI_SOURCES_MOC}
     ${AmuletGUI_SOURCES_QRC}
 )
-target_link_libraries(AmuletGUI
+
+target_link_libraries(amulet
     ${QT_QTCORE_LIBRARY}
     ${QT_QTGUI_LIBRARY}
-    AmuletCore
+    amulet_core
 )
+
+install(TARGETS amulet DESTINATION bin)

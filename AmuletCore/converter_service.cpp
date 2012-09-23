@@ -19,7 +19,7 @@
  *                                                                        *
  **************************************************************************/
 
-#include <QCoreApplication>
+#include <QDesktopServices>
 #include <QDebug>
 
 #include "converter_service.hpp"
@@ -27,7 +27,8 @@
 ConverterService::ConverterService(QObject * parent) :
     QObject(parent),
     threads(1),
-    pool(parent) {
+    pool(parent),
+    running(false) {
     connect(&pool,
             SIGNAL(workerFinished()),
             SLOT(pushNext()));
@@ -38,6 +39,14 @@ ConverterService::ConverterService(QObject * parent) :
 
 ConverterService::~ConverterService() {
     stop();
+}
+
+void ConverterService::setSettings(const QSettings & settings) {
+    if (settings.value("Properties/path", false).toBool()) {
+        targetPath = settings.value("Properties/target_path",
+            QDesktopServices::storageLocation(QDesktopServices::HomeLocation)).toString();
+    }
+    setMaxThreadCount(settings.value("Properties/threads", 1).toInt());
 }
 
 void ConverterService::setCodecProperties(CodecProperties props) {
@@ -61,16 +70,19 @@ void ConverterService::setOutFormat(const QString & format) {
     this->format = format;
 }
 
+bool ConverterService::isRunning() {
+    return running;
+}
+
 void ConverterService::pushNext() {
-    if (queue->getUnprocessedCounter() != 0) {
+    if (queue->countByStatus(QueueItem::WAITING) != 0) {
         QueueItem * queueItem = queue->getFirstUnprocessed();
-        qDebug() << "Start converting file " << queueItem->getFile().absoluteFilePath();
         IWorker * worker = factory.create(queueItem, targetPath, format, properties);
         pool.execute(worker);
     } else if (pool.isEmpty()) {
+        running = false;
         emit finished();
     }
-
 }
 
 void ConverterService::updateProgress() {
@@ -78,11 +90,15 @@ void ConverterService::updateProgress() {
 }
 
 void ConverterService::start() {
-    for (int i = 0; i < threads; i++) {
-        pushNext();
+    if (!running) {
+        running = true;
+        for (int i = 0; i < threads; i++) {
+            pushNext();
+        }
     }
 }
 
 void ConverterService::stop() {
-    //TODO: add implementation
+    pool.stop();
+    running = false;
 }

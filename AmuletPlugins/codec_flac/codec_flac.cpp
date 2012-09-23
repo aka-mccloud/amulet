@@ -35,17 +35,14 @@ CodecFlac::~CodecFlac() {
 }
 
 QStringList CodecFlac::getFromats() {
-
     return formats;
 }
 
 ICodecProvider * CodecFlac::getCodec() {
-
     return codecProvider;
 }
 
 ICodecWidget * CodecFlac::getWidget() {
-
     return new WidgetFlac();
 }
 

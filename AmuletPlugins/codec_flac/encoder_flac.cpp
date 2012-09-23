@@ -41,12 +41,10 @@ void EncoderFlac::setProperties(const CodecProperties & props) {
 }
 
 QProcess * EncoderFlac::getProcessInstance() {
-
     return process;
 }
 
 QObject * EncoderFlac::getObject() {
-
     return this;
 }
 

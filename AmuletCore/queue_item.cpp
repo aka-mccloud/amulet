@@ -35,13 +35,15 @@ QueueItem::QueueItem(const QueueItem & item) :
     status(item.status) {
 }
 
-const int QueueItem::getProgress() const {
+QueueItem::~QueueItem() {
 
+}
+
+const int QueueItem::getProgress() const {
     return progress;
 }
 
 const QFileInfo &QueueItem::getFile() const {
-
     return file;
 }
 

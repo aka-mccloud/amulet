@@ -19,10 +19,13 @@
  *                                                                        *
  **************************************************************************/
 
+#include <QDebug>
+
 #include "decoder_flac.hpp"
 
 DecoderFlac::DecoderFlac(QObject * parent) :
-    QObject(parent) {
+    QObject(parent),
+    terminated(false) {
     args += QString("-d");
 
     process = new QProcess();
@@ -43,12 +46,10 @@ void DecoderFlac::setOutputFile(const QString & fileName) {
 }
 
 QProcess * DecoderFlac::getProcessInstance() {
-
     return process;
 }
 
 QObject * DecoderFlac::getObject() {
-
     return this;
 }
 
@@ -64,6 +65,7 @@ void DecoderFlac::start() {
 }
 
 void DecoderFlac::stop() {
+    terminated = true;
     process->terminate();
 }
 
@@ -77,6 +79,8 @@ void DecoderFlac::calculateProgress() {
     }
 }
 
-void DecoderFlac::finished(int) {
-    emit finished();
+void DecoderFlac::finished(int status) {
+    if (!terminated) {
+        emit finished();
+    }
 }

@@ -47,7 +47,7 @@ private:
 public:
     explicit QueueItem(QFileInfo file, QObject * parent = 0);
     QueueItem(const QueueItem & item);
-    virtual ~QueueItem() {}
+    virtual ~QueueItem();
 
     const int getProgress() const;
     const QFileInfo & getFile() const;

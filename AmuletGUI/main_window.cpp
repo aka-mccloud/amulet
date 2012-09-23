@@ -35,16 +35,28 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow),
     settings("Amulet"),
     queueModel(this) {
-    ui->setupUi(this);
     pluginLoader = PluginLoader::instance();
+
+    ui->setupUi(this);
     ui->formatBox->addItems(pluginLoader->getFormats());
     ui->formatBox->setCurrentIndex(0);
+    ui->queueTableView->setModel(&queueModel);
+    ui->queueTableView->addAction(ui->actionDelete);
+    ui->actionConvert->setIcon(QIcon::fromTheme("view-refresh"));
+    ui->actionAddFiles->setIcon(QIcon::fromTheme("document-new"));
+    ui->actionAddDir->setIcon(QIcon::fromTheme("folder-new"));
+    ui->actionClearList->setIcon(QIcon::fromTheme("edit-clear"));
+    ui->actionProperties->setIcon(QIcon::hasThemeIcon("configure") ? QIcon::fromTheme("configure") : QIcon::fromTheme("gtk-preferences"));
+    ui->actionHelp->setIcon(QIcon::fromTheme("help-contents"));
+    ui->actionAbout->setIcon(QIcon::fromTheme("help-about"));
+    toggleToolBar(true);
+
     foreach (QWidget * widget, pluginLoader->getWidgets()) {
         ui->stackedWidget->addWidget(widget);
     }
 
-    defaultPath = settings.value("MainWindow/source_path", QDesktopServices::storageLocation(
-                                     QDesktopServices::HomeLocation)).toString();
+    defaultPath = settings.value("MainWindow/source_path",
+                                 QDesktopServices::storageLocation(QDesktopServices::HomeLocation)).toString();
 
     connect(&converterService,
             SIGNAL(progressChanged()),
@@ -53,15 +65,21 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(&converterService,
             SIGNAL(progressChanged()),
             SLOT(changeProgress()));
+    connect(&converterService,
+            SIGNAL(finished()),
+            SLOT(finished()));
     connect(ui->queueTableView,
             SIGNAL(filesDropped(const QMimeData *)),
-            SLOT(on_filesDropped(const QMimeData *)));
+            SLOT(filesDropped(const QMimeData *)));
 
-    ui->queueTableView->setModel(&queueModel);
-    filter << "*.flac" << "*.mp3";
+    foreach (QString format, pluginLoader->getFormats()) {
+        filter << "*." + format;
+    }
 }
 
 MainWindow::~MainWindow() {
+    settings.setValue("MainWindow/source_path", defaultPath);
+
     delete ui;
 }
 
@@ -77,6 +95,16 @@ void MainWindow::scanSubDirs(const QDir & dir, QFileInfoList * fileList) {
             scanSubDirs(newDir, fileList);
         }
     }
+}
+
+void MainWindow::toggleToolBar(bool state) {
+    ui->actionConvert->setText(state ? tr("Convert") : tr("Stop"));
+    ui->actionConvert->setIcon(state ? QIcon::fromTheme("view-refresh") : QIcon::fromTheme("dialog-cancel"));
+    ui->actionAddFiles->setEnabled(state);
+    ui->actionAddDir->setEnabled(state);
+    ui->actionClearList->setEnabled(state);
+    ui->actionProperties->setEnabled(state);
+    ui->actionDelete->setEnabled(state);
 }
 
 void MainWindow::on_actionAddFiles_triggered() {
@@ -113,7 +141,51 @@ void MainWindow::on_actionAddDir_triggered() {
     }
 }
 
-void MainWindow::on_filesDropped(const QMimeData * mimeData) {
+void MainWindow::on_actionClearList_triggered() {
+    queueModel.clear();
+}
+
+void MainWindow::on_actionConvert_triggered() {
+    if (converterService.isRunning()) {
+        toggleToolBar(true);
+        converterService.stop();
+    } else {
+        toggleToolBar(false);
+        CodecProperties properties = qobject_cast<ICodecWidget *>(ui->stackedWidget->currentWidget())->getProperties();
+        converterService.setSettings(settings);
+        converterService.setCodecProperties(properties);
+        converterService.setQueue(queueModel.getQueue());
+        converterService.setOutFormat(ui->formatBox->currentText());
+        converterService.start();
+    }
+}
+
+void MainWindow::on_actionDelete_triggered() {
+    QModelIndexList indexList = ui->queueTableView->selectionModel()->selectedIndexes();
+    if (!indexList.isEmpty()) {
+        queueModel.delIndexes(indexList);
+    }
+}
+
+void MainWindow::on_actionProperties_triggered() {
+    PropertiesDialog dialog(&settings, this);
+    dialog.exec();
+}
+
+void MainWindow::on_actionAbout_triggered() {
+    AboutDialog about(this);
+    about.exec();
+}
+
+void MainWindow::on_formatBox_currentIndexChanged(int index) {
+    ui->stackedWidget->setCurrentIndex(index);
+}
+
+void MainWindow::changeProgress() {
+    ui->progressBar->setValue(round(queueModel.getQueue()->countProgress()));
+}
+
+void MainWindow::filesDropped(const QMimeData * mimeData) {
     QFileInfoList fileList;
     QList<QUrl> urlList = mimeData->urls();
 
@@ -130,42 +202,6 @@ void MainWindow::on_filesDropped(const QMimeData * mimeData) {
     queueModel.append(fileList);
 }
 
-void MainWindow::on_actionClearList_triggered() {
-    queueModel.clear();
-}
-
-void MainWindow::on_actionConvert_triggered() {
-    CodecProperties properties = qobject_cast<ICodecWidget *>(
-                ui->stackedWidget->currentWidget())->getProperties();
-    QString targetPath;
-    if (settings.value("Properties/path", false).toBool()) {
-        targetPath = settings.value("Properties/target_path",
-            QDesktopServices::storageLocation(QDesktopServices::HomeLocation)).toString();
-    }
-    int maxThreadCount = settings.value("Properties/threads", 1).toInt();
-
-    converterService.setCodecProperties(properties);
-    converterService.setMaxThreadCount(maxThreadCount);
-    converterService.setOutPath(targetPath);
-    converterService.setQueue(queueModel.getQueue());
-    converterService.setOutFormat(ui->formatBox->currentText());
-    converterService.start();
-}
-
-void MainWindow::on_formatBox_currentIndexChanged(int index) {
-    ui->stackedWidget->setCurrentIndex(index);
-}
-
-void MainWindow::on_actionProperties_triggered() {
-    PropertiesDialog dialog(& settings, this);
-    dialog.exec();
-}
-
-void MainWindow::on_actionAbout_triggered() {
-    AboutDialog about(this);
-    about.exec();
-}
-
-void MainWindow::changeProgress() {
-    ui->progressBar->setValue(round(queueModel.getQueue()->countProgress()));
+void MainWindow::finished() {
+    toggleToolBar(true);
 }

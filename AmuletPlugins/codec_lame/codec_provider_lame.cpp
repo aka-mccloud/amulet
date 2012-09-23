@@ -26,11 +26,9 @@ CodecProviderLame::CodecProviderLame() {
 }
 
 IDecoderProcess * CodecProviderLame::getDecoder() {
-
     return NULL;
 }
 
 IEncoderProcess * CodecProviderLame::getEncoder() {
-
     return new EncoderLame();
 }

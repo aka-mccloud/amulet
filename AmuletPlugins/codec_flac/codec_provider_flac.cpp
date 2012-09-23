@@ -26,11 +26,9 @@ CodecProviderFlac::CodecProviderFlac() {
 }
 
 IDecoderProcess * CodecProviderFlac::getDecoder() {
-
     return new DecoderFlac();
 }
 
 IEncoderProcess * CodecProviderFlac::getEncoder() {
-
     return NULL;
 }
