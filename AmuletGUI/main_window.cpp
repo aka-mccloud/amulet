@@ -39,9 +39,9 @@ MainWindow::MainWindow(QWidget *parent) :
 
     ui->setupUi(this);
     ui->formatBox->addItems(pluginLoader->getFormats());
-    ui->formatBox->setCurrentIndex(0);
-    ui->queueTableView->setModel(&queueModel);
-    ui->queueTableView->addAction(ui->actionDelete);
+    ui->formatBox->setCurrentIndex(ui->formatBox->findText(settings.value("MainWindow/format", "flac").toString()));
+    ui->queueTreeView->setModel(&queueModel);
+    ui->queueTreeView->addAction(ui->actionDelete);
     ui->actionConvert->setIcon(QIcon::fromTheme("view-refresh"));
     ui->actionAddFiles->setIcon(QIcon::fromTheme("document-new"));
     ui->actionAddDir->setIcon(QIcon::fromTheme("folder-new"));
@@ -68,7 +68,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(&converterService,
             SIGNAL(finished()),
             SLOT(finished()));
-    connect(ui->queueTableView,
+    connect(ui->queueTreeView,
             SIGNAL(filesDropped(const QMimeData *)),
             SLOT(filesDropped(const QMimeData *)));
 
@@ -79,7 +79,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
 MainWindow::~MainWindow() {
     settings.setValue("MainWindow/source_path", defaultPath);
-
+    settings.setValue("MainWindow/format", ui->formatBox->currentText());
     delete ui;
 }
 
@@ -161,7 +161,7 @@ void MainWindow::on_actionConvert_triggered() {
 }
 
 void MainWindow::on_actionDelete_triggered() {
-    QModelIndexList indexList = ui->queueTableView->selectionModel()->selectedIndexes();
+    QModelIndexList indexList = ui->queueTreeView->selectionModel()->selectedIndexes();
     if (!indexList.isEmpty()) {
         queueModel.delIndexes(indexList);
     }

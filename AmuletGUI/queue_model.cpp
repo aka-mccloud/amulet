@@ -34,16 +34,22 @@ void QueueModel::updateProgress() {
 }
 
 int QueueModel::rowCount(const QModelIndex &) const {
-
     return queue.size();
 }
 
 int QueueModel::columnCount(const QModelIndex &) const {
-
     return 2;
 }
 
-QVariant QueueModel::headerData(int, Qt::Orientation, int) const {
+QVariant QueueModel::headerData(int section, Qt::Orientation orientation, int role) const {
+    if ((orientation == Qt::Horizontal) && (role == Qt::DisplayRole)) {
+        switch (section) {
+        case 0:
+            return tr("Title");
+        case 1:
+            return tr("Progress");
+        }
+    }
 
     return QVariant();
 }
@@ -57,6 +63,11 @@ QVariant QueueModel::data(const QModelIndex &index, int role) const {
         switch (index.column()) {
         case 0:
             return (*it).getFile().fileName();
+        }
+    }
+
+    if (role = ProgressRole) {
+        switch (index.column()) {
         case 1:
             return (*it).getProgress();
         }
@@ -104,6 +115,5 @@ void QueueModel::clear() {
 }
 
 Queue * QueueModel::getQueue() {
-
     return &queue;
 }

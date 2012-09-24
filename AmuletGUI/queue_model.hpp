@@ -31,6 +31,11 @@ class QueueModel : public QAbstractTableModel {
 
     Q_OBJECT
 
+public:
+    enum {
+        ProgressRole = 32
+    };
+
 private:
     Queue queue;
 
@@ -46,7 +51,6 @@ public:
                         int role = Qt::DisplayRole) const;
 
     void append(const QFileInfoList & files);
-//    void setFileList(const QLinkedList<QString> & list);
     void delIndexes(const QModelIndexList & indexList);
     void clear();
     Queue * getQueue();

@@ -22,15 +22,15 @@
 #ifndef DROP_TABLE_VIEW_H
 #define DROP_TABLE_VIEW_H
 
-#include <QTableView>
+#include <QTreeView>
 #include <QWidget>
 #include <QDragEnterEvent>
 #include <QDragMoveEvent>
 #include <QDropEvent>
 #include <QMimeData>
+#include <QStyledItemDelegate>
 
-
-class DropTableView : public QTableView {
+class DropTableView : public QTreeView {
 
     Q_OBJECT
 
@@ -44,6 +44,17 @@ protected:
 
 signals:
     void filesDropped(const QMimeData * mimeData = 0);
+
+};
+
+class TrackViewDelegate : public QStyledItemDelegate {
+
+public:
+    explicit TrackViewDelegate(QObject * parent = 0);
+    virtual ~TrackViewDelegate() {}
+
+    void paint(QPainter * painter, const QStyleOptionViewItem & option, const QModelIndex & index) const;
+    QSize sizeHint(const QStyleOptionViewItem & option, const QModelIndex & index) const;
 
 };
 

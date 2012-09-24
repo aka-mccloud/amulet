@@ -35,10 +35,6 @@ QueueItem::QueueItem(const QueueItem & item) :
     status(item.status) {
 }
 
-QueueItem::~QueueItem() {
-
-}
-
 const int QueueItem::getProgress() const {
     return progress;
 }
