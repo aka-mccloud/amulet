@@ -23,32 +23,37 @@
 #include <QPainter>
 
 #include "queue_model.hpp"
-
 #include "drop_table_view.hpp"
 
-DropTableView::DropTableView(QWidget * parent) :
-    QTreeView(parent) {
+DropTableView::DropTableView(QWidget * parent)
+    : QTreeView(parent)
+{
     setItemDelegate(new TrackViewDelegate());
 }
 
-void DropTableView::dragEnterEvent(QDragEnterEvent * event) {
+void DropTableView::dragEnterEvent(QDragEnterEvent * event)
+{
     event->acceptProposedAction();
 }
 
-void DropTableView::dragMoveEvent(QDragMoveEvent * event) {
+void DropTableView::dragMoveEvent(QDragMoveEvent * event)
+{
     event->acceptProposedAction();
 }
 
-void DropTableView::dropEvent(QDropEvent * event) {
+void DropTableView::dropEvent(QDropEvent * event)
+{
     emit filesDropped(event->mimeData());
 }
 
-TrackViewDelegate::TrackViewDelegate(QObject * parent) :
-    QStyledItemDelegate(parent) {
-
+TrackViewDelegate::TrackViewDelegate(QObject * parent)
+    : QStyledItemDelegate(parent)
+{
+    // empty
 }
 
-void TrackViewDelegate::paint(QPainter * painter, const QStyleOptionViewItem & option, const QModelIndex & index) const {
+void TrackViewDelegate::paint(QPainter * painter, const QStyleOptionViewItem & option, const QModelIndex & index) const
+{
     if (index.column() != 1) {
         QStyledItemDelegate::paint(painter, option, index);
     } else {
@@ -71,7 +76,8 @@ void TrackViewDelegate::paint(QPainter * painter, const QStyleOptionViewItem & o
     }
 }
 
-QSize TrackViewDelegate::sizeHint(const QStyleOptionViewItem & option, const QModelIndex & index) const {
+QSize TrackViewDelegate::sizeHint(const QStyleOptionViewItem & option, const QModelIndex & index) const
+{
     QSize size = QStyledItemDelegate::sizeHint(option, index);
     size.setHeight(20);
 

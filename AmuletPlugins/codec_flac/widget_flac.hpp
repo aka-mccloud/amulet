@@ -29,7 +29,8 @@ namespace Ui {
 class WidgetFlac;
 }
 
-class WidgetFlac : public ICodecWidget {
+class WidgetFlac : public ICodecWidget
+{
 
     Q_OBJECT
     Q_INTERFACES(ICodecWidget)

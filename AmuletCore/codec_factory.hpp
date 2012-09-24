@@ -26,7 +26,8 @@
 #include "iencoder_process.hpp"
 #include "plugins_provider.hpp"
 
-class CodecFactory {
+class CodecFactory
+{
 
 private:
     CodecMap codecMap;

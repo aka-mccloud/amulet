@@ -19,19 +19,29 @@
  *                                                                        *
  **************************************************************************/
 
-#ifndef TAG_ENGINE_H
-#define TAG_ENGINE_H
+#ifndef TAG_DATA_HPP
+#define TAG_DATA_HPP
 
-#include <QFileInfo>
+#include <QString>
 
-#include "tag_data.h"
+class TagData
+{
 
-class TagEngine {
-    
 public:
-    static TagData * readFromFile(const QFileInfo & file);
-    static bool writeToFile(const QFileInfo & file, TagData * tagData);
+    explicit TagData();
+    virtual ~TagData() {}
     
+    QString album;
+    QString artist;
+    QString comment;
+    QString composer;
+    QString genre;
+    QString title;
+    int disc;
+    int discTotal;
+    int track;
+    int year;
+
 };
 
-#endif // TAG_ENGINE_H
+#endif // TAG_DATA_HPP

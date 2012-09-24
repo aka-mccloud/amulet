@@ -29,7 +29,8 @@
 #include "converter_worker.hpp"
 #include "queue_item.hpp"
 
-class ConverterFactory : public QObject {
+class ConverterFactory : public QObject
+{
 
     Q_OBJECT
 
@@ -40,10 +41,8 @@ public:
     explicit ConverterFactory(QObject * parent = 0);
     virtual ~ConverterFactory() {}
 
-    ConverterWorker * create(QueueItem * item,
-                             const QString & targetPath,
-                             const QString & format,
-                             const CodecProperties & props);
+    ConverterWorker * create(QueueItem * item, const QString & targetPath,
+                             const QString & format, const CodecProperties & props);
 
 };
 

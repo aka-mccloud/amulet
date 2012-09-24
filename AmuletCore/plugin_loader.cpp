@@ -27,7 +27,8 @@
 
 PluginLoader PluginLoader::pluginsLoader;
 
-PluginLoader::PluginLoader() {
+PluginLoader::PluginLoader()
+{
     QStringList dirs = QString(qgetenv("XDG_DATA_DIRS")).split(':', QString::SkipEmptyParts);
 
     foreach (QString dir, dirs) {
@@ -48,30 +49,34 @@ PluginLoader::PluginLoader() {
     }
 }
 
-PluginLoader * PluginLoader::instance() {
+PluginLoader * PluginLoader::instance()
+{
     return &pluginsLoader;
 }
 
-CodecMap PluginLoader::getCodecMap() {
+CodecMap PluginLoader::getCodecMap()
+{
     CodecMap codecMap;
     PluginMap::const_iterator it;
-    for (it = pluginMap.begin(); it != pluginMap.end(); ++it) {
+
+    for (it = pluginMap.begin(); it != pluginMap.end(); ++it)
         codecMap.insert(it.key(), it.value()->getCodec());
-    }
 
     return codecMap;
 }
 
-QStringList PluginLoader::getFormats() {
+QStringList PluginLoader::getFormats()
+{
     return pluginMap.keys();
 }
 
-QList<QWidget *> PluginLoader::getWidgets() {
+QList<QWidget *> PluginLoader::getWidgets()
+{
     QList<QWidget *> list;
     PluginMap::const_iterator it;
-    for (it = pluginMap.begin(); it != pluginMap.end(); ++it) {
+
+    for (it = pluginMap.begin(); it != pluginMap.end(); ++it)
         list.append(it.value()->getWidget());
-    }
 
     return list;
 }

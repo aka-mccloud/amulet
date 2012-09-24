@@ -21,29 +21,35 @@
 
 #include "queue.hpp"
 
-Queue::Queue(QObject * parent) :
-    QObject(parent) {
+Queue::Queue(QObject * parent)
+    : QObject(parent)
+{
+    // empty
 }
 
-Queue::Queue(Queue & queue) :
-    QObject(queue.parent()),
-    queue(queue.queue) {
+Queue::Queue(Queue & queue)
+    : QObject(queue.parent()), queue(queue.queue)
+{
+    // empty
 }
 
-void Queue::append(QueueItem item) {
-//    item.setStatus(QueueItem::WAITING);
+void Queue::append(QueueItem item)
+{
     queue.append(item);
 }
 
-QueueItemList::const_iterator Queue::begin() const {
+QueueItemList::const_iterator Queue::begin() const
+{
     return queue.begin();
 }
 
-void Queue::clear() {
+void Queue::clear()
+{
     queue.clear();
 }
 
-void Queue::cleanProgress() {
+void Queue::cleanProgress()
+{
     QueueItemList::iterator it;
 
     for (it = queue.begin(); it != queue.end(); ++it) {
@@ -52,34 +58,35 @@ void Queue::cleanProgress() {
     }
 }
 
-double Queue::countProgress() {
+double Queue::countProgress()
+{
     int progress(0);
 
-    foreach (QueueItem item, queue) {
+    foreach (QueueItem item, queue)
         progress += item.getProgress();
-    }
 
     return progress / size();
 }
 
-void Queue::removeIndices(QList<int> indices) {
+void Queue::removeIndices(QList<int> indices)
+{
     QList<QueueItemList::iterator> its;
 
-    foreach (int index, indices) {
+    foreach (int index, indices)
         its.push_back(queue.begin() + index);
-    }
 
-    foreach (QueueItemList::iterator it, its) {
+    foreach (QueueItemList::iterator it, its)
         queue.erase(it);
-    }
 }
 
-int Queue::size() const {
+int Queue::size() const
+{
     return queue.size();
 }
 
-int Queue::countByStatus(QueueItem::Status status) {
-    int count = 0;
+int Queue::countByStatus(QueueItem::Status status)
+{
+    int count(0);
 
     foreach (QueueItem item, queue) {
         if (item.getStatus() == status)
@@ -89,12 +96,14 @@ int Queue::countByStatus(QueueItem::Status status) {
     return count;
 }
 
-QueueItem * Queue::getFirstUnprocessed() {
+QueueItem * Queue::getFirstUnprocessed()
+{
     QueueItemList::iterator it;
 
     for (it = queue.begin(); it != queue.end(); ++it) {
         if (it->getStatus() == QueueItem::WAITING) {
             it->setStatus(QueueItem::PROCESSING);
+
             return &(*it);
         }
     }

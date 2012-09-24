@@ -24,13 +24,14 @@
 #include "converter_factory.hpp"
 
 ConverterFactory::ConverterFactory(QObject * parent) :
-    QObject(parent) {
+    QObject(parent)
+{
+    // empty
 }
 
-ConverterWorker * ConverterFactory::create(QueueItem * item,
-                                           const QString & targetPath,
-                                           const QString & format,
-                                           const CodecProperties & props) {
+ConverterWorker * ConverterFactory::create(QueueItem * item, const QString & targetPath,
+                                           const QString & format, const CodecProperties & props)
+{
     ConverterWorker * converterWorker = NULL;
 
     if (item != NULL) {
@@ -40,9 +41,11 @@ ConverterWorker * ConverterFactory::create(QueueItem * item,
 
         if ((decoder != NULL) && (encoder != NULL)) {
             encoder->setProperties(props);
-            converterWorker = new ConverterWorker(item, targetPath, format, decoder, encoder, this);
+            converterWorker = new ConverterWorker(item, targetPath, format,
+                                                  decoder, encoder, this);
         }
     }
 
     return converterWorker;
 }
+

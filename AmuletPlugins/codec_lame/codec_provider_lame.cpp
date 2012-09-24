@@ -22,13 +22,12 @@
 #include "encoder_lame.hpp"
 #include "codec_provider_lame.hpp"
 
-CodecProviderLame::CodecProviderLame() {
-}
-
-IDecoderProcess * CodecProviderLame::getDecoder() {
+IDecoderProcess * CodecProviderLame::getDecoder()
+{
     return NULL;
 }
 
-IEncoderProcess * CodecProviderLame::getEncoder() {
+IEncoderProcess * CodecProviderLame::getEncoder()
+{
     return new EncoderLame();
 }

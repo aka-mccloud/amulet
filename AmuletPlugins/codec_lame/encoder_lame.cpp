@@ -21,55 +21,64 @@
 
 #include "encoder_lame.hpp"
 
-EncoderLame::EncoderLame(QObject * parent) :
-    QObject(parent),
-    terminated(false) {
+EncoderLame::EncoderLame(QObject * parent)
+    : QObject(parent), terminated(false)
+{
     options[CodecProperties::BITRATE] = "-b";
     options[CodecProperties::SAMPLERATE] = "--resample";
     options[CodecProperties::LOWPASS] = "--lowpass";
 
     process = new QProcess(this);
-    connect(process, SIGNAL(finished(int)), this, SLOT(finished(int)));
+    connect(process,
+            SIGNAL(finished(int)),
+            SLOT(finished(int)));
 }
 
-EncoderLame::~EncoderLame() {
+EncoderLame::~EncoderLame()
+{
     delete process;
 }
 
-void EncoderLame::setOutputFile(const QString & fileName) {
+void EncoderLame::setOutputFile(const QString & fileName)
+{
     outputFile = fileName;
 }
 
-void EncoderLame::setProperties(const CodecProperties & props) {
+void EncoderLame::setProperties(const CodecProperties & props)
+{
     args += props.toStringList(options);
 }
 
-QProcess * EncoderLame::getProcessInstance() {
+QProcess * EncoderLame::getProcessInstance()
+{
     return process;
 }
 
-QObject * EncoderLame::getObject() {
+QObject * EncoderLame::getObject()
+{
     return this;
 }
 
-void EncoderLame::start() {
-    if (inputFile.isEmpty()) {
+void EncoderLame::start()
+{
+    if (inputFile.isEmpty())
         args += QString("-");
-    } else {
+    else
         args += inputFile;
-    }
+
     args += outputFile;
 
     process->start(coderName, args);
 }
 
-void EncoderLame::stop() {
+void EncoderLame::stop()
+{
     terminated = true;
     process->terminate();
 }
 
-void EncoderLame::finished(int) {
-    if (!terminated) {
+void EncoderLame::finished(int)
+{
+    if (!terminated)
         emit finished();
-    }
 }

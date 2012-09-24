@@ -24,7 +24,8 @@
 
 #include <QObject>
 
-class IWorker {
+class IWorker
+{
 
 public:
     virtual ~IWorker() {}

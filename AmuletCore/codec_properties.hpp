@@ -26,10 +26,12 @@
 #include <QStringList>
 #include <QMap>
 
-class CodecProperties {
+class CodecProperties
+{
 
 public:
-    enum Options {
+    enum Options
+    {
         BITRATE,
         SAMPLERATE,
         LOWPASS
@@ -42,7 +44,6 @@ public:
     explicit CodecProperties();
     virtual ~CodecProperties() {}
 
-//    QString toString();
     QStringList toStringList(const QMap<Options, QString> & options) const;
 
     QString & operator [](Options option);

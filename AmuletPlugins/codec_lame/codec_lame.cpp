@@ -25,20 +25,24 @@
 #include "widget_lame.hpp"
 #include "codec_lame.hpp"
 
-CodecLame::CodecLame() {
+CodecLame::CodecLame()
+{
     codecProvider = new CodecProviderLame();
     formats += "mp3";
 }
 
-QStringList CodecLame::getFromats() {
+QStringList CodecLame::getFromats()
+{
     return formats;
 }
 
-ICodecProvider * CodecLame::getCodec() {
+ICodecProvider * CodecLame::getCodec()
+{
     return codecProvider;
 }
 
-ICodecWidget * CodecLame::getWidget() {
+ICodecWidget * CodecLame::getWidget()
+{
     return new WidgetLame();
 }
 

@@ -24,16 +24,17 @@
 
 #include "icodec_plugin.hpp"
 
-class PluginLoader {
+class PluginLoader
+{
 
 private:
     static PluginLoader pluginsLoader;
     PluginMap pluginMap;
 
-    PluginLoader();
-    PluginLoader(const PluginLoader &) {}
+    explicit PluginLoader();
+    explicit PluginLoader(const PluginLoader &) {}
 
-    void operator =(const PluginLoader &) { }
+    void operator =(const PluginLoader &) {}
 
 public:
     static PluginLoader * instance();

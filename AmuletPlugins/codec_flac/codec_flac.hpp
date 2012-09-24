@@ -28,7 +28,8 @@
 
 #include "icodec_plugin.hpp"
 
-class CodecFlac : public ICodecPlugin {
+class CodecFlac : public ICodecPlugin
+{
 
     Q_OBJECT
     Q_INTERFACES(ICodecPlugin)
@@ -39,7 +40,7 @@ private:
 
 public:
     explicit CodecFlac();
-    virtual ~CodecFlac();
+    virtual ~CodecFlac() {}
 
     QStringList getFromats();
     ICodecProvider * getCodec();

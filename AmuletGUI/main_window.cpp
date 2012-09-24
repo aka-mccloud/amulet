@@ -30,11 +30,9 @@
 #include "main_window.hpp"
 #include "ui_main_window.h"
 
-MainWindow::MainWindow(QWidget *parent) :
-    QMainWindow(parent),
-    ui(new Ui::MainWindow),
-    settings("Amulet"),
-    queueModel(this) {
+MainWindow::MainWindow(QWidget *parent)
+    : QMainWindow(parent), ui(new Ui::MainWindow), settings("Amulet"), queueModel(this)
+{
     pluginLoader = PluginLoader::instance();
 
     ui->setupUi(this);
@@ -51,12 +49,10 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->actionAbout->setIcon(QIcon::fromTheme("help-about"));
     toggleToolBar(true);
 
-    foreach (QWidget * widget, pluginLoader->getWidgets()) {
+    foreach (QWidget * widget, pluginLoader->getWidgets())
         ui->stackedWidget->addWidget(widget);
-    }
 
-    defaultPath = settings.value("MainWindow/source_path",
-                                 QDesktopServices::storageLocation(QDesktopServices::HomeLocation)).toString();
+    defaultPath = settings.value("MainWindow/source_path", QDesktopServices::storageLocation(QDesktopServices::HomeLocation)).toString();
 
     connect(&converterService,
             SIGNAL(progressChanged()),
@@ -72,18 +68,20 @@ MainWindow::MainWindow(QWidget *parent) :
             SIGNAL(filesDropped(const QMimeData *)),
             SLOT(filesDropped(const QMimeData *)));
 
-    foreach (QString format, pluginLoader->getFormats()) {
+    foreach (QString format, pluginLoader->getFormats())
         filter << "*." + format;
-    }
 }
 
-MainWindow::~MainWindow() {
+MainWindow::~MainWindow()
+{
     settings.setValue("MainWindow/source_path", defaultPath);
     settings.setValue("MainWindow/format", ui->formatBox->currentText());
+
     delete ui;
 }
 
-void MainWindow::scanSubDirs(const QDir & dir, QFileInfoList * fileList) {
+void MainWindow::scanSubDirs(const QDir & dir, QFileInfoList * fileList)
+{
     QFileInfoList files = dir.entryInfoList(filter, QDir::Files);
     fileList->append(files);
 
@@ -97,7 +95,8 @@ void MainWindow::scanSubDirs(const QDir & dir, QFileInfoList * fileList) {
     }
 }
 
-void MainWindow::toggleToolBar(bool state) {
+void MainWindow::toggleToolBar(bool state)
+{
     ui->actionConvert->setText(state ? tr("Convert") : tr("Stop"));
     ui->actionConvert->setIcon(state ? QIcon::fromTheme("view-refresh") : QIcon::fromTheme("dialog-cancel"));
     ui->actionAddFiles->setEnabled(state);
@@ -107,20 +106,19 @@ void MainWindow::toggleToolBar(bool state) {
     ui->actionDelete->setEnabled(state);
 }
 
-void MainWindow::on_actionAddFiles_triggered() {
+void MainWindow::on_actionAddFiles_triggered()
+{
     QString filter("Supperted formats (");
-    foreach (QString format, this->filter) {
+
+    foreach (QString format, this->filter)
         filter += format + " ";
-    }
     filter += ");;All files(*.*)";
 
-    QStringList fileList = QFileDialog::getOpenFileNames(
-                this, tr("Select file(s)"), defaultPath, filter);
-
+    QStringList fileList = QFileDialog::getOpenFileNames(this, tr("Select file(s)"), defaultPath, filter);
     QFileInfoList list;
-    foreach (QString file, fileList) {
+
+    foreach (QString file, fileList)
         list.append(QFileInfo(file));
-    }
 
     if (!list.isEmpty()) {
         defaultPath = list.first().absolutePath();
@@ -128,24 +126,27 @@ void MainWindow::on_actionAddFiles_triggered() {
     }
 }
 
-void MainWindow::on_actionAddDir_triggered() {
+void MainWindow::on_actionAddDir_triggered()
+{
     defaultPath = QFileDialog::getExistingDirectory(this, tr("Select dir"), defaultPath);
 
     if (!defaultPath.isEmpty()) {
         QDir dir(defaultPath);
-
         QFileInfoList fileList;
+
         scanSubDirs(dir, &fileList);
 
         queueModel.append(fileList);
     }
 }
 
-void MainWindow::on_actionClearList_triggered() {
+void MainWindow::on_actionClearList_triggered()
+{
     queueModel.clear();
 }
 
-void MainWindow::on_actionConvert_triggered() {
+void MainWindow::on_actionConvert_triggered()
+{
     if (converterService.isRunning()) {
         toggleToolBar(true);
         converterService.stop();
@@ -160,48 +161,53 @@ void MainWindow::on_actionConvert_triggered() {
     }
 }
 
-void MainWindow::on_actionDelete_triggered() {
+void MainWindow::on_actionDelete_triggered()
+{
     QModelIndexList indexList = ui->queueTreeView->selectionModel()->selectedIndexes();
-    if (!indexList.isEmpty()) {
+    if (!indexList.isEmpty())
         queueModel.delIndexes(indexList);
-    }
 }
 
-void MainWindow::on_actionProperties_triggered() {
+void MainWindow::on_actionProperties_triggered()
+{
     PropertiesDialog dialog(&settings, this);
     dialog.exec();
 }
 
-void MainWindow::on_actionAbout_triggered() {
+void MainWindow::on_actionAbout_triggered()
+{
     AboutDialog about(this);
     about.exec();
 }
 
-void MainWindow::on_formatBox_currentIndexChanged(int index) {
+void MainWindow::on_formatBox_currentIndexChanged(int index)
+{
     ui->stackedWidget->setCurrentIndex(index);
 }
 
-void MainWindow::changeProgress() {
+void MainWindow::changeProgress()
+{
     ui->progressBar->setValue(round(queueModel.getQueue()->countProgress()));
 }
 
-void MainWindow::filesDropped(const QMimeData * mimeData) {
+void MainWindow::filesDropped(const QMimeData * mimeData)
+{
     QFileInfoList fileList;
     QList<QUrl> urlList = mimeData->urls();
 
     foreach (QUrl url, urlList) {
         QFileInfo file(url.toLocalFile());
-        if ((file.isFile()) && filter.contains("*." + file.suffix())) {
+
+        if ((file.isFile()) && filter.contains("*." + file.suffix()))
             fileList.append(file);
-        }
-        if (file.isDir()) {
+        if (file.isDir())
             scanSubDirs(QDir(url.toLocalFile()), &fileList);
-        }
     }
 
     queueModel.append(fileList);
 }
 
-void MainWindow::finished() {
+void MainWindow::finished()
+{
     toggleToolBar(true);
 }

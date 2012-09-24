@@ -28,7 +28,6 @@
 #include <QDir>
 
 #include "converter_service.hpp"
-
 #include "queue_model.hpp"
 #include "plugin_loader.hpp"
 
@@ -36,7 +35,8 @@ namespace Ui {
 class MainWindow;
 }
 
-class MainWindow : public QMainWindow {
+class MainWindow : public QMainWindow
+{
 
     Q_OBJECT
 

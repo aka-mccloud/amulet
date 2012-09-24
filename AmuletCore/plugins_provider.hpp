@@ -25,8 +25,10 @@
 #include "icodec_provider.hpp"
 #include "plugin_loader.hpp"
 
-class PluginsProvider {
+class PluginsProvider
+{
 
+private:
     PluginLoader * pluginsLoader;
     CodecMap codecMap;
 

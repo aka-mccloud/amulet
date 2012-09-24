@@ -23,64 +23,76 @@
 
 #include "decoder_flac.hpp"
 
-DecoderFlac::DecoderFlac(QObject * parent) :
-    QObject(parent),
-    terminated(false) {
+DecoderFlac::DecoderFlac(QObject * parent)
+    : QObject(parent), terminated(false)
+{
     args += QString("-d");
-
     process = new QProcess();
-    connect(process, SIGNAL(readyReadStandardError()), SLOT(calculateProgress()));
-    connect(process, SIGNAL(finished(int)), SLOT(finished(int)));
+
+    connect(process,
+            SIGNAL(readyReadStandardError()),
+            SLOT(calculateProgress()));
+    connect(process,
+            SIGNAL(finished(int)),
+            SLOT(finished(int)));
 }
 
-DecoderFlac::~DecoderFlac() {
+DecoderFlac::~DecoderFlac()
+{
     delete process;
 }
 
-void DecoderFlac::setInputFile(const QString & fileName) {
-    inputFile = fileName;
-}
-
-void DecoderFlac::setOutputFile(const QString & fileName) {
-    outputFile = fileName;
-}
-
-QProcess * DecoderFlac::getProcessInstance() {
-    return process;
-}
-
-QObject * DecoderFlac::getObject() {
-    return this;
-}
-
-void DecoderFlac::start() {
-    args += inputFile;
-    if (outputFile.isEmpty()) {
-        args += QString("-c");
-    } else {
-        args += outputFile;
-    }
-
-    process->start(decoderName, args);
-}
-
-void DecoderFlac::stop() {
-    terminated = true;
-    process->terminate();
-}
-
-void DecoderFlac::calculateProgress() {
+void DecoderFlac::calculateProgress()
+{
     QString out(process->readAllStandardError());
     QRegExp rx("([\\d]{1,3})% complete");
 
     if (rx.indexIn(out) >= 0) {
         completed = rx.cap(1).toInt();
+
         emit progress(completed);
     }
 }
 
-void DecoderFlac::finished(int status) {
-    if (!terminated) {
+void DecoderFlac::setInputFile(const QString & fileName)
+{
+    inputFile = fileName;
+}
+
+void DecoderFlac::setOutputFile(const QString & fileName)
+{
+    outputFile = fileName;
+}
+
+QProcess * DecoderFlac::getProcessInstance()
+{
+    return process;
+}
+
+QObject * DecoderFlac::getObject()
+{
+    return this;
+}
+
+void DecoderFlac::start()
+{
+    args += inputFile;
+    if (outputFile.isEmpty())
+        args += QString("-c");
+    else
+        args += outputFile;
+
+    process->start(decoderName, args);
+}
+
+void DecoderFlac::stop()
+{
+    terminated = true;
+    process->terminate();
+}
+
+void DecoderFlac::finished(int)
+{
+    if (!terminated)
         emit finished();
-    }
 }

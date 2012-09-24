@@ -29,7 +29,8 @@
 #define coderName "flac"
 #define extension "flac"
 
-class EncoderFlac :public QObject, public IEncoderProcess {
+class EncoderFlac :public QObject, public IEncoderProcess
+{
 
     Q_OBJECT
     Q_INTERFACES(IEncoderProcess)
@@ -40,12 +41,13 @@ private:
     QStringList args;
     QString inputFile;
     QString outputFile;
+    bool terminated;
 
 private slots:
     void finished(int);
 
 public:
-    explicit EncoderFlac(QObject *parent = 0);
+    explicit EncoderFlac(QObject * parent = 0);
     virtual ~EncoderFlac();
 
     void setProperties(const CodecProperties & props);

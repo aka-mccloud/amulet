@@ -26,7 +26,8 @@
 #ifndef ICODEC_WIDGET_HPP
 #define ICODEC_WIDGET_HPP
 
-class ICodecWidget : public QWidget {
+class ICodecWidget : public QWidget
+{
 
     Q_OBJECT
 

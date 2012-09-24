@@ -30,7 +30,8 @@
 
 typedef QLinkedList<QueueItem> QueueItemList;
 
-class Queue : public QObject {
+class Queue : public QObject
+{
 
     Q_OBJECT
 

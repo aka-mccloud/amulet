@@ -25,7 +25,8 @@
 
 #include "converter_service.hpp"
 
-int main(int argc, char *argv[]) {
+int main(int argc, char *argv[])
+{
     QCoreApplication a(argc, argv);
 
     Queue queue;

@@ -22,25 +22,30 @@
 #include "widget_flac.hpp"
 #include "ui_widget_flac.h"
 
-WidgetFlac::WidgetFlac() :
-    ui(new Ui::WidgetFlac) {
+WidgetFlac::WidgetFlac()
+    : ui(new Ui::WidgetFlac)
+{
     ui->setupUi(this);
     ui->sampleRateBox->addItems(QString("48000 44100 22050").split(' '));
 }
 
-WidgetFlac::~WidgetFlac() {
+WidgetFlac::~WidgetFlac()
+{
     delete ui;
 }
 
-void WidgetFlac::on_qualityEdit_valueChanged(int value) {
+void WidgetFlac::on_qualityEdit_valueChanged(int value)
+{
     ui->qualitySlider->setValue(value);
 }
 
-void WidgetFlac::on_qualitySlider_valueChanged(int value) {
+void WidgetFlac::on_qualitySlider_valueChanged(int value)
+{
     ui->qualityEdit->setValue(value);
 }
 
-CodecProperties WidgetFlac::getProperties() {
+CodecProperties WidgetFlac::getProperties()
+{
     CodecProperties properties;
     properties[CodecProperties::SAMPLERATE] = ui->sampleRateBox->currentText();
 

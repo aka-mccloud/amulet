@@ -28,11 +28,12 @@
 #include "icodec_plugin.hpp"
 #include "plugins_provider.hpp"
 
-PluginsProvider::PluginsProvider() {
+PluginsProvider::PluginsProvider()
+{
     pluginsLoader = PluginLoader::instance();
 }
 
-CodecMap PluginsProvider::getCodecMap() {
-
+CodecMap PluginsProvider::getCodecMap()
+{
     return pluginsLoader->getCodecMap();
 }

@@ -22,13 +22,12 @@
 #include "decoder_flac.hpp"
 #include "codec_provider_flac.hpp"
 
-CodecProviderFlac::CodecProviderFlac() {
-}
-
-IDecoderProcess * CodecProviderFlac::getDecoder() {
+IDecoderProcess * CodecProviderFlac::getDecoder()
+{
     return new DecoderFlac();
 }
 
-IEncoderProcess * CodecProviderFlac::getEncoder() {
+IEncoderProcess * CodecProviderFlac::getEncoder()
+{
     return NULL;
 }

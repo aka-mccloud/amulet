@@ -29,7 +29,8 @@
 #define coderName "lame"
 #define extension "mp3"
 
-class EncoderLame : public QObject, public IEncoderProcess {
+class EncoderLame : public QObject, public IEncoderProcess
+{
 
     Q_OBJECT
     Q_INTERFACES(IEncoderProcess)

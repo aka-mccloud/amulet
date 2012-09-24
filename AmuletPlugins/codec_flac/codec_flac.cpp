@@ -25,24 +25,24 @@
 #include "widget_flac.hpp"
 #include "codec_flac.hpp"
 
-CodecFlac::CodecFlac() {
+CodecFlac::CodecFlac()
+{
     codecProvider = new CodecProviderFlac();
     formats += "flac";
 }
 
-CodecFlac::~CodecFlac() {
-
-}
-
-QStringList CodecFlac::getFromats() {
+QStringList CodecFlac::getFromats()
+{
     return formats;
 }
 
-ICodecProvider * CodecFlac::getCodec() {
+ICodecProvider * CodecFlac::getCodec()
+{
     return codecProvider;
 }
 
-ICodecWidget * CodecFlac::getWidget() {
+ICodecWidget * CodecFlac::getWidget()
+{
     return new WidgetFlac();
 }
 

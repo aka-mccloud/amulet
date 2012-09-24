@@ -21,36 +21,39 @@
 
 #include "queue_item.hpp"
 
-QueueItem::QueueItem(QFileInfo file, QObject * parent) :
-    QObject(parent),
-    file(file),
-    progress(0),
-    status(NONE) {
+QueueItem::QueueItem(QFileInfo file, QObject * parent)
+    : QObject(parent), file(file), progress(0), status(NONE)
+{
+    // empty
 }
 
-QueueItem::QueueItem(const QueueItem & item) :
-    QObject(item.parent()),
-    file(item.file),
-    progress(item.progress),
-    status(item.status) {
+QueueItem::QueueItem(const QueueItem & item)
+    : QObject(item.parent()), file(item.file), progress(item.progress), status(item.status)
+{
+    // empty
 }
 
-const int QueueItem::getProgress() const {
+const int QueueItem::getProgress() const
+{
     return progress;
 }
 
-const QFileInfo &QueueItem::getFile() const {
+const QFileInfo &QueueItem::getFile() const
+{
     return file;
 }
 
-const QueueItem::Status QueueItem::getStatus() const {
+const QueueItem::Status QueueItem::getStatus() const
+{
     return status;
 }
 
-void QueueItem::setStatus(QueueItem::Status status) {
+void QueueItem::setStatus(QueueItem::Status status)
+{
     this->status = status;
 }
 
-void QueueItem::setProgress(int progress) {
+void QueueItem::setProgress(int progress)
+{
     this->progress = progress;
 }

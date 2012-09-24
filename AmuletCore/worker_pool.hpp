@@ -27,7 +27,8 @@
 #include "iworker.hpp"
 #include "converter_worker.hpp"
 
-class WorkerPool : public QObject {
+class WorkerPool : public QObject
+{
 
     Q_OBJECT
 

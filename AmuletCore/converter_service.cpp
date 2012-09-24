@@ -24,11 +24,9 @@
 
 #include "converter_service.hpp"
 
-ConverterService::ConverterService(QObject * parent) :
-    QObject(parent),
-    threads(1),
-    pool(parent),
-    running(false) {
+ConverterService::ConverterService(QObject * parent)
+    : QObject(parent), threads(1), pool(parent), running(false)
+{
     connect(&pool,
             SIGNAL(workerFinished()),
             SLOT(pushNext()));
@@ -37,68 +35,79 @@ ConverterService::ConverterService(QObject * parent) :
             SLOT(updateProgress()));
 }
 
-ConverterService::~ConverterService() {
+ConverterService::~ConverterService()
+{
     stop();
 }
 
-void ConverterService::setSettings(const QSettings & settings) {
-    if (settings.value("Properties/path", false).toBool()) {
-        targetPath = settings.value("Properties/target_path",
-            QDesktopServices::storageLocation(QDesktopServices::HomeLocation)).toString();
-    }
+void ConverterService::setSettings(const QSettings & settings)
+{
+    if (settings.value("Properties/path", false).toBool())
+        targetPath = settings.value("Properties/target_path", QDesktopServices::storageLocation(QDesktopServices::HomeLocation)).toString();
+
     setMaxThreadCount(settings.value("Properties/threads", 1).toInt());
 }
 
-void ConverterService::setCodecProperties(CodecProperties props) {
+void ConverterService::setCodecProperties(CodecProperties props)
+{
     properties = props;
 }
 
-void ConverterService::setMaxThreadCount(int maxThreadCount) {
+void ConverterService::setMaxThreadCount(int maxThreadCount)
+{
     threads = maxThreadCount;
 }
 
-void ConverterService::setOutPath(const QString & targetPath) {
+void ConverterService::setOutPath(const QString & targetPath)
+{
     this->targetPath = targetPath;
 }
 
-void ConverterService::setQueue(Queue * queue) {
+void ConverterService::setQueue(Queue * queue)
+{
     this->queue = queue;
     this->queue->cleanProgress();
 }
 
-void ConverterService::setOutFormat(const QString & format) {
+void ConverterService::setOutFormat(const QString & format)
+{
     this->format = format;
 }
 
-bool ConverterService::isRunning() {
+bool ConverterService::isRunning()
+{
     return running;
 }
 
-void ConverterService::pushNext() {
+void ConverterService::pushNext()
+{
     if (queue->countByStatus(QueueItem::WAITING) != 0) {
         QueueItem * queueItem = queue->getFirstUnprocessed();
         IWorker * worker = factory.create(queueItem, targetPath, format, properties);
         pool.execute(worker);
     } else if (pool.isEmpty()) {
         running = false;
+
         emit finished();
     }
 }
 
-void ConverterService::updateProgress() {
+void ConverterService::updateProgress()
+{
     emit progressChanged();
 }
 
-void ConverterService::start() {
+void ConverterService::start()
+{
     if (!running) {
         running = true;
-        for (int i = 0; i < threads; i++) {
+        for (int i = 0; i < threads; i++)
             pushNext();
-        }
     }
 }
 
-void ConverterService::stop() {
+void ConverterService::stop()
+{
     pool.stop();
     running = false;
 }

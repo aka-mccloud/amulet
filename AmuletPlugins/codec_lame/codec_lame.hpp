@@ -29,7 +29,8 @@
 #include "icodec_plugin.hpp"
 #include "icodec_provider.hpp"
 
-class CodecLame : public ICodecPlugin {
+class CodecLame : public ICodecPlugin
+{
 
     Q_OBJECT
     Q_INTERFACES(ICodecPlugin)

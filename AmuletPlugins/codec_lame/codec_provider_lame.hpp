@@ -24,10 +24,11 @@
 
 #include "icodec_provider.hpp"
 
-class CodecProviderLame : public ICodecProvider {
+class CodecProviderLame : public ICodecProvider
+{
 
 public:
-    explicit CodecProviderLame();
+    explicit CodecProviderLame() {}
     virtual ~CodecProviderLame() {}
 
     IDecoderProcess * getDecoder();

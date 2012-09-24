@@ -27,7 +27,7 @@
 class CodecProviderFlac : public ICodecProvider {
 
 public:
-    explicit CodecProviderFlac();
+    explicit CodecProviderFlac() {}
     virtual ~CodecProviderFlac() {}
 
     IDecoderProcess * getDecoder();

@@ -28,7 +28,8 @@
 #include "icodec_provider.hpp"
 #include "icodec_widget.hpp"
 
-class ICodecPlugin : public QObject {
+class ICodecPlugin : public QObject
+{
 
 public:
     virtual ~ICodecPlugin() {}

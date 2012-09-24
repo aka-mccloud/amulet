@@ -19,14 +19,15 @@
  *                                                                        *
  **************************************************************************/
 
-#ifndef IDECODER_PROCESS_H
-#define IDECODER_PROCESS_H
+#ifndef IDECODER_PROCESS_HPP
+#define IDECODER_PROCESS_HPP
 
 #include <QObject>
 #include <QString>
 #include <QProcess>
 
-class IDecoderProcess {
+class IDecoderProcess
+{
 
 public:
     virtual ~IDecoderProcess() {}
@@ -47,4 +48,4 @@ public:
 
 Q_DECLARE_INTERFACE(IDecoderProcess, "org.amulet.IDecoderProcess")
 
-#endif // IDECODER_PROCESS_H
+#endif // IDECODER_PROCESS_HPP

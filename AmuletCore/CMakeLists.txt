@@ -20,8 +20,8 @@ set(AmuletCore_SOURCES
     converter_worker.cpp
     plugin_loader.cpp
     plugins_provider.cpp
-    queue.cpp
     queue_item.cpp
+    queue.cpp
     tag_data.cpp
     tag_engine.cpp
     worker_pool.cpp
@@ -32,8 +32,8 @@ set(AmuletCore_HEADERS
     converter_service.hpp
     converter_worker.hpp
     icodec_widget.hpp
-    queue.hpp
     queue_item.hpp
+    queue.hpp
     worker_pool.hpp
 )
 

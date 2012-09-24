@@ -21,26 +21,33 @@
 
 #include "worker_pool.hpp"
 
-WorkerPool::WorkerPool(QObject * parent) :
-    QObject(parent) {
+WorkerPool::WorkerPool(QObject * parent)
+    : QObject(parent)
+{
+    // empty
 }
 
-WorkerPool::~WorkerPool() {
+WorkerPool::~WorkerPool()
+{
     workerList.clear();
 }
 
-void WorkerPool::jobFinished(IWorker * worker) {
+void WorkerPool::jobFinished(IWorker * worker)
+{
     if (workerList.removeOne(worker)) {
         worker->getObject()->deleteLater();
+
         emit workerFinished();
     }
 }
 
-void WorkerPool::updateProgress(int) {
+void WorkerPool::updateProgress(int)
+{
     emit progressChanged();
 }
 
-void WorkerPool::execute(IWorker * worker) {
+void WorkerPool::execute(IWorker * worker)
+{
     if (worker != NULL) {
         connect(worker->getObject(),
                 SIGNAL(finished(IWorker *)),
@@ -55,18 +62,18 @@ void WorkerPool::execute(IWorker * worker) {
     }
 }
 
-bool WorkerPool::isEmpty() {
-
+bool WorkerPool::isEmpty()
+{
     return workerList.isEmpty();
 }
 
-int WorkerPool::size() {
-
+int WorkerPool::size()
+{
     return workerList.size();
 }
 
-void WorkerPool::stop() {
-    foreach (IWorker * worker, workerList) {
+void WorkerPool::stop()
+{
+    foreach (IWorker * worker, workerList)
         worker->stop();
-    }
 }

@@ -19,8 +19,8 @@
  *                                                                        *
  **************************************************************************/
 
-#ifndef DROP_TABLE_VIEW_H
-#define DROP_TABLE_VIEW_H
+#ifndef DROP_TABLE_VIEW_HPP
+#define DROP_TABLE_VIEW_HPP
 
 #include <QTreeView>
 #include <QWidget>
@@ -30,7 +30,8 @@
 #include <QMimeData>
 #include <QStyledItemDelegate>
 
-class DropTableView : public QTreeView {
+class DropTableView : public QTreeView
+{
 
     Q_OBJECT
 
@@ -47,7 +48,8 @@ signals:
 
 };
 
-class TrackViewDelegate : public QStyledItemDelegate {
+class TrackViewDelegate : public QStyledItemDelegate
+{
 
 public:
     explicit TrackViewDelegate(QObject * parent = 0);
@@ -58,4 +60,4 @@ public:
 
 };
 
-#endif // DROP_TABLE_VIEW_H
+#endif // DROP_TABLE_VIEW_HPP

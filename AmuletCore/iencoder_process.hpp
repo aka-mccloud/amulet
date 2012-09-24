@@ -28,7 +28,8 @@
 
 #include "codec_properties.hpp"
 
-class IEncoderProcess {
+class IEncoderProcess
+{
 
 public:
     virtual ~IEncoderProcess() {}

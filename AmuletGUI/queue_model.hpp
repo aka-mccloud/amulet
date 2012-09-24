@@ -20,19 +20,21 @@
  **************************************************************************/
 
 
-#ifndef QUEUE_MODEL_H
-#define QUEUE_MODEL_H
+#ifndef QUEUE_MODEL_HPP
+#define QUEUE_MODEL_HPP
 
 #include <QAbstractTableModel>
 
 #include "queue.hpp"
 
-class QueueModel : public QAbstractTableModel {
+class QueueModel : public QAbstractTableModel
+{
 
     Q_OBJECT
 
 public:
-    enum {
+    enum
+    {
         ProgressRole = 32
     };
 
@@ -46,9 +48,7 @@ public:
     int rowCount(const QModelIndex & parent = QModelIndex()) const;
     int columnCount(const QModelIndex & parent = QModelIndex()) const;
     QVariant data(const QModelIndex & index, int role) const;
-    QVariant headerData(int section,
-                        Qt::Orientation orientation,
-                        int role = Qt::DisplayRole) const;
+    QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const;
 
     void append(const QFileInfoList & files);
     void delIndexes(const QModelIndexList & indexList);
@@ -60,4 +60,4 @@ public slots:
 
 };
 
-#endif // QUEUE_MODEL_H
+#endif // QUEUE_MODEL_HPP

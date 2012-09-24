@@ -24,9 +24,10 @@
 #include <tag.h>
 #include <fileref.h>
 
-#include "tag_engine.h"
+#include "tag_engine.hpp"
 
-TagData * TagEngine::readFromFile(const QFileInfo & file) {
+TagData * TagEngine::readFromFile(const QFileInfo & file)
+{
     TagData * tagData = new TagData();
     TagLib::FileRef fileRef(file.absoluteFilePath().toLocal8Bit());
     
@@ -48,7 +49,8 @@ TagData * TagEngine::readFromFile(const QFileInfo & file) {
     return tagData;
 }
 
-bool TagEngine::writeToFile(const QFileInfo & file, TagData * tagData) {
+bool TagEngine::writeToFile(const QFileInfo & file, TagData * tagData)
+{
     TagLib::FileRef fileRef(file.absoluteFilePath().toLocal8Bit());
     
     if (!fileRef.isNull()) {
@@ -64,7 +66,6 @@ bool TagEngine::writeToFile(const QFileInfo & file, TagData * tagData) {
             tag->setTrack(tagData->track);
             tag->setYear(tagData->year);
         } else {
-            
             return false;
         }
     }

@@ -19,8 +19,8 @@
  *                                                                        *
  **************************************************************************/
 
-#ifndef ICODEC_PROVIDER_H
-#define ICODEC_PROVIDER_H
+#ifndef ICODEC_PROVIDER_HPP
+#define ICODEC_PROVIDER_HPP
 
 #include <QMap>
 
@@ -28,7 +28,8 @@
 #include "idecoder_process.hpp"
 #include "iencoder_process.hpp"
 
-class ICodecProvider {
+class ICodecProvider
+{
 
 public:
     virtual ~ICodecProvider() {}
@@ -42,4 +43,4 @@ typedef QMap<QString, ICodecProvider *> CodecMap;
 
 Q_DECLARE_INTERFACE(ICodecProvider, "org.amulet.ICodecProvider")
 
-#endif // ICODEC_PROVIDER_H
+#endif // ICODEC_PROVIDER_HPP

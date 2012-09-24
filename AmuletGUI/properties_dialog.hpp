@@ -34,10 +34,10 @@ class PropertiesDialog : public QDialog {
     Q_OBJECT
 
 public:
-    explicit PropertiesDialog(QSettings * s, QWidget * parent = 0);
-    ~PropertiesDialog();
+    explicit PropertiesDialog(QSettings * settings, QWidget * parent = 0);
+    virtual ~PropertiesDialog();
 
-    bool isLanguageChanged;
+    bool languageChanged;
 
 private:
     Ui::PropertiesDialog * ui;

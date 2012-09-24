@@ -25,23 +25,29 @@
 
 #include "queue_model.hpp"
 
-QueueModel::QueueModel(QObject * parent) :
-        QAbstractTableModel(parent) {
+QueueModel::QueueModel(QObject * parent)
+    : QAbstractTableModel(parent)
+{
+    // empty
 }
 
-void QueueModel::updateProgress() {
+void QueueModel::updateProgress()
+{
     emit dataChanged(index(0, 1), index(queue.size(), 1));
 }
 
-int QueueModel::rowCount(const QModelIndex &) const {
+int QueueModel::rowCount(const QModelIndex &) const
+{
     return queue.size();
 }
 
-int QueueModel::columnCount(const QModelIndex &) const {
+int QueueModel::columnCount(const QModelIndex &) const
+{
     return 2;
 }
 
-QVariant QueueModel::headerData(int section, Qt::Orientation orientation, int role) const {
+QVariant QueueModel::headerData(int section, Qt::Orientation orientation, int role) const
+{
     if ((orientation == Qt::Horizontal) && (role == Qt::DisplayRole)) {
         switch (section) {
         case 0:
@@ -54,7 +60,8 @@ QVariant QueueModel::headerData(int section, Qt::Orientation orientation, int ro
     return QVariant();
 }
 
-QVariant QueueModel::data(const QModelIndex &index, int role) const {
+QVariant QueueModel::data(const QModelIndex &index, int role) const
+{
     if (!index.isValid())
         return QVariant();
 
@@ -73,47 +80,37 @@ QVariant QueueModel::data(const QModelIndex &index, int role) const {
         }
     }
 
-//    if (role == Qt::DecorationRole) {
-//        switch (index.column()) {
-//        case 0:
-//            if (it->second == 2) {
-//                return QIcon::fromTheme("dialog-ok");
-//            }
-//            if (it->second == 1) {
-//                return QIcon::fromTheme("view-refresh");
-//            }
-//            return QIcon();
-//        }
-//    }
-
     return QVariant();
 }
 
-void QueueModel::append(const QFileInfoList & files) {
-    foreach(QFileInfo file, files) {
+void QueueModel::append(const QFileInfoList & files)
+{
+    foreach(QFileInfo file, files)
         queue.append(QueueItem(file));
-    }
 
     reset();
 }
 
-void QueueModel::delIndexes(const QModelIndexList & indexList) {
+void QueueModel::delIndexes(const QModelIndexList & indexList)
+{
     QSet<int> indices;
 
-    foreach (QModelIndex index, indexList) {
+    foreach (QModelIndex index, indexList)
         indices.insert(index.row());
-    }
+
     queue.removeIndices(indices.toList());
 
     reset();
 }
 
-void QueueModel::clear() {
+void QueueModel::clear()
+{
     queue.clear();
 
     reset();
 }
 
-Queue * QueueModel::getQueue() {
+Queue * QueueModel::getQueue()
+{
     return &queue;
 }

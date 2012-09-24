@@ -30,7 +30,8 @@
 
 #define decoderName "flac"
 
-class DecoderFlac : public QObject, public IDecoderProcess {
+class DecoderFlac : public QObject, public IDecoderProcess
+{
 
     Q_OBJECT
     Q_INTERFACES(IDecoderProcess)

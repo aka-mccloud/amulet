@@ -25,12 +25,10 @@
 #include "properties_dialog.hpp"
 #include "ui_properties_dialog.h"
 
-PropertiesDialog::PropertiesDialog(QSettings * s, QWidget * parent) :
-    QDialog(parent),
-    ui(new Ui::PropertiesDialog) {
+PropertiesDialog::PropertiesDialog(QSettings * settings, QWidget * parent)
+    : QDialog(parent), ui(new Ui::PropertiesDialog), settings(settings), languageChanged(false)
+{
     ui->setupUi(this);
-    settings = s;
-    isLanguageChanged = false;
 
     settings->beginGroup("Properties");
     targetPath = settings->value("target_path", QDesktopServices::storageLocation(QDesktopServices::HomeLocation)).toString();
@@ -45,29 +43,33 @@ PropertiesDialog::PropertiesDialog(QSettings * s, QWidget * parent) :
     settings->endGroup();
 }
 
-PropertiesDialog::~PropertiesDialog() {
+PropertiesDialog::~PropertiesDialog()
+{
     delete ui;
 }
 
-void PropertiesDialog::on_samePathRadioButton_clicked() {
+void PropertiesDialog::on_samePathRadioButton_clicked()
+{
     ui->selectButton->setEnabled(false);
     ui->pathEdit->setEnabled(false);
 }
 
-void PropertiesDialog::on_pathRadioButton_clicked() {
+void PropertiesDialog::on_pathRadioButton_clicked()
+{
     ui->selectButton->setEnabled(true);
     ui->pathEdit->setEnabled(true);
 }
 
-void PropertiesDialog::on_selectButton_clicked() {
+void PropertiesDialog::on_selectButton_clicked()
+{
     QString targetPath = QFileDialog::getExistingDirectory(this, tr("Select dir"), this->targetPath);
 
-    if (!targetPath.isEmpty()) {
+    if (!targetPath.isEmpty())
         ui->pathEdit->setText(targetPath);
-    }
 }
 
-void PropertiesDialog::on_buttonBox_accepted() {
+void PropertiesDialog::on_buttonBox_accepted()
+{
     settings->beginGroup("Properties");
     settings->setValue("path", ui->pathRadioButton->isChecked());
     settings->setValue("target_path", ui->pathEdit->text());
@@ -76,6 +78,7 @@ void PropertiesDialog::on_buttonBox_accepted() {
     settings->endGroup();
 }
 
-void PropertiesDialog::on_languageBox_currentIndexChanged(int) {
-    isLanguageChanged = true;
+void PropertiesDialog::on_languageBox_currentIndexChanged(int)
+{
+    languageChanged = true;
 }

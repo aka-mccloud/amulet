@@ -21,48 +21,61 @@
 
 #include "encoder_flac.hpp"
 
-EncoderFlac::EncoderFlac(QObject * parent) :
-    QObject(parent) {
-
+EncoderFlac::EncoderFlac(QObject * parent)
+    : QObject(parent)
+{
     process = new QProcess(this);
-    connect(process, SIGNAL(finished(int)), this, SLOT(finished(int)));
+
+    connect(process,
+            SIGNAL(finished(int)),
+            SLOT(finished(int)));
 }
 
-EncoderFlac::~EncoderFlac() {
+EncoderFlac::~EncoderFlac()
+{
     delete process;
 }
 
-void EncoderFlac::setOutputFile(const QString & fileName) {
+void EncoderFlac::setOutputFile(const QString & fileName)
+{
     outputFile = fileName;
 }
 
-void EncoderFlac::setProperties(const CodecProperties & props) {
+void EncoderFlac::setProperties(const CodecProperties & props)
+{
     args += props.toStringList(options);
 }
 
-QProcess * EncoderFlac::getProcessInstance() {
+QProcess * EncoderFlac::getProcessInstance()
+{
     return process;
 }
 
-QObject * EncoderFlac::getObject() {
+QObject * EncoderFlac::getObject()
+{
     return this;
 }
 
-void EncoderFlac::start() {
-    if (inputFile.isEmpty()) {
+void EncoderFlac::start()
+{
+    if (inputFile.isEmpty())
         args += QString("-");
-    } else {
+    else
         args += inputFile;
-    }
+
     args += outputFile;
 
     process->start(coderName, args);
 }
 
-void EncoderFlac::stop() {
+void EncoderFlac::stop()
+{
+    terminated = true;
     process->terminate();
 }
 
-void EncoderFlac::finished(int) {
-    emit finished();
+void EncoderFlac::finished(int)
+{
+    if (!terminated)
+        emit finished();
 }

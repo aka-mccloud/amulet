@@ -25,12 +25,14 @@
 #include <QObject>
 #include <QFileInfo>
 
-class QueueItem : public QObject {
+class QueueItem : public QObject
+{
 
     Q_OBJECT
 
 public:
-    enum Status {
+    enum Status
+    {
         NONE,
         WAITING,
         PROCESSING,

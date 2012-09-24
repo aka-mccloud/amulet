@@ -23,9 +23,10 @@
 
 #include "about_dialog.hpp"
 
-AboutDialog::AboutDialog(QWidget * parent) :
-    QDialog(parent) {
-    ui = new Ui::AboutDialog;
+AboutDialog::AboutDialog(QWidget * parent)
+    : QDialog(parent)
+{
+    ui = new Ui::AboutDialog();
     ui->setupUi(this);
     QPixmap pix(":/icons/amulet.png");
     this->ui->aboutLogoLbl->setPixmap(pix);

@@ -19,16 +19,10 @@
  *                                                                        *
  **************************************************************************/
 
-#include "tag_data.h"
+#include "tag_data.hpp"
 
-TagData::TagData() :
-    disc(0),
-    discTotal(0),
-    track(0),
-    year(0) {
-    
-}
-
-TagData::~TagData() {
-
+TagData::TagData()
+    : disc(0), discTotal(0), track(0), year(0)
+{
+    //empty
 }

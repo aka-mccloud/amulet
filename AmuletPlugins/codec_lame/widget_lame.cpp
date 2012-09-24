@@ -22,26 +22,31 @@
 #include "widget_lame.hpp"
 #include "ui_widget_lame.h"
 
-WidgetLame::WidgetLame() :
-    ui(new Ui::WidgetLame) {
+WidgetLame::WidgetLame()
+    : ui(new Ui::WidgetLame)
+{
     ui->setupUi(this);
     ui->bitrateBox->addItems(QString("320 256 224 192 160 128 112 96 80 64 80 64 56 48 40 32").split(' '));
     ui->sampleRateBox->addItems(QString("48000 44100 32000").split(' '));
 }
 
-WidgetLame::~WidgetLame() {
+WidgetLame::~WidgetLame()
+{
     delete ui;
 }
 
-void WidgetLame::on_qualityEdit_valueChanged(int value) {
+void WidgetLame::on_qualityEdit_valueChanged(int value)
+{
     ui->qualitySlider->setValue(value);
 }
 
-void WidgetLame::on_qualitySlider_valueChanged(int value) {
+void WidgetLame::on_qualitySlider_valueChanged(int value)
+{
     ui->qualityEdit->setValue(value);
 }
 
-CodecProperties WidgetLame::getProperties() {
+CodecProperties WidgetLame::getProperties()
+{
     CodecProperties properties;
     properties[CodecProperties::BITRATE] = ui->bitrateBox->currentText();
     properties[CodecProperties::SAMPLERATE] = ui->sampleRateBox->currentText();
@@ -49,6 +54,7 @@ CodecProperties WidgetLame::getProperties() {
     return properties;
 }
 
-void WidgetLame::on_selectBox_currentIndexChanged(int index) {
+void WidgetLame::on_selectBox_currentIndexChanged(int index)
+{
     ui->stackedWidget->setCurrentIndex(index);
 }

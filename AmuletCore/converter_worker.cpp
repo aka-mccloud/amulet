@@ -25,23 +25,16 @@
 
 #include "converter_worker.hpp"
 
-ConverterWorker::ConverterWorker(QueueItem * queueItem,
-                                 const QString & targetPath,
-                                 const QString & format,
-                                 IDecoderProcess * decoder,
-                                 IEncoderProcess * encoder,
-                                 QObject * parent) :
-    QObject(parent),
-    queueItem(queueItem),
-    decoder(decoder),
-    encoder(encoder),
-    completed(0) {
+ConverterWorker::ConverterWorker(QueueItem * queueItem, const QString & targetPath,
+                                 const QString & format, IDecoderProcess * decoder,
+                                 IEncoderProcess * encoder, QObject * parent)
+    : QObject(parent), queueItem(queueItem), decoder(decoder), encoder(encoder), completed(0)
+{
     tagData = TagEngine::readFromFile(queueItem->getFile());
     targetFile = replaceTags(targetPath) + "." + format;
     QDir dir(targetFile.section('/', 0, -2));
-    if (!dir.exists()) {
+    if (!dir.exists())
         dir.mkpath(dir.absolutePath());
-    }
 
     decoder->setInputFile(queueItem->getFile().absoluteFilePath());
     encoder->setOutputFile(targetFile);
@@ -54,24 +47,24 @@ ConverterWorker::ConverterWorker(QueueItem * queueItem,
             SLOT(progressReady(int)));
 }
 
-ConverterWorker::~ConverterWorker() {
+ConverterWorker::~ConverterWorker()
+{
     stop();
+
     delete decoder;
     delete encoder;
 }
 
-QString ConverterWorker::replaceTags(QString path) {
+QString ConverterWorker::replaceTags(QString path)
+{
     QRegExp rx("[$]{1}num[(]{1}(%[\\w]+%),([\\d]+)[)]{1}");
     while (rx.indexIn(path) >= 0) {
          int num = rx.cap(2).toInt();
 
-         if (rx.cap(1) == "%track%") {
-             path.replace(rx.cap(0),
-                          QString("%1").arg(QString::number(tagData->track), num, '0'),
-                          Qt::CaseInsensitive);
-         } else {
+         if (rx.cap(1) == "%track%")
+             path.replace(rx.cap(0), QString("%1").arg(QString::number(tagData->track), num, '0'), Qt::CaseInsensitive);
+         else
              path.replace(rx.cap(0), rx.cap(1));
-         }
     }
 
     path.replace("%artist%", tagData->artist, Qt::CaseInsensitive);
@@ -84,29 +77,34 @@ QString ConverterWorker::replaceTags(QString path) {
     return path;
 }
 
-void ConverterWorker::endConvert() {
+void ConverterWorker::endConvert()
+{
     TagEngine::writeToFile(QFileInfo(targetFile), tagData);
+
     emit finished(this);
 }
 
-void ConverterWorker::progressReady(int p) {
+void ConverterWorker::progressReady(int p)
+{
 //    qDebug() << p;
     queueItem->setProgress(p);
 
     emit progress(p);
 }
 
-QObject * ConverterWorker::getObject() {
-
+QObject * ConverterWorker::getObject()
+{
     return this;
 }
 
-void ConverterWorker::start() {
+void ConverterWorker::start()
+{
     decoder->start();
     encoder->start();
 }
 
-void ConverterWorker::stop() {
+void ConverterWorker::stop()
+{
     decoder->stop();
     encoder->stop();
 }

@@ -34,7 +34,8 @@
 
 #include "AmuletCore_global.hpp"
 
-class AMULETCORESHARED_EXPORT ConverterService : public QObject {
+class AMULETCORESHARED_EXPORT ConverterService : public QObject
+{
 
     Q_OBJECT
 

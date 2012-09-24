@@ -21,10 +21,13 @@
 
 #include "codec_properties.hpp"
 
-CodecProperties::CodecProperties() {
+CodecProperties::CodecProperties()
+{
+    // empty
 }
 
-QStringList CodecProperties::toStringList(const QMap<Options, QString> & options) const {
+QStringList CodecProperties::toStringList(const QMap<Options, QString> & options) const
+{
     QStringList codecProps;
 
     QList<Options> keys = values.keys();
@@ -38,7 +41,7 @@ QStringList CodecProperties::toStringList(const QMap<Options, QString> & options
     return codecProps;
 }
 
-QString & CodecProperties::operator [](CodecProperties::Options option) {
-
+QString & CodecProperties::operator [](CodecProperties::Options option)
+{
     return values[option];
 }

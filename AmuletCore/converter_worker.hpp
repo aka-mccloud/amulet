@@ -25,13 +25,14 @@
 #include <QLinkedList>
 
 #include "queue_item.hpp"
-#include "tag_data.h"
-#include "tag_engine.h"
+#include "tag_data.hpp"
+#include "tag_engine.hpp"
 #include "iworker.hpp"
 #include "idecoder_process.hpp"
 #include "iencoder_process.hpp"
 
-class ConverterWorker : public QObject, public IWorker {
+class ConverterWorker : public QObject, public IWorker
+{
 
     Q_OBJECT
     Q_INTERFACES(IWorker)
@@ -51,12 +52,9 @@ private slots:
     void progressReady(int p);
 
 public:
-    explicit ConverterWorker(QueueItem * queueItem,
-                             const QString & targetPath,
-                             const QString & format,
-                             IDecoderProcess * decoder,
-                             IEncoderProcess * encoder,
-                             QObject * parent = 0);
+    explicit ConverterWorker(QueueItem * queueItem, const QString & targetPath,
+                             const QString & format, IDecoderProcess * decoder,
+                             IEncoderProcess * encoder, QObject * parent = 0);
     virtual ~ConverterWorker();
 
     QObject * getObject();
