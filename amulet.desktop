@@ -1,0 +1,11 @@
+[Desktop Entry]
+Version=0.1
+Type=Application
+Name=Amulet
+GenericName=Amulet
+Icon=amulet
+Exec=amulet
+Comment=Audio converter
+Comment[ru]=Аудио конвертор
+Comment[ua]=Аудіо конвертер
+Categories=AudioVideo;Audio;AudioVideoEditing;
