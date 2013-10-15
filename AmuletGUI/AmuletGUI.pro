@@ -8,7 +8,7 @@ QT       += core gui
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-TARGET = AmuletGUI
+TARGET = amulet
 TEMPLATE = app
 
 
@@ -33,6 +33,15 @@ FORMS    += \
 
 RESOURCES += \
     amulet.qrc
+
+unix:!symbian {
+    maemo5 {
+        target.path = /opt/usr/bin
+    } else {
+        target.path = /usr/bin
+    }
+    INSTALLS += target
+}
 
 win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../AmuletCore/release/ -lAmuletCore
 else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../AmuletCore/debug/ -lAmuletCore

@@ -28,9 +28,9 @@ HEADERS += \
 
 unix:!symbian {
     maemo5 {
-        target.path = /opt/usr/lib
+        target.path = /opt/usr/share/amulet/plugins
     } else {
-        target.path = /usr/lib
+        target.path = /usr/share/amulet/plugins
     }
     INSTALLS += target
 }
