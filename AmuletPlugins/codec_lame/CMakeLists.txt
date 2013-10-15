@@ -11,12 +11,14 @@ include_directories(
 set(CodecLame_SOURCES
     codec_lame.cpp
     codec_provider_lame.cpp
+    decoder_lame.cpp
     encoder_lame.cpp
     widget_lame.cpp
 )
 
 set(CodecLame_HEADERS
     codec_lame.hpp
+    decoder_lame.hpp
     encoder_lame.hpp
     widget_lame.hpp
 )

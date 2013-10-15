@@ -34,6 +34,9 @@ class CodecLame : public ICodecPlugin
 
     Q_OBJECT
     Q_INTERFACES(ICodecPlugin)
+#if QT_MAJOR_VERSION > 4
+    Q_PLUGIN_METADATA(IID "org.amulet.codec_lame" FILE "codec_lame.json")
+#endif
 
 private:
     ICodecProvider * codecProvider;

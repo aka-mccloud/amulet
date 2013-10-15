@@ -19,31 +19,52 @@
  *                                                                        *
  **************************************************************************/
 
-#ifndef TAG_DATA_HPP
-#define TAG_DATA_HPP
+#ifndef DECODER_HPP
+#define DECODER_HPP
 
-#include <QString>
+#include <QObject>
+#include <QProcess>
+#include <QStringList>
 
-#include "AmuletCore_global.hpp"
+#include "idecoder_process.hpp"
 
-class AMULETCORESHARED_EXPORT TagData
+#define decoderName "lame"
+
+class DecoderLame : public QObject, public IDecoderProcess
 {
 
+    Q_OBJECT
+    Q_INTERFACES(IDecoderProcess)
+
+private:
+    QProcess * process;
+    QStringList args;
+    QString inputFile;
+    QString outputFile;
+    int completed;
+    bool terminated;
+
+private slots:
+    void calculateProgress();
+    void finished(int);
+
 public:
-    explicit TagData();
-    virtual ~TagData() {}
-    
-    QString album;
-    QString artist;
-    QString comment;
-    QString composer;
-    QString genre;
-    QString title;
-    int disc;
-    int discTotal;
-    int track;
-    int year;
+    explicit DecoderLame(QObject * parent = 0);
+    virtual ~DecoderLame();
+
+    void setInputFile(const QString & fileName);
+    void setOutputFile(const QString & fileName);
+    QProcess * getProcessInstance();
+    QObject * getObject();
+
+public slots:
+    void start();
+    void stop();
+
+signals:
+    void progress(int);
+    void finished();
 
 };
 
-#endif // TAG_DATA_HPP
+#endif // DECODER_HPP

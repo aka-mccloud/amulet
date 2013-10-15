@@ -24,8 +24,9 @@
 EncoderFlac::EncoderFlac(QObject * parent)
     : QObject(parent)
 {
-    process = new QProcess(this);
+    options[CodecProperties::SAMPLERATE] = "--sample-rate=";
 
+    process = new QProcess(this);
     connect(process,
             SIGNAL(finished(int)),
             SLOT(finished(int)));
@@ -43,7 +44,7 @@ void EncoderFlac::setOutputFile(const QString & fileName)
 
 void EncoderFlac::setProperties(const CodecProperties & props)
 {
-    args += props.toStringList(options);
+    //args += props.toStringList(options);
 }
 
 QProcess * EncoderFlac::getProcessInstance()
@@ -63,6 +64,7 @@ void EncoderFlac::start()
     else
         args += inputFile;
 
+    args += QString("-o");
     args += outputFile;
 
     process->start(coderName, args);

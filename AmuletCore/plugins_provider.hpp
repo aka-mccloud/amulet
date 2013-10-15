@@ -22,10 +22,12 @@
 #ifndef PLUGINS_PROVIDER_HPP
 #define PLUGINS_PROVIDER_HPP
 
+#include "AmuletCore_global.hpp"
+
 #include "icodec_provider.hpp"
 #include "plugin_loader.hpp"
 
-class PluginsProvider
+class AMULETCORESHARED_EXPORT PluginsProvider
 {
 
 private:

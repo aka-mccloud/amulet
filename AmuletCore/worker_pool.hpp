@@ -24,10 +24,12 @@
 
 #include <QObject>
 
+#include "AmuletCore_global.hpp"
+
 #include "iworker.hpp"
 #include "converter_worker.hpp"
 
-class WorkerPool : public QObject
+class AMULETCORESHARED_EXPORT WorkerPool : public QObject
 {
 
     Q_OBJECT

@@ -26,7 +26,9 @@
 #include <QString>
 #include <QProcess>
 
-class IDecoderProcess
+#include "AmuletCore_global.hpp"
+
+class AMULETCORESHARED_EXPORT IDecoderProcess
 {
 
 public:

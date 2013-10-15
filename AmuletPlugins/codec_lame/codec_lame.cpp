@@ -46,4 +46,6 @@ ICodecWidget * CodecLame::getWidget()
     return new WidgetLame();
 }
 
+#if QT_MAJOR_VERSION < 5
 Q_EXPORT_PLUGIN(CodecLame)
+#endif

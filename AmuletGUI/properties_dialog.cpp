@@ -20,7 +20,11 @@
  **************************************************************************/
 
 #include <QFileDialog>
+#if QT_MAJOR_VERSION > 4
+#include <QStandardPaths>
+#else
 #include <QDesktopServices>
+#endif
 
 #include "properties_dialog.hpp"
 #include "ui_properties_dialog.h"
@@ -31,7 +35,13 @@ PropertiesDialog::PropertiesDialog(QSettings * settings, QWidget * parent)
     ui->setupUi(this);
 
     settings->beginGroup("Properties");
+
+#if QT_MAJOR_VERSION > 4
+    targetPath = settings->value("target_path", QStandardPaths::standardLocations(QStandardPaths::HomeLocation)).toString();
+#else
     targetPath = settings->value("target_path", QDesktopServices::storageLocation(QDesktopServices::HomeLocation)).toString();
+#endif
+
     if (settings->value("path", false).toBool()) {
         ui->pathRadioButton->setChecked(true);
         ui->selectButton->setEnabled(true);

@@ -24,7 +24,9 @@
 
 #include <QObject>
 
-class IWorker
+#include "AmuletCore_global.hpp"
+
+class AMULETCORESHARED_EXPORT IWorker
 {
 
 public:

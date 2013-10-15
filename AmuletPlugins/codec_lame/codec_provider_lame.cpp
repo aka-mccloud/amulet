@@ -19,12 +19,13 @@
  *                                                                        *
  **************************************************************************/
 
+#include "decoder_lame.hpp"
 #include "encoder_lame.hpp"
 #include "codec_provider_lame.hpp"
 
 IDecoderProcess * CodecProviderLame::getDecoder()
 {
-    return NULL;
+    return new DecoderLame();
 }
 
 IEncoderProcess * CodecProviderLame::getEncoder()

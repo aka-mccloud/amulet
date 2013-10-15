@@ -24,6 +24,8 @@
 
 #include <QLinkedList>
 
+#include "AmuletCore_global.hpp"
+
 #include "queue_item.hpp"
 #include "tag_data.hpp"
 #include "tag_engine.hpp"
@@ -31,7 +33,7 @@
 #include "idecoder_process.hpp"
 #include "iencoder_process.hpp"
 
-class ConverterWorker : public QObject, public IWorker
+class AMULETCORESHARED_EXPORT ConverterWorker : public QObject, public IWorker
 {
 
     Q_OBJECT

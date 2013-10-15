@@ -21,15 +21,15 @@
 
 #include <QDebug>
 
-#include <tag.h>
-#include <fileref.h>
+#include <taglib/tag.h>
+#include <taglib/fileref.h>
 
 #include "tag_engine.hpp"
 
 TagData * TagEngine::readFromFile(const QFileInfo & file)
 {
     TagData * tagData = new TagData();
-    TagLib::FileRef fileRef(file.absoluteFilePath().toLocal8Bit());
+    TagLib::FileRef fileRef(TagLib::FileName(file.absoluteFilePath().toStdString().c_str()));
     
     if (!fileRef.isNull()) {
         TagLib::Tag * tag = NULL;
@@ -51,7 +51,7 @@ TagData * TagEngine::readFromFile(const QFileInfo & file)
 
 bool TagEngine::writeToFile(const QFileInfo & file, TagData * tagData)
 {
-    TagLib::FileRef fileRef(file.absoluteFilePath().toLocal8Bit());
+    TagLib::FileRef fileRef(TagLib::FileName(file.absoluteFilePath().toLocal8Bit()));
     
     if (!fileRef.isNull()) {
         TagLib::Tag * tag = NULL;

@@ -25,12 +25,13 @@
 #include <QObject>
 #include <QLinkedList>
 
+#include "AmuletCore_global.hpp"
+
 #include "queue_item.hpp"
-#include <qlinkedlist.h>
 
 typedef QLinkedList<QueueItem> QueueItemList;
 
-class Queue : public QObject
+class AMULETCORESHARED_EXPORT Queue : public QObject
 {
 
     Q_OBJECT

@@ -25,11 +25,13 @@
 #include <QObject>
 #include <QDir>
 
+#include "AmuletCore_global.hpp"
+
 #include "codec_factory.hpp"
 #include "converter_worker.hpp"
 #include "queue_item.hpp"
 
-class ConverterFactory : public QObject
+class AMULETCORESHARED_EXPORT ConverterFactory : public QObject
 {
 
     Q_OBJECT

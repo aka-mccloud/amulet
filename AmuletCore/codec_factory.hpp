@@ -22,11 +22,13 @@
 #ifndef CODEC_FACTORY_HPP
 #define CODEC_FACTORY_HPP
 
+#include "AmuletCore_global.hpp"
+
 #include "idecoder_process.hpp"
 #include "iencoder_process.hpp"
 #include "plugins_provider.hpp"
 
-class CodecFactory
+class AMULETCORESHARED_EXPORT CodecFactory
 {
 
 private:

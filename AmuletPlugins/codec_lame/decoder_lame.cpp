@@ -19,31 +19,80 @@
  *                                                                        *
  **************************************************************************/
 
-#ifndef TAG_DATA_HPP
-#define TAG_DATA_HPP
+#include <QDebug>
 
-#include <QString>
+#include "decoder_lame.hpp"
 
-#include "AmuletCore_global.hpp"
-
-class AMULETCORESHARED_EXPORT TagData
+DecoderLame::DecoderLame(QObject * parent)
+    : QObject(parent), terminated(false)
 {
+    args += QString("--decode");
+    process = new QProcess();
 
-public:
-    explicit TagData();
-    virtual ~TagData() {}
-    
-    QString album;
-    QString artist;
-    QString comment;
-    QString composer;
-    QString genre;
-    QString title;
-    int disc;
-    int discTotal;
-    int track;
-    int year;
+    connect(process,
+            SIGNAL(readyReadStandardError()),
+            SLOT(calculateProgress()));
+    connect(process,
+            SIGNAL(finished(int)),
+            SLOT(finished(int)));
+}
 
-};
+DecoderLame::~DecoderLame()
+{
+    delete process;
+}
 
-#endif // TAG_DATA_HPP
+void DecoderLame::calculateProgress()
+{
+    QString out(process->readAllStandardError());
+    QRegExp rx("Frame#.*([\\d]+)/([\\d]+)");
+
+    if (rx.indexIn(out) >= 0) {
+        completed = rx.cap(1).toInt() / rx.cap(2).toInt() * 100;
+
+        emit progress(completed);
+    }
+}
+
+void DecoderLame::setInputFile(const QString & fileName)
+{
+    inputFile = fileName;
+}
+
+void DecoderLame::setOutputFile(const QString & fileName)
+{
+    outputFile = fileName;
+}
+
+QProcess * DecoderLame::getProcessInstance()
+{
+    return process;
+}
+
+QObject * DecoderLame::getObject()
+{
+    return this;
+}
+
+void DecoderLame::start()
+{
+    args += inputFile;
+    if (outputFile.isEmpty())
+        args += QString("-");
+    else
+        args += outputFile;
+
+    process->start(decoderName, args);
+}
+
+void DecoderLame::stop()
+{
+    terminated = true;
+    process->terminate();
+}
+
+void DecoderLame::finished(int)
+{
+    if (!terminated)
+        emit finished();
+}

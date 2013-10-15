@@ -19,7 +19,11 @@
  *                                                                        *
  **************************************************************************/
 
+#if QT_MAJOR_VERSION > 4
+#include <QStandardPaths>
+#else
 #include <QDesktopServices>
+#endif
 #include <QDebug>
 
 #include "converter_service.hpp"
@@ -43,7 +47,13 @@ ConverterService::~ConverterService()
 void ConverterService::setSettings(const QSettings & settings)
 {
     if (settings.value("Properties/path", false).toBool())
+    {
+#if QT_MAJOR_VERSION > 4
+        targetPath = settings.value("Properties/target_path", QStandardPaths::standardLocations(QStandardPaths::HomeLocation)).toString();
+#else
         targetPath = settings.value("Properties/target_path", QDesktopServices::storageLocation(QDesktopServices::HomeLocation)).toString();
+#endif
+    }
 
     setMaxThreadCount(settings.value("Properties/threads", 1).toInt());
 }

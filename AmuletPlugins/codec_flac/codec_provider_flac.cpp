@@ -20,6 +20,7 @@
  **************************************************************************/
 
 #include "decoder_flac.hpp"
+#include "encoder_flac.hpp"
 #include "codec_provider_flac.hpp"
 
 IDecoderProcess * CodecProviderFlac::getDecoder()
@@ -29,5 +30,5 @@ IDecoderProcess * CodecProviderFlac::getDecoder()
 
 IEncoderProcess * CodecProviderFlac::getEncoder()
 {
-    return NULL;
+    return new EncoderFlac();
 }

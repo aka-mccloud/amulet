@@ -24,11 +24,13 @@
 
 #include <QMap>
 
+#include "AmuletCore_global.hpp"
+
 #include "codec_properties.hpp"
 #include "idecoder_process.hpp"
 #include "iencoder_process.hpp"
 
-class ICodecProvider
+class AMULETCORESHARED_EXPORT ICodecProvider
 {
 
 public:

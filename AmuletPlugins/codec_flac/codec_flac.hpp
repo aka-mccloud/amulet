@@ -33,6 +33,10 @@ class CodecFlac : public ICodecPlugin
 
     Q_OBJECT
     Q_INTERFACES(ICodecPlugin)
+#if QT_MAJOR_VERSION > 4
+    Q_PLUGIN_METADATA(IID "org.amulet.codec_flac" FILE "codec_flac.json")
+#endif
+
 
 private:
     ICodecProvider * codecProvider;

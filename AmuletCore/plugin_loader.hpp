@@ -22,9 +22,11 @@
 #ifndef PLUGIN_LOADER_HPP
 #define PLUGIN_LOADER_HPP
 
+#include "AmuletCore_global.hpp"
+
 #include "icodec_plugin.hpp"
 
-class PluginLoader
+class AMULETCORESHARED_EXPORT PluginLoader
 {
 
 private:

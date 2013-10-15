@@ -46,4 +46,6 @@ ICodecWidget * CodecFlac::getWidget()
     return new WidgetFlac();
 }
 
+#if QT_MAJOR_VERSION < 5
 Q_EXPORT_PLUGIN(CodecFlac)
+#endif

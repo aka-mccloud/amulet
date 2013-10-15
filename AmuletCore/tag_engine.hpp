@@ -24,9 +24,11 @@
 
 #include <QFileInfo>
 
+#include "AmuletCore_global.hpp"
+
 #include "tag_data.hpp"
 
-class TagEngine
+class AMULETCORESHARED_EXPORT TagEngine
 {
     
 public:

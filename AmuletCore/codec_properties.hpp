@@ -26,7 +26,9 @@
 #include <QStringList>
 #include <QMap>
 
-class CodecProperties
+#include "AmuletCore_global.hpp"
+
+class AMULETCORESHARED_EXPORT CodecProperties
 {
 
 public:

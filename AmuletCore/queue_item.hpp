@@ -25,7 +25,9 @@
 #include <QObject>
 #include <QFileInfo>
 
-class QueueItem : public QObject
+#include "AmuletCore_global.hpp"
+
+class AMULETCORESHARED_EXPORT QueueItem : public QObject
 {
 
     Q_OBJECT

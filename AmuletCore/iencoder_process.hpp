@@ -26,9 +26,11 @@
 #include <QString>
 #include <QProcess>
 
+#include "AmuletCore_global.hpp"
+
 #include "codec_properties.hpp"
 
-class IEncoderProcess
+class AMULETCORESHARED_EXPORT IEncoderProcess
 {
 
 public:

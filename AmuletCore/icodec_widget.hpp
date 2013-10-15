@@ -19,14 +19,16 @@
  *                                                                        *
  **************************************************************************/
 
-#include <QtGui/QWidget>
+#include <QWidget>
+
+#include "AmuletCore_global.hpp"
 
 #include "codec_properties.hpp"
 
 #ifndef ICODEC_WIDGET_HPP
 #define ICODEC_WIDGET_HPP
 
-class ICodecWidget : public QWidget
+class AMULETCORESHARED_EXPORT ICodecWidget : public QWidget
 {
 
     Q_OBJECT

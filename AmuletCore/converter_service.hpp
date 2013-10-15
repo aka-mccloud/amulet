@@ -27,12 +27,12 @@
 #include <QList>
 #include <QDir>
 
+#include "AmuletCore_global.hpp"
+
 #include "codec_properties.hpp"
 #include "converter_factory.hpp"
 #include "worker_pool.hpp"
 #include "queue.hpp"
-
-#include "AmuletCore_global.hpp"
 
 class AMULETCORESHARED_EXPORT ConverterService : public QObject
 {

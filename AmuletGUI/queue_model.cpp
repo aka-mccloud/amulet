@@ -85,10 +85,11 @@ QVariant QueueModel::data(const QModelIndex &index, int role) const
 
 void QueueModel::append(const QFileInfoList & files)
 {
+    beginResetModel();
     foreach(QFileInfo file, files)
         queue.append(QueueItem(file));
-
-    reset();
+    endResetModel();
+    //reset();
 }
 
 void QueueModel::delIndexes(const QModelIndexList & indexList)
@@ -98,16 +99,20 @@ void QueueModel::delIndexes(const QModelIndexList & indexList)
     foreach (QModelIndex index, indexList)
         indices.insert(index.row());
 
+    beginResetModel();
     queue.removeIndices(indices.toList());
+    endResetModel();
 
-    reset();
+    //reset();
 }
 
 void QueueModel::clear()
 {
+    beginResetModel();
     queue.clear();
+    endResetModel();
 
-    reset();
+    //reset();
 }
 
 Queue * QueueModel::getQueue()

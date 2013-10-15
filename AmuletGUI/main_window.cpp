@@ -19,11 +19,15 @@
  *                                                                        *
  **************************************************************************/
 
+#if QT_MAJOR_VERSION > 4
+#include <QStandardPaths>
+#else
 #include <QDesktopServices>
+#endif
 #include <QFileDialog>
 #include <QUrl>
 
-#include <math.h>
+#include <cmath>
 
 #include "properties_dialog.hpp"
 #include "about_dialog.hpp"
@@ -36,6 +40,10 @@ MainWindow::MainWindow(QWidget *parent)
     pluginLoader = PluginLoader::instance();
 
     ui->setupUi(this);
+
+    foreach (QWidget * widget, pluginLoader->getWidgets())
+        ui->stackedWidget->addWidget(widget);
+
     ui->formatBox->addItems(pluginLoader->getFormats());
     ui->formatBox->setCurrentIndex(ui->formatBox->findText(settings.value("MainWindow/format", "flac").toString()));
     ui->queueTreeView->setModel(&queueModel);
@@ -49,10 +57,11 @@ MainWindow::MainWindow(QWidget *parent)
     ui->actionAbout->setIcon(QIcon::fromTheme("help-about"));
     toggleToolBar(true);
 
-    foreach (QWidget * widget, pluginLoader->getWidgets())
-        ui->stackedWidget->addWidget(widget);
-
+#if QT_MAJOR_VERSION > 4
+    defaultPath = settings.value("MainWindow/source_path", QStandardPaths::standardLocations(QStandardPaths::HomeLocation)).toString();
+#else
     defaultPath = settings.value("MainWindow/source_path", QDesktopServices::storageLocation(QDesktopServices::HomeLocation)).toString();
+#endif
 
     connect(&converterService,
             SIGNAL(progressChanged()),
@@ -187,7 +196,7 @@ void MainWindow::on_formatBox_currentIndexChanged(int index)
 
 void MainWindow::changeProgress()
 {
-    ui->progressBar->setValue(round(queueModel.getQueue()->countProgress()));
+    ui->progressBar->setValue(floor(queueModel.getQueue()->countProgress()));
 }
 
 void MainWindow::filesDropped(const QMimeData * mimeData)
