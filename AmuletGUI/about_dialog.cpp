@@ -31,7 +31,7 @@ AboutDialog::AboutDialog(QWidget * parent)
     QPixmap pix(":/icons/amulet.png");
     this->ui->aboutLogoLbl->setPixmap(pix);
     this->ui->aboutTextLbl->setText(
-                tr("<b>Amulet</b><br>Simple audio converter.<br>Version ") + "0.1" +
+                tr("<b>Amulet</b><br>Simple audio converter.<br>Version ") + "2.0 alpha 1" +
                 tr("<br><br>Authors:<br>Yura Ivanov <a href=\"mailto:yura.i1507@gmail.com\">yura.i1507@gmail.com</a>") +
                 tr("<br><br><a href=\"http://www.gnu.org/licenses/gpl-2.0.html\">License: GNU General Public License, version 2"));
 }
