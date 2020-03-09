@@ -100,7 +100,7 @@ void QueueModel::delIndexes(const QModelIndexList & indexList)
         indices.insert(index.row());
 
     beginResetModel();
-    queue.removeIndices(indices.toList());
+    queue.removeIndices(indices.values());
     endResetModel();
 
     //reset();

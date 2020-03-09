@@ -19,11 +19,7 @@
  *                                                                        *
  **************************************************************************/
 
-#if QT_MAJOR_VERSION > 4
 #include <QStandardPaths>
-#else
-#include <QDesktopServices>
-#endif
 #include <QFileDialog>
 #include <QUrl>
 
@@ -57,11 +53,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->actionAbout->setIcon(QIcon::fromTheme("help-about"));
     toggleToolBar(true);
 
-#if QT_MAJOR_VERSION > 4
     defaultPath = settings.value("MainWindow/source_path", QStandardPaths::standardLocations(QStandardPaths::HomeLocation)).toString();
-#else
-    defaultPath = settings.value("MainWindow/source_path", QDesktopServices::storageLocation(QDesktopServices::HomeLocation)).toString();
-#endif
 
     connect(&converterService,
             SIGNAL(progressChanged()),

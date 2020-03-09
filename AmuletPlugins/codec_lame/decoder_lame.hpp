@@ -1,6 +1,6 @@
 /**************************************************************************
  *                                                                        *
- *  Copyright (C) 2012 by Yura Ivanov <yura.i1507@gmail.com>              *
+ *  Copyright (C) 2020 by Yurii Ivanov <yivanov00@gmail.com>              *
  *                                                                        *
  *  This file is part of Amulet audio converter.                          *
  *                                                                        *

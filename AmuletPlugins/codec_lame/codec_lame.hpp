@@ -1,6 +1,6 @@
 /**************************************************************************
  *                                                                        *
- *  Copyright (C) 2012 by Yura Ivanov <yura.i1507@gmail.com>              *
+ *  Copyright (C) 2020 by Yurii Ivanov <yivanov00@gmail.com>              *
  *                                                                        *
  *  This file is part of Amulet audio converter.                          *
  *                                                                        *
@@ -34,9 +34,7 @@ class CodecLame : public ICodecPlugin
 
     Q_OBJECT
     Q_INTERFACES(ICodecPlugin)
-#if QT_MAJOR_VERSION > 4
     Q_PLUGIN_METADATA(IID "org.amulet.codec_lame" FILE "codec_lame.json")
-#endif
 
 private:
     ICodecProvider * codecProvider;

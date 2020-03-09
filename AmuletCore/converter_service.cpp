@@ -1,6 +1,6 @@
 /**************************************************************************
  *                                                                        *
- *  Copyright (C) 2012 by Yura Ivanov <yura.i1507@gmail.com>              *
+ *  Copyright (C) 2020 by Yurii Ivanov <yivanov00@gmail.com>              *
  *                                                                        *
  *  This file is part of Amulet audio converter.                          *
  *                                                                        *
@@ -19,11 +19,7 @@
  *                                                                        *
  **************************************************************************/
 
-#if QT_MAJOR_VERSION > 4
 #include <QStandardPaths>
-#else
-#include <QDesktopServices>
-#endif
 #include <QDebug>
 
 #include "converter_service.hpp"
@@ -48,11 +44,7 @@ void ConverterService::setSettings(const QSettings & settings)
 {
     if (settings.value("Properties/path", false).toBool())
     {
-#if QT_MAJOR_VERSION > 4
         targetPath = settings.value("Properties/target_path", QStandardPaths::standardLocations(QStandardPaths::HomeLocation)).toString();
-#else
-        targetPath = settings.value("Properties/target_path", QDesktopServices::storageLocation(QDesktopServices::HomeLocation)).toString();
-#endif
     }
 
     setMaxThreadCount(settings.value("Properties/threads", 1).toInt());

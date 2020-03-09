@@ -1,6 +1,6 @@
 /**************************************************************************
  *                                                                        *
- *  Copyright (C) 2012 by Yura Ivanov <yura.i1507@gmail.com>              *
+ *  Copyright (C) 2020 by Yurii Ivanov <yivanov00@gmail.com>              *
  *                                                                        *
  *  This file is part of Amulet audio converter.                          *
  *                                                                        *
@@ -32,7 +32,7 @@ AboutDialog::AboutDialog(QWidget * parent)
     this->ui->aboutLogoLbl->setPixmap(pix);
     this->ui->aboutTextLbl->setText(
                 tr("<b>Amulet</b><br>Simple audio converter.<br>Version ") + "2.0 alpha 1" +
-                tr("<br><br>Authors:<br>Yura Ivanov <a href=\"mailto:yura.i1507@gmail.com\">yura.i1507@gmail.com</a>") +
+                tr("<br><br>Authors:<br>Yurii Ivanov <a href=\"mailto:yivanov00@gmail.com\">yivanov00@gmail.com</a>") +
                 tr("<br><br><a href=\"http://www.gnu.org/licenses/gpl-2.0.html\">License: GNU General Public License, version 2"));
 }
 
