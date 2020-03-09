@@ -29,8 +29,8 @@ PluginLoader PluginLoader::pluginsLoader;
 
 PluginLoader::PluginLoader()
 {
-//     QStringList dirs = QString(qgetenv("XDG_DATA_DIRS")).split(':', QString::SkipEmptyParts);
-    QStringList dirs = QString("../AmuletPlugins").split(':', QString::SkipEmptyParts);
+    QStringList dirs = QString("/usr/lib64").split(':', QString::SkipEmptyParts);
+//     QStringList dirs = QString("../AmuletPlugins").split(':', QString::SkipEmptyParts);
 
     foreach (QString dir, dirs) {
         QDir pluginsDir = QDir(dir);
