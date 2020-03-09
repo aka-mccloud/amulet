@@ -1,12 +1,13 @@
-project(CodecFlac)
-cmake_minimum_required(VERSION 2.6)
-find_package(Qt4 REQUIRED)
+cmake_minimum_required(VERSION 3.16)
 
-include_directories(
-    ${QT_INCLUDES}
-    ${CMAKE_CURRENT_BINARY_DIR}
-    ${AmuletCore_SOURCE_DIR}
-)
+project(CodecFlac)
+
+include(GNUInstallDirs)
+
+set(CMAKE_AUTOMOC ON)
+set(CMAKE_AUTOUIC ON)
+
+find_package(Qt5 COMPONENTS Core Gui Widgets REQUIRED)
 
 set(CodecFlac_SOURCES
     codec_flac.cpp
@@ -27,20 +28,19 @@ set (CodecFlac_UI
     widget_flac.ui
 )
 
-qt4_wrap_ui(CodecFlac_SOURCES_UI ${CodecFlac_UI})
-qt4_wrap_cpp(CodecFlac_SOURCES_MOC ${CodecFlac_HEADERS})
-
-add_library(codec_flac SHARED
+add_library(codec_flac MODULE
     ${CodecFlac_SOURCES}
-    ${CodecFlac_SOURCES_UI}
-    ${CodecFlac_SOURCES_MOC}
+    ${CodecFlac_HEADERS}
+    ${CodecFlac_UI}
 )
 
 target_link_libraries(codec_flac
-    ${QT_QTCORE_LIBRARY}
-    ${QT_QTGUI_LIBRARY}
+    Qt5::Core
+    Qt5::Gui
+    Qt5::Widgets
     amulet_core
 )
 
 add_custom_command(TARGET codec_flac POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:codec_flac> ${CMAKE_CURRENT_BINARY_DIR}/../$<TARGET_FILE_NAME:codec_flac> VERBATIM)
-install(TARGETS codec_flac DESTINATION share/amulet/plugins)
+
+install(TARGETS codec_flac DESTINATION ${CMAKE_INSTALL_LIBDIR}/amulet/plugins)

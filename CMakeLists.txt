@@ -1,5 +1,6 @@
+cmake_minimum_required(VERSION 3.16)
+
 project(amulet)
-cmake_minimum_required(VERSION 2.6)
 
 add_subdirectory(AmuletCore)
 add_subdirectory(AmuletPlugins)

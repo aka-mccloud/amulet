@@ -1,16 +1,14 @@
+cmake_minimum_required(VERSION 3.16)
+
 project(AmuletCore)
-cmake_minimum_required(VERSION 2.6)
 
-set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_SOURCE_DIR}/cmake/modules)
+include(GNUInstallDirs)
 
-find_package(Qt4 REQUIRED)
-find_package(Taglib REQUIRED)
+set(CMAKE_AUTOMOC ON)
 
-include_directories(
-    ${QT_INCLUDES}
-    ${TAGLIB_INCLUDES}
-    ${CMAKE_CURRENT_BINARY_DIR}
-)
+find_package(Qt5 COMPONENTS Core Gui Widgets REQUIRED)
+find_package(PkgConfig REQUIRED)
+pkg_check_modules(TagLib REQUIRED IMPORTED_TARGET GLOBAL taglib)
 
 set(AmuletCore_SOURCES
     codec_factory.cpp
@@ -28,26 +26,57 @@ set(AmuletCore_SOURCES
 )
 
 set(AmuletCore_HEADERS
+    codec_factory.hpp
+    codec_properties.hpp
     converter_factory.hpp
     converter_service.hpp
     converter_worker.hpp
-    icodec_widget.hpp
+    iworker.hpp
+    plugin_loader.hpp
+    plugins_provider.hpp
     queue_item.hpp
     queue.hpp
+    tag_data.hpp
+    tag_engine.hpp
     worker_pool.hpp
 )
 
-qt4_wrap_cpp(AmuletCore_SOURCES_MOC ${AmuletCore_HEADERS})
+set(AmuletCore_PUBLIC_HEADERS
+    AmuletCore_global.hpp
+    icodec_plugin.hpp
+    icodec_provider.hpp
+    icodec_widget.hpp
+    idecoder_process.hpp
+    iencoder_process.hpp
+)
 
 add_library(amulet_core SHARED
     ${AmuletCore_SOURCES}
-    ${AmuletCore_SOURCES_MOC}
+    ${AmuletCore_HEADERS}
+    ${AmuletCore_PUBLIC_HEADERS}
+)
+
+target_include_directories(amulet_core PUBLIC
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
+    $<INSTALL_INTERFACE:include/amulet>
+)
+
+set_target_properties(amulet_core PROPERTIES
+    PUBLIC_HEADER "${AmuletCore_PUBLIC_HEADERS}"
 )
 
 target_link_libraries(amulet_core
-    ${QT_QTCORE_LIBRARY}
-    ${QT_QTGUI_LIBRARY}
-    ${TAGLIB_LIBRARIES}
+    Qt5::Core
+    Qt5::Gui
+    Qt5::Widgets
+    PkgConfig::TagLib
 )
 
-install(TARGETS amulet_core DESTINATION lib)
+install(TARGETS amulet_core EXPORT AmuletCoreConfig
+    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+    PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/amulet
+)
+
+install(EXPORT AmuletCoreConfig DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/amulet)
+
+export (TARGETS amulet_core FILE AmuletCoreConfig.cmake)

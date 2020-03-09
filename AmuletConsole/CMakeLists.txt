@@ -1,12 +1,10 @@
-project(AmuletConsole)
-cmake_minimum_required(VERSION 2.6)
-find_package(Qt4 REQUIRED)
+cmake_minimum_required(VERSION 3.16)
 
-include_directories(
-    ${QT_INCLUDES}
-    ${CMAKE_CURRENT_BINARY_DIR}
-    ${AmuletCore_SOURCE_DIR}
-)
+project(AmuletConsole)
+
+set(CMAKE_AUTOMOC ON)
+
+find_package(Qt5 COMPONENTS Core REQUIRED)
 
 set(AmuletConsole_SOURCES
     main.cpp
@@ -17,6 +15,6 @@ add_executable(amulet_console
 )
 
 target_link_libraries(amulet_console
-    ${QT_QTCORE_LIBRARY}
+    Qt5::Core
     amulet_core
 )

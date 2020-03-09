@@ -1,13 +1,14 @@
-project(AmuletGUI)
-cmake_minimum_required(VERSION 2.6)
-find_package(Qt4 REQUIRED)
+cmake_minimum_required(VERSION 3.16)
 
-include_directories(
-    ${QT_INCLUDES}
-    ${CMAKE_CURRENT_SOURCE_DIR}
-    ${CMAKE_CURRENT_BINARY_DIR}
-    ${AmuletCore_SOURCE_DIR}
-)
+project(AmuletGUI)
+
+include(GNUInstallDirs)
+
+set(CMAKE_AUTOMOC ON)
+set(CMAKE_AUTORCC ON)
+set(CMAKE_AUTOUIC ON)
+
+find_package(Qt5 COMPONENTS Core Gui Widgets REQUIRED)
 
 set(AmuletGUI_SOURCES
     about_dialog.cpp
@@ -32,25 +33,26 @@ set (AmuletGUI_UI
     properties_dialog.ui
 )
 
-set (AmuletGUI_QRC
+set (AmuletGUI_RC
     amulet.qrc
 )
 
-qt4_wrap_ui(AmuletGUI_SOURCES_UI ${AmuletGUI_UI})
-qt4_wrap_cpp(AmuletGUI_SOURCES_MOC ${AmuletGUI_HEADERS})
-qt4_add_resources(AmuletGUI_SOURCES_QRC ${AmuletGUI_QRC})
-
 add_executable(amulet
     ${AmuletGUI_SOURCES}
-    ${AmuletGUI_SOURCES_UI}
-    ${AmuletGUI_SOURCES_MOC}
-    ${AmuletGUI_SOURCES_QRC}
+    ${AmuletGUI_HEADERS}
+    ${AmuletGUI_UI}
+    ${AmuletGUI_RC}
+)
+
+target_include_directories(amulet PUBLIC
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
 )
 
 target_link_libraries(amulet
-    ${QT_QTCORE_LIBRARY}
-    ${QT_QTGUI_LIBRARY}
+    Qt5::Core
+    Qt5::Gui
+    Qt5::Widgets
     amulet_core
 )
 
-install(TARGETS amulet DESTINATION bin)
+install(TARGETS amulet DESTINATION ${CMAKE_INSTALL_BINDIR})
