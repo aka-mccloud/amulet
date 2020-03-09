@@ -2,23 +2,25 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
-EAPI="4"
+EAPI="7"
 
-inherit qt4-r2 git-2
+inherit cmake-utils git-r3
 
 DESCRIPTION="Audio converter based on ffmpeg"
-HOMEPAGE="http://gitorious.org/amulet"
-EGIT_REPO_URI="git://gitorious.org/amulet/amulet.git"
+HOMEPAGE="https://github.com/aka-mccloud/amulet.git"
+EGIT_REPO_URI="https://github.com/aka-mccloud/amulet.git"
 
 LICENSE="GPL-2"
 SLOT="0"
-KEYWORDS="~amd64 ~x86 ~amd64-linux ~x86-linux"
+KEYWORDS="~amd64 ~x86"
 IUSE="flac mp3"
 
-DEPEND="flac? ( media-libs/flac )
-	mp3? ( media-sound/lame )
-	media-libs/taglib
-	dev-qt/qtgui:4
-	dev-qt/qtcore:4"
-
-S="${WORKDIR}/${PN}"
+BDEPEND="virtual/pkgconfig"
+RDEPEND="
+    flac? ( media-libs/flac )
+    mp3? ( media-sound/lame )"
+DEPEND="
+    media-libs/taglib
+    dev-qt/qtgui:5
+    dev-qt/qtcore:5
+    dev-qt/qtwidgets"
